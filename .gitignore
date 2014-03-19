@@ -34,6 +34,7 @@
 *.pdf
 *.synctex
 *.synctex.gz
+*.synctex.gz(busy)
 *.latexmain
 *.tcp
 *.tps
@@ -47,3 +48,13 @@
 *~
 *.swp
 *.swo
+
+#################
+## Other detritus
+#################
+
+*.jpg
+*.m
+*.mexw64
+*.zip
+touch

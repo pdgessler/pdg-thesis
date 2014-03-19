@@ -73,6 +73,20 @@ and $z$ is the elevation of the inlet/outlet.
 while work transfer \emph{out of} the system is considered positive.
 \Cref{eqn:GenMass,eqn:GenEnergy} form the basic equations to which 
 engineering assumptions are applied in \crefrange{sec:Compressor}{sec:Mixing}.
+Assumptions common to each device in the cycle are that
+\begin{enumerate}
+  \item the steady-flow condition leads to both time derivatives $\dif{m_\CV}/\!\dif{t} = \dif{E_\CV}/\!\dif{t} = 0$, \label{lst:sf}
+  \item changes in potential energy are neglected, so $\Delta \text{pe} = 0$, and \label{lst:pe}
+  \todo{generalize for MISO or SIMO devices.}
+  \item changes in kinetic energy are neglected, so $\Delta \text{ke} = 0$. \label{lst:ke}
+\end{enumerate}
+As a consequence of assumptions~\ref{lst:pe} and~\ref{lst:ke},
+we can reduce the methalpy notation to the more familiar enthalpy form,
+and assumption~\ref{lst:sf} means that the left-hand sides of \cref{eqn:GenMass,eqn:GenEnergy} both become zero:
+\begin{align}
+  0 &= \sum_{\text{inlets}}{\dot{m}} - \sum_{\text{outlets}}{\dot{m}}, \\
+  0 &= \dot{Q} - \dot{W} + \sum_{\text{inlets}}{\dot{m}h} - \sum_{\text{outlets}}{\dot{m}h}.
+\end{align}
 
 \section{Compressor} \label{sec:Compressor}
 Detailed modeling of the compressor is complex and worthy of a dissertation in its own right. 
@@ -80,7 +94,8 @@ To make matters worse, the model should make reasonable predictions
 of a compressor test for \emph{any} compressor, 
 whether one existing now or one to be developed in the future.
 \note{Parallel structure seems odd on this sentence.} 
-Fortunately, detailed compressor models are not required to predict compressor performance. 
+Fortunately, detailed compressor models are not required 
+to predict compressor performance for the purposes of the present facility modeling. 
 The performance of the compressor is provided to the model \via{} compressor maps. 
 An example of a generic compressor map is shown in \cref{fig:GenMap}. 
 \begin{figure}[htbp]
@@ -91,7 +106,9 @@ An example of a generic compressor map is shown in \cref{fig:GenMap}.
   \label{fig:GenMap}
 \end{figure}
 These compressor maps are developed by JCI either experimentally 
-for existing compressors or numerically (using CFD) for new compressor designs.
+for existing compressors in the present facility or numerically%
+---using other compressor design tools, from basic one-dimensional methodologies
+to full three-dimensional CFD---for new compressor designs.
 
 A user of the model can select an operating point on the compressor map, 
 and with specification of the suction (inlet) conditions, 
@@ -107,7 +124,7 @@ The flow coefficient $\Theta$ is given by
 \end{equation}
 where $\dot{V}$ is the volumetric flow, 
 $\svel$ is the acoustic (sonic) velocity at suction conditions, 
-and $D$ is the impeller diameter.
+and $D$ is the impeller tip diameter.
 The head coefficient $\Omega$ is given by
 \begin{equation}
 	\Omega = \frac{g_c \Delta h_s}{\svel^2},
@@ -120,11 +137,11 @@ and $\svel$ is, again, the suction sonic velocity.
 
 The Machine Mach number $\MA$ is 
 \begin{equation}
-  \MA = \frac{\vel_{\text{tip}}}{a_{\text{i}}},
-  \nomenclature[A$Ma$]{$\MA$}{Machine Mach number, $\vel_{\text{tip}}/a_{\text{i}}$\nomunit{-}}
+  \MA = \frac{\vel_{\text{tip}}}{a},
+  \nomenclature[A$Ma$]{$\MA$}{Machine Mach number, $\vel_{\text{tip}}/a$\nomunit{-}}
 \end{equation}
 where $\vel_{\text{tip}}$ is the impeller tip velocity
-and $a_{\text{i}}$ is the acoustic velocity at inlet (suction) conditions.
+and $a$ is the acoustic velocity at inlet (suction) conditions.
 The third and final compressor performance characteristic gleaned 
 from the compressor map is the isentropic efficiency, $\eta_s$, 
 which quantifies the deviation of the real compression process 
@@ -156,12 +173,12 @@ based on impeller tip width $b$%
 \text{Re}_b=\frac{\rho \vel b}{\mu}.
 \end{equation}
 
-The three map parameters for the desired operating point 
-($\Theta$, $\Omega$, and $\eta_s$), 
+The four map parameters for the desired operating point 
+($\Theta$, $\Omega$, $\MA$, and $\eta_s$), 
 specified suction conditions ($T_{\text{i}}$ and $p_{\text{i}}$), 
-and machine characteristics ($D$) 
+and machine characteristics ($D$, $b$, $\Theta_{\text{peak}}$, and $\eta_{\text{peak}}$) 
 allow the discharge conditions ($T_{\text{o}}$ and $p_{\text{o}}$) 
-and mass flow rate to be computed by the model. 
+and mass flow rate $\dot{m}$ to be computed by the model. 
 \todo{Flowchart? Maybe this should be left for Ch. 4.} 
 This calculation process is outlined in \cref{fig:DischargeCalc}.
 \begin{figure}[htbp]
@@ -176,7 +193,7 @@ the mass and energy balances can be revisited.
 From \cref{eqn:GenMass,eqn:GenEnergy}, we apply the steady-flow assumption, 
 letting the time derivative terms approach zero. 
 Additionally, assuming that the compressor can be modeled as a 
-single-input and single-output device, we have
+single-input and single-output (SISO) device, we have
 \begin{align}
   &\text{Mass:}   & 0 &= {\dot{m}_{\text{i}}} - {\dot{m}_{\text{o}}} \label{eqn:CompMass}\\
   &\text{Energy:} & 0 &= \dot{Q} - \dot{W} + {\dot{m}_{\text{i}}h^{\circ}_{\text{i}}} - 

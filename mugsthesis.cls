@@ -236,3 +236,7 @@
 % caption justification
 %\precaption{\raggedright}
 %\captionstyle{\raggedright}
+
+% list spacings
+\tightlists
+%\setlength{\itemsep}{0.5\onelineskip}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<txcop:outputProfiles version="2" xmlns:txcop="http://schemas.ToolsCenter.org/TeXnicCenter/OutputProfiles.xsd">
+	<outputProfileList>
+		<outputProfile name="PPG Figs" stopOnLatexError="false">
+			<texCommand execute="false" path="" arguments=""/>
+			<bibTexCommand execute="false" path="" arguments=""/>
+			<makeIndexCommand execute="false" path="" arguments=""/>
+			<preProcessors>
+				<processor name="Generate Figures" path="matlab" arguments="-nosplash -nodesktop -r FigGen" inputFile="" outputFile=""/>
+			</preProcessors>
+			<postProcessors/>
+			<viewer path="&quot;&quot;" closeBeforeCompilation="false">
+				<viewProjectCommand type="dde">
+					<commandLineCommand path="&quot;&quot;" arguments="%bc.pdf"/>
+					<ddeCommand path="&quot;&quot;" server="SUMATRA" topic="control" command="[Open(&quot;%bc.pdf&quot;,0,1,1)]"/>
+				</viewProjectCommand>
+				<viewCurrentFileCommand type="dde">
+					<commandLineCommand path="&quot;&quot;" arguments=""/>
+					<ddeCommand path="&quot;&quot;" server="SUMATRA" topic="control" command="[ForwardSearch(&quot;%bc.pdf&quot;,&quot;%Wc&quot;,%l,0,0,1)]"/>
+				</viewCurrentFileCommand>
+				<viewCloseCommand type="commandLine">
+					<commandLineCommand path="" arguments=""/>
+					<ddeCommand path="" server="" topic="System" command=""/>
+				</viewCloseCommand>
+			</viewer>
+		</outputProfile>
+	</outputProfileList>
+</txcop:outputProfiles>

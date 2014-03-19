@@ -1,0 +1,28 @@
+\documentclass[12pt]{standalone}
+\input{FigsCommon}
+
+\makeatletter
+\newcommand\pgfplotsxmin{\pgfplots@xmin}
+\newcommand\pgfplotsxmax{\pgfplots@xmax}
+\makeatother
+
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+  xlabel={Experimental Orifice Differential Pressure, $\Delta p$ (\ip{\psid})},
+  ylabel={Model Orifice Differential Pressure, $\Delta p$ (\ip{\psid})},
+    axis equal,
+  width=4in,
+]
+  \addplot[black, mark=o, only marks] table {
+    3.107 3.113
+    3.8095 3.82
+    4.5343 4.55
+    4.3262 4.326
+  };
+  \addplot[black, domain=\pgfplotsxmin:\pgfplotsxmax] {x};
+  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {1.05*x};
+  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {0.95*x};
+\end{axis}
+\end{tikzpicture}
+\end{document}

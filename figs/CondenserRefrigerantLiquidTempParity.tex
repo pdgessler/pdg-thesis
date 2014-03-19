@@ -1,0 +1,26 @@
+\documentclass[12pt]{standalone}
+\input{FigsCommon}
+
+\makeatletter
+\newcommand\pgfplotsxmin{\pgfplots@xmin}
+\newcommand\pgfplotsxmax{\pgfplots@xmax}
+\makeatother
+
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+  xlabel={Experimental Condenser Refrigerant Liquid Temp., $T$ (\ip{\fahrenheit})},
+  ylabel={Model Condenser Refrigerant Liquid Temp., $T$ (\ip{\fahrenheit})},
+]
+  \addplot[black, mark=o, only marks] table {
+    76.9658 77.12
+    91.7924 92.28
+    103.8999 104.8
+    98.8896 98.31
+  };
+  \addplot[black, domain=\pgfplotsxmin:\pgfplotsxmax] {x};
+  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {1.05*x};
+  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {0.95*x};
+\end{axis}
+\end{tikzpicture}
+\end{document}

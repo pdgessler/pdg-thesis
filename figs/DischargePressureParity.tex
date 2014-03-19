@@ -1,0 +1,28 @@
+\documentclass[12pt]{standalone}
+\input{FigsCommon}
+
+\makeatletter
+\newcommand\pgfplotsxmin{\pgfplots@xmin}
+\newcommand\pgfplotsxmax{\pgfplots@xmax}
+\makeatother
+
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+  xlabel={Experimental Discharge Pressure, $p_d$ (\ip{\psia})},
+  ylabel={Model Discharge Pressure, $p_d$ (\ip{psia})},
+    axis equal,
+  width=4in,
+]
+  \addplot[black, mark=o, only marks] table {
+    99.8425 99.87
+    127.1769 127.2
+    153.8833 153.9
+    139.6782 139.7
+  };
+  \addplot[black, domain=\pgfplotsxmin:\pgfplotsxmax] {x};
+  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {1.05*x};
+  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {0.95*x};
+\end{axis}
+\end{tikzpicture}
+\end{document}

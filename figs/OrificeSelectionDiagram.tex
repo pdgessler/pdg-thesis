@@ -1,0 +1,31 @@
+\documentclass[12pt]{standalone}
+\input{FigsCommon}
+\usetikzlibrary{calc,shapes,arrows}
+
+\renewcommand*\familydefault{\sfdefault}
+
+\newcommand{\expdraw}{\tikz{\draw (0,0)--++(0.25,0.5)--++(-0.5,0)--++(0.5,-1)%
+	--++(-0.5,0)--cycle;}}
+
+\tikzstyle{device} = [rectangle,draw,minimum height=0.25in]
+\tikzstyle{proc} =   [-latex]
+\tikzstyle{refr} =   [gray]
+\tikzstyle{stat} =   [circle,draw,inner sep=1pt,outer sep=5pt,fill=gray!10]
+\pgfplotsset{compat=1.6}
+
+\begin{document}
+
+\begin{tikzpicture}
+	\coordinate (CMP) at (3,-1.4);
+	\draw (CMP) ++(-1,-0.75) -- ++(0,1.5) -- ++(2,-0.5) %
+		coordinate[pos=0.75] (cmpo)-- ++(0,-0.5) coordinate[midway] (cmplabel) -- ++(-2,-0.5) %
+		coordinate[pos=0.75] (cmpi);
+	\node at (CMP) {\small Compressor};
+	\draw[proc,latex-] (cmpi) -- ++(0,-1);
+	\draw[proc] (cmpo) -- ++(0,1) -- ++(-4,0) coordinate[pos=0.75] (orif);
+	\draw (orif) ++(0,-0.3) ++(135:0.25) arc (135:45:0.25);
+	\draw (orif) ++(0,0.3) coordinate (oriflabel) ++(-135:0.25) arc (-135:-45:0.25);
+	\node[above] at (oriflabel) {Orifice};
+\end{tikzpicture}
+
+\end{document}

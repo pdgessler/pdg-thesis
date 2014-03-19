@@ -1,0 +1,50 @@
+% Latin usage
+\newcommand{\eg}{\emph{e.\,g.}}
+\newcommand{\ie}{\emph{i.\,e.}}
+\newcommand{\etc}{\emph{etc.}}
+\newcommand{\via}{\emph{via}}
+\newcommand{\apriori}{\emph{a priori}}
+
+% Software titles
+\newcommand{\ML}{\textsc{Matlab}}
+\newcommand{\MLS}{\textsc{Matlab}/Simulink}
+
+% Math tools
+\newcommand{\dif}{\mathop{}\!\mathrm{d}}
+\newcommand{\Dif}{\mathop{}\!\mathrm{D}}
+
+\newcommand\pd[3][]{\frac{\partial^{#1}#2}{\partial#3^{#1}}}
+\newcommand\tpd[3][]{\tfrac{\partial^{#1}#2}{\partial#3^{#1}}}
+\newcommand\dpd[3][]{\dfrac{\partial^{#1}#2}{\partial#3^{#1}}}
+
+\newcommand{\md}[6]{\frac{\partial^{#2}#1}{\partial#3^{#4}\partial#5^{#6}}}
+\newcommand{\tmd}[6]{\tfrac{\partial^{#2}#1}{\partial#3^{#4}\partial#5^{#6}}}
+\newcommand{\dmd}[6]{\dfrac{\partial^{#2}#1}{\partial#3^{#4}\partial#5^{#6}}}
+
+\newcommand{\od}[3][]{\frac{\dif^{#1}#2}{\dif#3^{#1}}}
+\newcommand{\tod}[3][]{\tfrac{\dif^{#1}#2}{\dif#3^{#1}}}
+\newcommand{\dod}[3][]{\dfrac{\dif^{#1}#2}{\dif#3^{#1}}}
+
+% Colors
+\definecolor{notes}  {cmyk}{0.35,0.95,1.00,0.25}
+\definecolor{string} {cmyk}{1.00,0.00,0.92,0.51}
+\definecolor{comment}{gray}{0.3}
+
+% Notes
+\newcommand{\note}[1]{\marginpar{\SingleSpacing\flushleft\tiny\sffamily\color{notes}#1}}
+\newcommand{\todo}[1]{\note{PDG TODO: #1}}
+
+% Thermodynamic terms
+\newcommand{\process}[2]{process~#1--#2}
+\newcommand{\Process}[2]{Process~#1--#2}
+\newcommand{\state}[1]{state~#1}
+\newcommand{\State}[1]{State~#1}
+\newcommand{\tssymb}{$T\!$-$s$}
+\newcommand{\CV}{\text{CV}}
+\newcommand{\RE}{\text{Re}}
+
+% Velocity
+\newcommand{\vel}{\mathscr{V}}
+
+% Nomenclature Units
+\newcommand{\nomunit}[1]{\renewcommand{\nomentryend}{\hspace*{\fill}\si{#1}}}

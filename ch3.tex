@@ -1,0 +1,257 @@
+\chapter{Theoretical Model Development} \label{cha:modeldev}
+\note{This is bare-bones right now. Please check style and level of detail.}
+\todo{Add references throughout!}
+This chapter presents the development of the equations used to model 
+the compressor test block from first principles. 
+\Cref{sec:GenBal} contains the general mass and energy balance equations, 
+to which the appropriate assumptions for each device in the cycle are applied 
+to produce the device-specific equations, as detailed in \crefrange{sec:Compressor}{sec:Mixing}. 
+Subscripts $\text{i}$ and $\text{o}$ are used to indicate 
+the inlet and outlet states of the device, respectively. 
+
+\section{General Balance Equations} \label{sec:GenBal}
+Throughout the model, the rate forms of the balance equations are used 
+since compressor test data from the block are recorded once steady-flow conditions are reached. 
+This section lists the mass and energy balances in their most general form, 
+so that engineering assumptions may be applied on a per-device basis.
+
+The general mass balance is obtained by 
+applying conservation of mass to the control volume. 
+This process yields
+\begin{equation}
+	\dod{m_\CV}{t} = \sum_{\text{inlets}}{\dot{m}} - \sum_{\text{outlets}}{\dot{m}},
+  \label{eqn:GenMass}
+	\nomenclature{$t$}{Time\nomunit{\second}} \nomenclature{$m$}{Mass\nomunit{\kilogram}} 
+	\nomenclature[X]{$s$}{Isentropic} \nomenclature[X]{$\CV$}{Control volume}
+\end{equation}
+where the summations account for any number of inlets and outlets to the device.
+\Cref{eqn:GenMass} includes only transport terms since mass production is always identically zero.
+
+Similarly, the general energy balance is obtained by writing 
+an extensive property balance over the control volume. 
+By the first law of thermodynamics, energy production is identically zero, 
+so again, only transport terms remain in the equation. 
+Here though, heat transfer and work transfer interactions 
+can change the energy of the control volume, so
+\begin{equation}
+	\dod{E_\CV}{t} = \dot{Q} - \dot{W} + \sum_{\text{inlets}}{\dot{m}h^{\circ}} - 
+		\sum_{\text{outlets}}{\dot{m}h^{\circ}},
+  \label{eqn:GenEnergy}
+	\nomenclature{$e$}{Specific energy, $e=u+\text{ke}+\text{pe}$\nomunit{\kilo\joule\per\kilogram}} 
+	\nomenclature{$Q$}{Heat transfer\nomunit{\kilo\joule}} 
+	\nomenclature{$W$}{Work transfer\nomunit{\kilo\joule}} 
+	\nomenclature[Y]{$\dot{\left(\;\right)}$}{Quantity per unit time or rate, $\dif{\left(\;\right)}/\dif{t}$\nomunit{$\left[\;\right]$\per\second}}
+	\nomenclature{$h^{\circ}$}{Specific methalpy, $h^\circ=h+\text{ke}+\text{pe}$\nomunit{\kilo\joule\per\kilogram}} 
+	\nomenclature[A$k$]{$\text{ke}$}{Specific kinetic energy, $\text{ke}=\vel^2/2$\nomunit{\kilo\joule\per\kilogram}}
+	\nomenclature[A$p$]{$\text{pe}$}{Specific potential energy, $\text{pe}=gz$\nomunit{\kilo\joule\per\kilogram}}
+	\nomenclature{$z$}{Elevation\nomunit{\metre}}
+	\nomenclature{$g$}{Gravitational acceleration, $g=\SI{9.81}{\metre\per\second\squared}$\nomunit{\metre\per\second\squared}}
+	\nomenclature{$h$}{Specific enthalpy, $h=u+pv$\nomunit{\kilo\joule\per\kilogram}}
+	\nomenclature{$p$}{Pressure\nomunit{\kilo\pascal}}
+	\nomenclature{$v$}{Specific volume\nomunit{\metre\cubed\per\kilogram}}
+	\nomenclature[W]{$\rho$}{Density, $1/v$\nomunit{\kilogram\per\metre\cubed}}
+	\nomenclature{$u$}{Specific internal energy\nomunit{\kilo\joule\per\kilogram}}
+  \nomenclature[A$z$]{*}{Unless otherwise noted, symbols for extensive properties are the uppercase variants of symbols used for the corresponding specific (intensive) properties.}
+\end{equation}
+where the \emph{methalpy}, $h^\circ = h+\text{ke}+\text{pe}$, 
+is a convenient way to account for kinetic and potential energy effects if required. 
+The methalpy can be calculated from the enthalpy, the kinetic energy
+\begin{equation}
+  \text{ke} = \vel^2/2,
+\end{equation}
+where the average velocity $\vel$ can be calculated using 
+$\dot{m}=\rho \vel A$, and the potential energy
+\begin{equation}
+  \text{pe} = gz,
+\end{equation}
+where $g$ is the gravitational acceleration 
+and $z$ is the elevation of the inlet/outlet.
+
+\Cref{eqn:GenEnergy} shows the standard sign convention used throughout this thesis; 
+\todo{Short paragraph; find something else to talk about here.}
+\ie{} heat transfer \emph{into} the system is considered positive, 
+while work transfer \emph{out of} the system is considered positive.
+\Cref{eqn:GenMass,eqn:GenEnergy} form the basic equations to which 
+engineering assumptions are applied in \crefrange{sec:Compressor}{sec:Mixing}.
+
+\section{Compressor} \label{sec:Compressor}
+Detailed modeling of the compressor is complex and worthy of a dissertation in its own right. 
+To make matters worse, the model should make reasonable predictions 
+of a compressor test for \emph{any} compressor, 
+whether one existing now or one to be developed in the future.
+\note{Parallel structure seems odd on this sentence.} 
+Fortunately, detailed compressor models are not required to predict compressor performance. 
+The performance of the compressor is provided to the model \via{} compressor maps. 
+An example of a generic compressor map is shown in \cref{fig:GenMap}. 
+\begin{figure}[htbp]
+  \centering
+  %\includegraphics{figs/GenericCompMap}
+  PLACEHOLDER FOR GENERIC (CONTRIVED) COMP.~MAP
+  \caption{Generic compressor map, showing flow and head axes and efficiency islands.}
+  \label{fig:GenMap}
+\end{figure}
+These compressor maps are developed by JCI either experimentally 
+for existing compressors or numerically (using CFD) for new compressor designs.
+
+A user of the model can select an operating point on the compressor map, 
+and with specification of the suction (inlet) conditions, 
+the discharge (outlet) state of the compressor is fixed. 
+Dimensionless coefficients of flow and head 
+($\Theta$ and $\Omega$, respectively) are used 
+to generalize the compressor maps to machine characteristics. 
+The flow coefficient $\Theta$ is given by
+\begin{equation}
+  \Theta = \frac{\text{CFM}}{\vel D^2},
+	\nomenclature[A$V$]{$\vel$}{Velocity magnitude\nomunit{\metre\per\second}}
+	\nomenclature[W]{$\Theta$}{Flow coefficient, $\dot{V}/{\vel D^2}$\nomunit{-}}
+\end{equation}
+where $\text{CFM}$ is the volumetric flow in \si{\foot\cubed\per\minute}, 
+$\vel$ is the sonic velocity at suction conditions, 
+and $D$ is the impeller diameter.
+\todo{Choose appropriate subscripts and add to nomenclature.}
+The head coefficient $\Omega$ is given by
+\begin{equation}
+	\Omega = \frac{g_c \Delta h_s}{\vel^2},
+	\nomenclature[W]{$\Omega$}{Isentropic head coefficient, ${g_c \Delta h_s}/{\vel^2}$\nomunit{-}}
+	\nomenclature{$g_c$}{Gravitational proportionality constant, $g_c=\SI{1}{\kilogram\metre\per\newton\second\squared}$\nomunit{\kilogram\metre\per\newton\second\squared}}
+\end{equation}
+where $g_c$ is the gravitational proportionality constant, 
+$\Delta h_s$ is the specific enthalpy change for an isentropic compression process, 
+and $\vel$ is, again, the suction sonic velocity.
+
+The third and final compressor performance characteristic gleaned 
+from the compressor map is the isentropic efficiency, $\eta_s$, 
+which quantifies the deviation of the real compression process 
+from an isentropic compression process. 
+The isentropic efficiency is defined as
+\begin{equation}
+  \eta_s = \frac{h_{\text{o}s}-h_{\text{i}}}{h_{\text{o}}-h_{\text{i}}},
+\end{equation}
+where $h_{\text{o}s}$ is the discharge enthalpy for an isentropic compression process, 
+$h_{\text{i}}$ is the suction enthalpy, 
+and $h_{\text{o}}$ is the actual discharge enthalpy. 
+\todo{Look up and add $\text{Re}$ number correction.}
+
+The three map parameters for the desired operating point 
+($\Theta$, $\Omega$, and $\eta_s$), 
+specified suction conditions ($T_{\text{i}}$ and $p_{\text{i}}$), 
+and machine characteristics ($D$) 
+allow the discharge conditions ($T_{\text{o}}$ and $p_{\text{o}}$) 
+and mass flow rate to be computed by the model. 
+\todo{Flowchart? Maybe this should be left for Ch. 4.} 
+This calculation process is outlined in \cref{fig:DischargeCalc}.
+\begin{figure}[htbp]
+  \centering
+  PLACEHOLDER FOR DISCHARGE CONDITION CALCULATION FLOWCHART
+  \caption{Flowchart of the process for calculating compressor discharge conditions.}
+  \label{fig:DischargeCalc}
+\end{figure}
+
+Once the inlet and outlet states at the compressor are known, 
+the mass and energy balances can be revisited. 
+From \cref{eqn:GenMass,eqn:GenEnergy}, we apply the steady-flow assumption, 
+letting the time derivative terms approach zero. 
+Additionally, assuming that the compressor can be modeled as a 
+single-input and single-output device, we have
+\begin{align}
+  &\text{Mass:}   & 0 &= {\dot{m}_{\text{i}}} - {\dot{m}_{\text{o}}} \label{eqn:CompMass}\\
+  &\text{Energy:} & 0 &= \dot{Q} - \dot{W} + {\dot{m}_{\text{i}}h^{\circ}_{\text{i}}} - 
+		{\dot{m}_{\text{o}}h^{\circ}_{\text{o}}} \label{eqn:CompEnergy}.
+\end{align}
+\note{Using `we' is a habit of mine in derivations. OK or should I lose it?}
+\Cref{eqn:CompMass} simply means that the mass flow 
+entering the compressor is equal to that leaving the compressor. 
+In \cref{eqn:CompEnergy}, we know the mass flow rates. 
+
+Finally, assuming that the compressor is well-insulated, 
+\ie{} $\dot{Q}=0$, leaves $\dot{W}$ 
+as the sole remaining unknown in \cref{eqn:CompEnergy}. 
+This value is one of the requirements of the model. 
+\todo{Add mechanical efficiency stuff.}
+
+\section{Orifice Flow Meter} \label{sec:Orifice}
+\emph{PDG TODO: This section needs cleanup, text added, and equations (subscripts) fixed for consistency.}
+\begin{equation}
+  \dot{V} = \dot{m}_{\text{i}}v_{\text{i}}
+\end{equation}
+\begin{align}
+  A_0 &= \frac{\pi}{4} d^2 \\
+  A_1 &= \frac{\pi}{4} D_{\text{pipe}}^2 \\
+  \vel &= \dot{V}/A_1 \\
+  \RE_{D,\text{ pipe}} &= \frac{\rho_{\text{i}} \vel D_{\text{pipe}}}{\mu_{\text{i}}} \\
+  \beta &= \frac{d}{D_{\text{pipe}}}
+\end{align}
+\begin{multline}
+  C = 0.5959 + 0.0312\beta^{2.1} - 0.1840\beta^8 + 0.0029\beta^{2.5}\left(\frac{10^6}{\RE_d}\right)^{0.75} \\ 
+      + 0.0900\left(\frac{L_1}{D_{\text{pipe}}}\right)\frac{\beta^4}{\left(1-\beta^4\right)} 
+      - 0.0337\left(\frac{L_2}{D_{\text{pipe}}}\right)\beta^3.
+\end{multline}
+\begin{equation}
+  \gamma = \frac{c_p}{c_v}
+\end{equation}
+\begin{equation}
+  r = \frac{p_3}{p_2}
+\end{equation}
+\begin{equation}
+  Y = \sqrt{r^{2/\gamma}\left(\frac{\gamma}{\gamma-1}\right)\frac{1-r^{(\gamma-1)/\gamma}}{1-r}\frac{1-\beta^4}{1-\beta^4r^{2/\gamma}}}
+\end{equation}
+\begin{equation}
+  \dot{V} = C Y A_0 \sqrt{2v_2g_c\left(\frac{p_2-p_3}{1-\beta^4}\right)}
+\end{equation}
+\nomenclature[A$Re$]{$\RE_D$}{Reynolds number based on diameter, $\text{Re}_D=\rho \vel D/\mu$\nomunit{-}}
+\nomenclature[W]{$\mu$}{Dynamic viscosity\nomunit{\newton\second\per\metre\squared}}
+\nomenclature{$D$}{Diameter\nomunit{\metre}}
+\nomenclature{$d$}{Orifice diameter\nomunit{\metre}}
+\nomenclature{$A$}{Area\nomunit{\metre\squared}}
+\nomenclature[W]{$\beta$}{Ratio of orifice diameter to pipe diameter, $\beta = d/D$\nomunit{-}}
+\nomenclature{$C$}{Orifice coefficient of discharge\nomunit{-}}
+\nomenclature{$c_p$, $c_v$}{Specific heats, constant pressure and volume, respectively\nomunit{\kilo\joule\per\kilogram\kelvin}}
+\nomenclature[W]{$\gamma$}{Ratio of specific heats, $\gamma = c_p/c_v$\nomunit{-}}
+\nomenclature{$r$}{Orifice pressure ratio, $r=p_{\text{o}}/p_{\text{i}}$\nomunit{-}}
+\nomenclature{$Y$}{Expansion factor\nomunit{-}}
+\nomenclature[W]{$\eta$}{Efficiency\nomunit{-}}
+\nomenclature{$x$}{Quality\nomunit{-}}
+\nomenclature[X]{$\text{i}$}{Inlet conditions}
+\nomenclature[X]{$i$}{The $i$th component/element of a mixture/series}
+\nomenclature[X]{$\text{o}$}{Outlet conditions}
+\nomenclature[Y]{$\Delta\left(\;\right)$}{Change in quantity, \eg{} $\text{final} - \text{initial or outlet} - \text{inlet}$\nomunit{$\left[\;\right]$}}
+\nomenclature[X]{$\text{sh}$}{Superheat}
+\nomenclature[0]{\textbf{Symbol}}{\textbf{Description}\nomunit{\textbf{Units}}}
+
+FROM PTC 19.5:
+
+\begin{equation}
+C = K/E = K\sqrt{1-\beta^4}
+\end{equation}
+\begin{equation}
+K = K_0 \left(1+\frac{A}{\RE_d}\right)
+\end{equation}
+\begin{equation}
+K_0=K_e \left(\frac{10^6 d}{10^6 d + 15A}\right)
+\end{equation}
+\begin{multline}
+K_e = 0.5993 + \frac{0.007}{D} + \left(0.364 + \frac{0.076}{\sqrt{D}}\right)\beta^4 
+      + 0.4\left(1.6 - \frac{1}{D}\right)^5 \left[\left(0.07 + \frac{0.5}{D}\right) - \beta\right]^{5/2} \\
+      - \left(0.009 + \frac{0.034}{D}\right) \left(0.5 - \beta\right)^{3/2} 
+      + \left(\frac{65}{D^2} + 3\right)\left(\beta - 0.7\right)^{5/2}
+\end{multline}
+\begin{equation}
+A = d\left(830 - 5000\beta + 9000\beta^2 - 4200\beta^3 + \frac{530}{\sqrt{D}}\right)
+\end{equation}
+
+\section{Flow Split} \label{sec:FlowSplit}
+
+\section{Condenser} \label{sec:Condenser}
+
+\section{Cooling Tower} \label{sec:CoolingTower}
+\begin{align*}
+  c = 1.684; &\quad n = - 0.391 \\
+  \text{NTU} &= c\left(\frac{\dot{m}_{w,i}}{\dot{m}_{a,i}}\right)^{1 + n}
+\end{align*}
+
+\section{Expansion Device---Saturated Liquid-Vapor Mixture Stream} \label{sec:ExpandMain}
+
+\section{Expansion Device---Superheated Stream} \label{sec:ExpandSHV}
+
+\section{Mixing Chamber} \label{sec:Mixing}
+

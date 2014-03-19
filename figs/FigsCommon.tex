@@ -1,0 +1,32 @@
+\usepackage{tikz}     % draw stuff
+\usepackage{pgfplots} % plot stuff
+\pgfplotsset{compat=1.9} % avoid warnings
+
+%\input{../mymacros} % for convenience and consistency
+\input{../fonts} % choose fonts from main thesis
+\input{../units} % choose units from main thesis
+
+\pgfplotsset{%
+  proc/.style={%
+    black,
+    line width=1.1pt,
+    arrows=-latex
+  },
+  refr/.style={%
+    gray
+  }
+}
+
+\tikzset{%
+  stat/.style={%
+    circle,
+    draw,
+    inner sep=1pt,
+    outer sep=5pt
+  }
+}
+
+\newcommand{\state}[3]{%
+  \draw[fill=white] (axis cs:#1) circle (2pt) node[stat,#2] {#3};
+}
+

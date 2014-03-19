@@ -1,0 +1,17 @@
+\usepackage{siunitx}
+\sisetup{%
+  number-math-rm = \ensuremath, 
+  sticky-per,
+}
+\let\DeclareIPUnit\DeclareSIUnit
+\let\IP\SI
+\let\ip\si
+\DeclareIPUnit\horsepower{hp}
+\DeclareIPUnit\foot{ft}
+\DeclareIPUnit\inch{in}
+\DeclareIPUnit\psia{psia}
+\DeclareIPUnit\psig{psig}
+\DeclareIPUnit\psid{psid}
+\DeclareIPUnit\fahrenheit{\degree F}
+\DeclareIPUnit\rankine{R}
+\DeclareIPUnit\revolution{rev}

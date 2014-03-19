@@ -1,0 +1,28 @@
+\documentclass[12pt]{standalone}
+\input{FigsCommon}
+
+\makeatletter
+\newcommand\pgfplotsxmin{\pgfplots@xmin}
+\newcommand\pgfplotsxmax{\pgfplots@xmax}
+\makeatother
+
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+  xlabel={Experimental Shaft Speed, $N$ (\ip{\revolution\per\minute})},
+  ylabel={Model Shaft Speed, $N$ (\ip{\revolution\per\minute})},
+    axis equal,
+  width=4in,
+]
+  \addplot[black, mark=o, only marks] table {
+    11128.8575 11126
+    11128.1532 11128
+    11127.8331 11124
+    11128.7215 11128
+  };
+  \addplot[black, domain=\pgfplotsxmin:\pgfplotsxmax] {x};
+  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {1.05*x};
+  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {0.95*x};
+\end{axis}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,33 @@
+\documentclass[indentfirstfalse]{mugsthesis}
+
+\input{preamble}
+
+\begin{document}
+\maketitle
+
+\frontmatter 
+\include{abs} 
+\include{ack} 
+\tableofcontents 
+\listoftables 
+\listoffigures 
+\clearforchapter \lstlistoflistings \addcontentsline{toc}{chapter}{\lstlistlistingname}
+{\SingleSpacing \printnomenclature[0.6in]}
+
+\mainmatter    
+\include{ch1}
+\include{ch2}
+\include{ch3}
+\include{ch4}
+\include{ch5}
+\include{ch6}
+
+\begin{SingleSpace}
+\setlength\bibitemsep{\onelineskip}   % length between two different entries
+\printbibliography
+\end{SingleSpace}
+
+\appendix    
+%\include{ap1}
+%\include{ap2}
+\end{document}

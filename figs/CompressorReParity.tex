@@ -1,0 +1,26 @@
+\documentclass[12pt]{standalone}
+\input{FigsCommon}
+
+\makeatletter
+\newcommand\pgfplotsxmin{\pgfplots@xmin}
+\newcommand\pgfplotsxmax{\pgfplots@xmax}
+\makeatother
+
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+  xlabel={Experimental Compressor Reynolds Number, $\text{Re}$ (\ip{-})},
+  ylabel={Model Compressor Reynolds Number, $\text{Re}$ (\ip{-})},
+]
+  \addplot[black, mark=o, only marks] table {
+    2330136.033 2590000
+    2877776.674 3201000
+    3369220.189 3751000
+    3121519.131 3474000
+  };
+  \addplot[black, domain=\pgfplotsxmin:\pgfplotsxmax] {x};
+  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {1.05*x};
+  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {0.95*x};
+\end{axis}
+\end{tikzpicture}
+\end{document}

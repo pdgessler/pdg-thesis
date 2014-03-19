@@ -1,0 +1,20 @@
+\documentclass[12pt]{standalone}
+\input{FigsCommon}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+  xlabel={Flow Coefficient, $\Theta$ (\si{--})},
+  ylabel={Head Coefficient, $\Omega$ (\si{--})},
+]
+\foreach \line in {20k,25k,30k,35k,40k,45k,50k} {
+	\addplot[smooth,mark=none] file {../code/matlab/SpeedLine\line.dat};
+}
+\foreach \line in {Surge,Choke} {
+	\addplot file {../code/matlab/\line.dat};
+}
+\foreach \island in {40,50,59,65,68,70,71} {
+	\addplot file {../code/matlab/EffContour\island.dat};
+}
+\end{axis}
+\end{tikzpicture}
+\end{document}

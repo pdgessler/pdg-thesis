@@ -1,0 +1,28 @@
+\documentclass[12pt]{standalone}
+\input{FigsCommon}
+
+\makeatletter
+\newcommand\pgfplotsxmin{\pgfplots@xmin}
+\newcommand\pgfplotsxmax{\pgfplots@xmax}
+\makeatother
+
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+  xlabel={Experimental Avg.~Condenser Water Temp., $T$ (\ip{\fahrenheit})},
+  ylabel={Model Avg.~Condenser Water Temp., $T$ (\ip{\fahrenheit})},
+    axis equal,
+  width=4in,
+]
+  \addplot[black, mark=o, only marks] table {
+    74.5979 70.07
+    89.5096 88.075
+    101.7074 100.09
+    95.2106 93.17
+  };
+  \addplot[black, domain=\pgfplotsxmin:\pgfplotsxmax] {x};
+  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {1.05*x};
+  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {0.95*x};
+\end{axis}
+\end{tikzpicture}
+\end{document}

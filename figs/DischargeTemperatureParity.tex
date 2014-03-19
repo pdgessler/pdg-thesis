@@ -1,0 +1,28 @@
+\documentclass[12pt]{standalone}
+\input{FigsCommon}
+
+\makeatletter
+\newcommand\pgfplotsxmin{\pgfplots@xmin}
+\newcommand\pgfplotsxmax{\pgfplots@xmax}
+\makeatother
+
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+  xlabel={Experimental Discharge Temp., $T_d$ (\ip{\fahrenheit})},
+  ylabel={Model Discharge Temp., $T_d$ (\ip{\fahrenheit})},
+    axis equal,
+  width=4in,
+]
+  \addplot[black, mark=o, only marks] table {
+    129.807 129
+    141.3445 140.5
+    154.041 153.1
+    147.9423 147
+  };
+  \addplot[black, domain=\pgfplotsxmin:\pgfplotsxmax] {x};
+  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {1.05*x};
+  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {0.95*x};
+\end{axis}
+\end{tikzpicture}
+\end{document}

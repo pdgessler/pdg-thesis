@@ -1,0 +1,26 @@
+\documentclass[12pt]{standalone}
+\input{FigsCommon}
+
+\makeatletter
+\newcommand\pgfplotsxmin{\pgfplots@xmin}
+\newcommand\pgfplotsxmax{\pgfplots@xmax}
+\makeatother
+
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+  xlabel={Experimental Condenser Pressure, $p_c$ (\ip{\psia})},
+  ylabel={Model Condenser Pressure, $p_c$ (\ip{psia})},
+]
+  \addplot[black, mark=o, only marks] table {
+    96.8084 96.76
+    123.5632 123.4
+    149.4338 149.4
+    135.5034 135.4
+  };
+  \addplot[black, domain=\pgfplotsxmin:\pgfplotsxmax] {x};
+  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {1.05*x};
+  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {0.95*x};
+\end{axis}
+\end{tikzpicture}
+\end{document}

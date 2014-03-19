@@ -1,0 +1,28 @@
+\documentclass[12pt]{standalone}
+\input{FigsCommon}
+
+\makeatletter
+\newcommand\pgfplotsxmin{\pgfplots@xmin}
+\newcommand\pgfplotsxmax{\pgfplots@xmax}
+\makeatother
+
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+  xlabel={Experimental Compressor Power, $\dot{W}$ (\ip{\horsepower})},
+  ylabel={Model Compressor Power, $\dot{W}$ (\ip{\horsepower})},
+  axis equal,
+  width=4in,
+]
+  \addplot[black, mark=o, only marks] table {
+    445.1259 437.4
+    559.2326 547.4
+    667.9246 653.2
+    620.6439 607.2
+  };
+  \addplot[black, domain=\pgfplotsxmin:\pgfplotsxmax] {x};
+  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {1.05*x} node[right] {$+5\%$};
+  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {0.95*x} node[right] {$-5\%$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

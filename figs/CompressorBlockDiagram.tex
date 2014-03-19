@@ -1,0 +1,66 @@
+\documentclass[12pt]{standalone}
+\input{FigsCommon}
+\usetikzlibrary{calc,shapes,arrows}
+
+\newcommand{\expdraw}[1]{\draw[fill=white] (#1)--++(0.125,0.25)--++(-0.25,0)--++(0.25,-0.5)%
+	--++(-0.25,0)--cycle;}
+
+\tikzstyle{device} = [rectangle,draw,minimum height=0.25in]
+\tikzstyle{proc} =   [-latex,line width=1]
+\tikzstyle{refr} =   []
+\tikzstyle{water} =  [dashed]
+\tikzstyle{air}  =   [dotted]
+\tikzstyle{stat} =   [circle,draw,inner sep=1pt,outer sep=5pt,fill=gray!10,font=\footnotesize,minimum size=0.5cm]
+\pgfplotsset{compat=1.6}
+
+\begin{document}
+
+\begin{tikzpicture}
+	\coordinate (CMP) at (0,0);
+  \node at (CMP) {\footnotesize Compressor};
+	\draw (CMP) ++(-1,-0.75) -- ++(0,1.5) -- ++(2,-0.5) %
+		coordinate[pos=0.75] (cmpo)-- ++(0,-0.5) coordinate[midway] (cmplabel) -- ++(-2,-0.5) %
+		coordinate[pos=0.75] (cmpi);
+  \node[device] (split) at ($(cmpo) +(0,2)$) {Flow Split};
+  \node[device] (mix) at ($(cmpi) - (0,1)$) {Mixing};
+  \node[device,minimum height=0.5in] (cnd) at ($(split) + (-3.5,0.25)$) {Condenser};
+  \node[device,minimum height=0.5in] (clt) at ($(cnd) + (-3,1.25)$) {Cooling Tower};
+  \coordinate (EXP1) at (-5.5,0);
+  \coordinate (EXP2) at (3,0);
+	\draw[proc,refr] (mix) -- (cmpi);
+	\draw[proc,refr] (cmpo) -- (split.south) coordinate[pos=0.5] (orif);
+  \draw[proc,refr] (split.west) -- ($(cnd.east)+(0,-0.25)$);
+  \draw[proc,refr] ($(cnd.west)+(0,-0.25)$) -| ($(EXP1)+(0,0.25)$);
+  \draw[proc,refr] ($(EXP1)-(0,0.25)$) |- (mix.west);
+  \draw[proc,refr] (split.east) -| ($(EXP2)+(0,0.25)$);
+  \draw[proc,refr] ($(EXP2)-(0,0.25)$) |- (mix.east);
+	\draw (orif) ++(-0.3,0) ++(45:0.25) arc (45:-45:0.25);
+	\draw (orif) ++(0.3,0) coordinate (oriflabel) ++(135:0.25) arc (135:225:0.25);
+	\node[right,xshift=-0.1cm] at (oriflabel) {Orifice};
+  \draw[proc,water] ($(clt.south)+(0.5,0)$) |- ($(cnd.west)+(0,0.25)$);
+  \draw[proc,water] ($(cnd.east)+(0,0.25)$) -| ++(1,2.125) -| ($(clt.north)+(0.5,0)$);
+  \draw[proc,air,latex-] ($(clt.south)+(-0.5,0)$) -- ++(0,-1);
+  \draw[proc,air] ($(clt.north)+(-0.5,0)$) -- ++(0,1);
+  \expdraw{EXP1}
+  \expdraw{EXP2}
+  \node[stat,above right] at (mix.north) {1};
+  \node[stat,above right] at (cmpo) {2};  
+  \node[stat,above left,xshift=-0.1cm,yshift=0.2cm] at (orif) {3};
+  \node[stat,below left] at (split.west) {4};
+  \node[stat,below left] at ($(cnd.west)+(0,-0.25)$) {5};
+  \node[stat,below right,yshift=-0.25cm] at (EXP1) {6};
+  \node[stat,below right] at (split.east) {7};
+  \node[stat,below left,yshift=-0.25cm] at (EXP2) {8};
+  \node[stat,above left] at ($(cnd.west)+(0,0.25)$) {9};
+  \node[stat,above right] at ($(cnd.east)+(0,0.25)$) {\scriptsize 10};
+  \node[stat,below right] at ($(clt.south)+(-0.5,0)$) {\scriptsize 14};
+  \node[stat,above right] at ($(clt.north)+(-0.5,0)$) {\scriptsize 15};
+  \begin{scope}[xshift=-0.5cm,yshift=4.5cm]
+    \draw[proc,refr] (0,0) -- ++(1,0) node[right] {Refrigerant};
+    \draw[proc,water] (0,-0.5) -- ++(1,0) node[right] {Water};
+    \draw[proc,air] (0,-1) -- ++(1,0) node[right] {Outdoor Air};
+    \draw (-0.25,0.375) rectangle ++(3.75,-1.75);
+  \end{scope}
+\end{tikzpicture}
+
+\end{document}

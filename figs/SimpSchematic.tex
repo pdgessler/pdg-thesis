@@ -1,0 +1,21 @@
+\documentclass[12pt]{standalone}
+\input{FigsCommon}
+\usetikzlibrary{calc}
+\begin{document}
+\begin{tikzpicture}
+\coordinate (cTop) at (0,1.5);
+\coordinate (cBot) at (0,-1.5);
+\draw (cTop) ellipse (1.5 and 0.5);
+\draw (cBot) ellipse (1.5 and 0.5);
+\node[draw,rectangle,fill=white,minimum height=3cm,minimum width=3cm,text width=2.5cm] (0,0) {Refrigerant Liquid Separator}; 
+\coordinate (A) at ($(cTop)+(75:1.5 and 0.5)$);
+\coordinate (B) at ($(cTop)+(105:1.5 and 0.5)$);
+\draw[fill=white] (A) -- (B) -- ++(0,0.5) coordinate (sEnd) -| (A) coordinate[pos=0.5] (sStart);
+\coordinate (eTop) at ($(cBot)+(-1.5,1)$);
+\coordinate (eBot) at ($(eTop)+(0,-0.5)$);
+\draw[fill=white] ($(eTop)!0.5!(eBot)$) ellipse (0.05 and 0.25);
+\draw[fill=white] (eTop) -- ++(-1,0) coordinate (u) -- ++(-0.1,-0.1) coordinate (v) -- ++(-0.5,0) coordinate (w) arc(90:270:0.15) coordinate (x) --++(0.5,0) coordinate (y) -- ++(0.1,-0.1) coordinate (z) -- (eBot);
+\draw (u)--(z) (v)--(y) (w)--(x);
+\draw (sStart) arc(180:90:0.5) -- ++(1.5,0) arc(90:0:0.5) -- ++(0,-5) arc(0:-90:0.5);
+\end{tikzpicture}
+\end{document}

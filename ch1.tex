@@ -1,0 +1,174 @@
+\chapter{Introduction} \label{cha:intro}
+The increasingly competitive building equipment and control industry 
+pushes manufacturers to devote more resources each year to research and development, 
+continually improving the performance and efficiency of their products to develop a competitive edge. 
+The design of centrifugal compressors is no exception to this trend, 
+since these compressors are used in water-cooled chillers in large commercial and industrial buildings. 
+The compressor transfers energy from the source (often a shaft driven by an electric motor) 
+into the refrigeration cycle, and is thus a scrutinized component of the design.
+
+Compressor development is an expensive endeavor because of prototyping and testing costs. 
+The design of a new compressor requires at least one prototype to be constructed, 
+which is then subjected to a series of industry-standard performance tests 
+to quantify the improvements of the new design.
+This adds cost and development time to an already expensive process. 
+The requirement of physical performance tests should not be disputed, 
+since the resulting ratings are used by potential customers to compare offerings from different manufacturers. 
+However, minimizing testing time has a large impact on costs and time to market. 
+A model based on first principles has the potential to reduce the testing time and thus decrease costs.
+
+The overall goal of this research is to 
+create a numerical model to simulate the \IP{1500}{\horsepower} gas block 
+compressor testing equipment used by Johnson Controls, Inc.~%
+(JCI)\nomenclature[Z]{JCI}{Johnson Controls, Inc.} 
+at their facility in York, Pennsylvania. 
+The model will use the full-load design conditions of the new compressor (flow, head, and efficiency) 
+to determine the test setup (flow measurement orifice size and cooling tower fan speed) 
+required for given ambient conditions. 
+The current testing process requires some trial and error to find a suitable setup for a new compressor. 
+The numerical model aims to quickly provide reasonably accurate initial estimates of the orifice diameter and cooling tower fan speed 
+required to test a new compressor at specified outdoor air conditions, 
+reducing the testing time by eliminating (or at least minimizing) the trial and error phase of the testing process.
+
+\section{Background} \label{sec:background}
+A preferred method of evaluating compressor performance is to use a gas test block. 
+While the equipment can be expensive to construct, operate, and maintain, 
+the gas test block makes isolating the compression portion of the refrigeration cycle easier. 
+The basic premise of the gas test block cycle is that 
+the cycle can maintain conditions at the compressor inlet similar to those experienced in a traditional vapor-compression refrigeration cycle, 
+while the conditions at other points in the cycle need not follow the traditional refrigeration cycle arrangement. 
+Temperature-entropy (\tssymb) 
+\nomenclature{$T$}{Temperature\nomunit{\kelvin}} \nomenclature{$s$}{Specific entropy\nomunit{\kilo\joule\per\kilogram\kelvin}}
+diagrams for the typical vapor-compression refrigeration cycle 
+and an idealized gas block test cycle are shown in \cref{fig:CycleComparison}. 
+\begin{figure}[htbp]
+  \centering
+  \subbottom[Vapor-compression refrigeration cycle.]{%
+		\includegraphics{figs/BasicChiller}%
+    \label{fig:CycleComparisonChiller}%
+	}
+  \hfill
+  \subbottom[Gas test block cycle.]{%
+		\includegraphics{figs/BasicGas}%
+    \label{fig:CycleComparisonGasBlock}%
+	}
+  \caption{Comparison of idealized temperature-entropy (\tssymb) diagrams.}
+  \label{fig:CycleComparison}
+\end{figure}
+
+There are energy savings associated with using the gas test block 
+instead of the chiller refrigeration cycle. 
+\Process{4}{1} of the traditional refrigeration cycle of \cref{fig:CycleComparisonChiller} 
+is the result of heat transfer into the evaporator, which is the building cooling load. 
+In a test block situation, this load is simulated by mixing condenser and evaporator water. 
+In the gas block test cycle, no water loop is required for this process, 
+\state{1} being reestablished instead by mixing saturated liquid-vapor mixture (\state{4}) 
+with a superheated vapor separated from the discharge stream and throttled to the cycle's low pressure (\state{5}). 
+The conditions at \state{1} are controlled by adjusting 
+the discharge flow split that occurs near \state{2} of \cref{fig:CycleComparisonGasBlock}. 
+In addition to eliminating one water loop from the system, 
+the condenser heat transport---\process{2}{3} of \cref{fig:CycleComparisonGasBlock}---is also reduced, 
+since only a portion of the refrigerant flow must be condensed.
+
+A primary benefit of this arrangement is that the gas block is more versatile than a traditional refrigeration cycle used in a chiller. 
+The gas block can handle a wide variety of test gases (refrigerants) 
+and their associated operating pressures and cooling loads, 
+while a chiller may require different heat exchangers or piping 
+to operate with certain refrigerants at a full range of operating conditions.
+Additionally, the gas test block provides better locations for instrumentation 
+and conforms to industry-standard test codes (\eg{} ASME%
+\nomenclature[Z]{ASME}{American Society of Mechanical Engineers} 
+PTC\nomenclature[Z]{PTC}{Performance Test Code}-10) 
+for ease of data analysis and results reporting. 
+For example, the test code specifies straight sections of suction pipe and/or flow straighteners 
+to produce near-axial flow, while the compact piping arrangement on a chiller causes large deviations from axial flow. 
+Using a gas test block provides an even basis of comparison for compressors independent of the chiller design. 
+A simplified schematic of the test block layout is shown in \cref{fig:SimpSchematic}, 
+with state numbering corresponding to \cref{fig:CycleComparisonGasBlock}. 
+\begin{figure}[htbp]
+	\centering
+	\includegraphics{figs/CompressorBlockDiagram}
+	\caption{Simplified schematic of the \SI{1500}{hp} gas test block facility.}
+	\label{fig:SimpSchematic}
+\end{figure}
+
+\section{Motivation} \label{sec:motivation}
+As discussed in the opening of \cref{cha:intro}, 
+the numerical model of the test block will reduce the time required during physical testing of new compressor designs 
+by giving engineers a starting point for the test setup for a particular compressor. 
+This setup includes the flow measurement orifice diameter, the mixing valve positions, and the cooling tower fan speeds.
+
+Additionally, the model will check if a set of test conditions 
+can be achieved at specified outdoor air conditions. 
+These limit the performance of the cooling towers and may preclude certain compressor tests. 
+This prediction could prevent lost time and resources expended setting up a compressor test 
+for conditions that are not feasible at the current outside temperature and humidity.
+
+Finally, JCI has expressed interest in building an automated test block in the future. 
+If desired, the present model could be adapted for use in a model-based controls design workflow 
+to expedite and enhance the control system design process. 
+This is a long-term motivation and is secondary to the test time reduction and limiting conditions motivations.
+
+\section{Objectives} \label{sec:objective}
+The overall goal of this research is to develop a one-dimensional, steady-flow numerical model 
+representing the \IP{1500}{\horsepower} gas test block at JCI's York, PA facility. 
+The numerical model will be used in conjunction with compressor maps and/or computational fluid dynamics (CFD)%
+\nomenclature[Z]{CFD}{Computational Fluid Dynamics}
+models of the compressors to quantitatively predict the performance of new compressor designs on the test block. 
+To accomplish the overall goal, the model must
+\begin{itemize}
+  \item compute the power requirements for the prime mover of the test block,
+  \item choose the orifice diameter that results in the smallest error in measured
+    flow rate over the widest range of operating conditions, and \todo{Need to further define orifice selection.}
+  \item report the limits of the test block operating conditions for given compressor 
+		design, test block control settings, and ambient air conditions.
+\end{itemize}
+
+\section{Requirements and Constraints} \label{sec:requirements}
+The numerical model must be easy for engineers in the compressor engineering group at JCI 
+to use and update and should minimize dependencies on licensed software. 
+The software tools generally available to the compressor engineering group are 
+Engineering Equation Solver (EES)\nomenclature[Z]{EES}{Engineering Equation Solver} and \MLS{}. 
+Engineering Equation Solver was chosen since \MLS{} is more suited to dynamic models, 
+the engineers at York are more familiar with EES, 
+and EES has built-in thermophysical property relations 
+while \MLS{} requires interfacing with an external library.
+
+The compressor block model should be one-dimensional and steady-flow in nature; 
+that is, the flow conditions at a cross section of flow 
+are treated as spatially uniform and constant over time. 
+Modeling is conducted on a macroscopic level, 
+neglecting the effects of property gradients within the flow, 
+such as viscous and thermal boundary layers. 
+Modeling such detailed phenomena would complicate the model 
+and would not significantly improve the predictions requested by JCI listed in \cref{sec:objective}.
+
+The execution time of the model is a primary concern of JCI's compressor engineers, 
+and should be less than \SI{15}{\second} for each individual compressor test.
+\note{Need to pick some reasonable execution time. Maybe York has a number in mind.}
+\emph{PDG TODO: Add additional quantitative metrics (percent error for different quantities, interface features, etc.) to this paragraph. Maybe a table if things expand significantly.}
+
+\section{Organization} \label{sec:organization}
+This thesis documents the creation of a one-dimensional, steady-flow model 
+of a specific gas test block for use by compressor development engineers at JCI's York, PA location. 
+\Cref{cha:litreview} summarizes a review of the current state of the art 
+compressor testing and modeling techniques 
+and other reference materials used in developing and implementing the model. 
+\Cref{cha:modeldev} presents the mathematical formulation of the model 
+and its inherent engineering assumptions. 
+\Cref{cha:solnmethod} documents the implementation of the numerical model, 
+including numerical solution techniques and user interface considerations. 
+\note{Might combine Chs. 3 and 4.}
+
+\Cref{cha:results} presents the predictions of the model 
+for a variety of compressor designs and operating points. 
+These predictions are compared to corresponding experimental data 
+from physical tests to validate the model predictions.
+A discussion of the validation results is included, 
+highlighting the strengths and weaknesses of the numerical model.
+\Cref{cha:conclusion} summarizes the research work 
+and provides recommendations to users of the model and future maintainers.
+
+%\Cref{app:code} contains code listings and screenshots of the EES implementation
+%for the compressor gas test block model. 
+\todo{Describe any appendices as they are added.}

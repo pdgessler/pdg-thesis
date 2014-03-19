@@ -1,0 +1,54 @@
+\documentclass[12pt]{standalone}
+\usepackage[version=3]{mhchem}
+\input{FigsCommon}
+\usetikzlibrary{calc,shapes,arrows}
+
+\tikzstyle{general} = [rectangle, draw, text width=5em, text centered, node distance=4em]
+\tikzstyle{process} = [general]
+\tikzstyle{inoutput} = [general,draw=none]
+\tikzstyle{terminal} = [general, rounded corners=0.75em, minimum height=1.5em]
+\tikzstyle{decision} = [general, diamond, inner sep=0pt, node distance=3cm]
+\tikzstyle{line} = [draw, -latex]
+
+\newcommand{\process}[3]{%
+  \node [process, #1] (#2) {#3};
+  \draw ($(#2.south west)+(0.4em,0)$) -- ($(#2.north west)+(0.4em,0)$);
+  \draw ($(#2.south east)+(-0.4em,0)$) -- ($(#2.north east)+(-0.4em,0)$);
+}
+
+\newcommand{\inoutput}[3]{%
+  \node[inoutput, #1] (#2) {#3};
+  \draw ($(#2.south west)+(-0.4em,0)$) -- ($(#2.north west)+(0.4em,0)$) -- ($(#2.north east)+(0.4em,0)$) -- ($(#2.south east)+(-0.4em,0)$) -- cycle;
+}
+
+\begin{document}
+\begin{tikzpicture}[auto]
+  % Place nodes
+  \node[terminal] (start) {Start};
+  \inoutput{right of=start,node distance=3cm}{input}{Input $\Theta_{\text{min}}$, $\Theta_{\text{max}}$, $\eta$, $\Omega$};
+  \node[process,right of=input,node distance=8em] (init) {$\Theta = \Theta_{\text{min}}$};
+  \node[process,below of=start,node distance=6em] (norif) {$i_{\text{orif}}=1$};
+  \process{below of=norif, node distance=6em}{runmodel}{Compute and store $\Delta p_{\text{orif}}$}
+  \node[decision,right of=runmodel] (ncheck) {$i_{\text{orif}} < n_{\text{orif}}$?};
+  \node[process,right of=ncheck,node distance=8em] (increment) {$i_{\text{orif}}++$};
+  \node[process,below of=runmodel,node distance=10em] (checkp) {Check all $\Delta p$s against \SIrange{10}{990}{\inch\ce{H2O}} range};
+  \inoutput{below of=ncheck,node distance=10em}{output}{Output results array of orifice diameters and flows}
+  \node[terminal,below of=increment,node distance=10em] (end) {End};
+  
+  \path[line] (start.east)--(input.west);
+  \path[line] (input.east)--(init.west);
+  \path[line] (init.south) -- ++(0,-0.8) -| (norif.north);
+  \path[line] (norif.south)--(runmodel.north);
+  \path[line] (runmodel.east)--(ncheck.west);
+  \path[line] (ncheck.east)--(increment.west) node[midway] {Y};
+  \path[line] (increment.north) -- ++(0,1.2) -| (runmodel.north);
+  \path[line] (ncheck.south) -- ++(0,-0.8) node[midway] {N} -| (checkp.north);
+  \path[line] (checkp.east)--(output.west);
+  \path[line] (output.east)--(end.west);
+  \draw[dashed] (-1.5,-7.5) rectangle (8,-1.6);
+  
+  \node[anchor=north east, text width=14em] at (8,-1.6) {Execute for each $\Theta$, where $\Theta_{\text{min}} \leq \Theta \leq \Theta_{\text{max}}$ with step $\Delta \Theta$};
+  
+  \path (-1.75,-11) rectangle (8.5,1);
+\end{tikzpicture}
+\end{document}

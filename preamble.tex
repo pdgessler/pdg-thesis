@@ -1,0 +1,86 @@
+\usepackage{graphicx}
+\usepackage[american]{babel}
+\usepackage{csquotes}
+\usepackage[natbib=true,style=apa,backend=biber]{biblatex}
+\DeclareLanguageMapping{american}{american-apa}
+\addto\captionsamerican{%
+  \renewcommand{\contentsname}{TABLE OF CONTENTS}%
+  \renewcommand{\listtablename}{LIST OF TABLES}%
+  \renewcommand{\listfigurename}{LIST OF FIGURES}%
+}
+\bibliography{refs}
+\usepackage{amsmath}
+\usepackage[final]{listings}
+\usepackage[intoc,prefix]{nomencl}
+\renewcommand{\nomname}{LIST OF SYMBOLS}
+\usepackage[log-declarations=false]{xparse}
+\usepackage{siunitx}
+\usepackage[usenames,dvipsnames]{xcolor}
+
+\input{fonts} 
+\input{mymacros} 
+\input{units}
+
+\usepackage[protrusion=true]{microtype}
+\usepackage[english]{selnolig}
+
+\usepackage[%
+  hidelinks,
+  pdftitle={A One-Dimensional Model of a Closed-Loop Refrigeration Test Block for Centrifugal Compressors},
+  pdfauthor={Paul D. Gessler, B.S.},
+]{hyperref}
+\usepackage{cleveref}
+
+\RequirePackage{ifthen}
+\renewcommand{\nomgroup}[1]{%
+  \ifthenelse{\equal{#1}{Z}}{\item[\textbf{Abbreviations}]}{%
+    \ifthenelse{\equal{#1}{X}}{\item[\textbf{Subscripts}]}{%
+			\ifthenelse{\equal{#1}{Y}}{\item[\textbf{Conventions}]}{%
+				\ifthenelse{\equal{#1}{W}}{\item[\textbf{Greek Symbols}]}}}}
+}
+
+\lstdefinelanguage{ees}{
+morekeywords={$INCLUDE,$IFNOT,$ENDIF},
+sensitive=false,
+morecomment=[s]{\{}{\}},
+morecomment=[s]{"}{"},
+morestring=[b]',
+}
+
+\lstset{
+	basicstyle=\singlespacing \scriptsize \ttfamily,
+	language=ees,
+	showstringspaces=false,
+	breaklines=true,
+	numbers=left,
+	frame=single,
+  commentstyle=\ttfamily \color{comment},
+  stringstyle=\color{string}
+}
+
+\makenomenclature
+\renewcommand{\lstlistlistingname}{LIST OF CODE LISTINGS}
+\renewcommand{\listtablename}{LIST OF TABLES}
+\renewcommand{\listfigurename}{LIST OF FIGURES}
+\DefineBibliographyStrings{english}{%
+  bibliography = {BIBLIOGRAPHY},
+  references = {BIBLIOGRAPHY},
+}
+
+\title{
+A ONE-DIMENSIONAL MODEL OF A CLOSED-LOOP\\
+      REFRIGERATION TEST BLOCK FOR\\
+         CENTRIFUGAL COMPRESSORS
+} 
+\author{Paul D. Gessler, B.S.} 
+\degree{Master of Science}
+\degreemo{May} 
+\degreeyr{2014}
+
+% custom adjustments for APA bibliography
+\renewcommand*{\biblistextra}{%
+  \setlength{\leftmargin}{0.375in}% hanging indent
+  \setlength{\itemindent}{-\labelwidth}%
+  \addtolength{\itemindent}{-\labelsep}    
+  \addtolength{\itemindent}{-\leftmargin}    
+}

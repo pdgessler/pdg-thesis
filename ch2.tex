@@ -1,0 +1,106 @@
+\chapter{Literature Review} \label{cha:litreview}
+
+\section{General Compressor Testing} \label{sec:gencomp}
+One component of the research effort was 
+to study different methods of testing compressors. 
+Therefore, this section provides information regarding performance metrics 
+and testing methods for several types of compressors. 
+The research was done to better understand the testing methodology, 
+the data collected during a typical test, 
+and the expectations for a mathematical model of the test block refrigeration cycle.
+
+\subsection{Compressor Testing Methodology} \label{sec:TestMethodology}
+Two of the main standards organizations (the American Society of Mechanical Engineers (ASME) 
+and the International Organization for Standardization (ISO)) 
+publish guidelines for refrigerant compressor testing methods, data analysis, and results reporting.
+
+The AMSE PTC 10 standard \citep{ptc10} prescribes test conditions, 
+procedures, and measurement locations for a compressor test. 
+This allows different manufacturers' test results to be compared. 
+It also presents dimensionless coefficients used by different industries 
+to characterize the operating point of the compressor. 
+Finally, ASME PTC 10 contains several sets of sample calculations 
+which are of use in verifying the implementation of the model, 
+particularly the calculation of the prime mover power requirements.
+
+The ISO 917 
+\todo{Take a look at this; it might be relevant even though it's tailored to positive displacement compressors.}
+standard primarily deals with positive displacement compressors, \dots \\
+
+\subsection{Compressor Performance Metrics}
+It is important to understand the specific quantities used 
+to describe a compressor's performance within the HVAC\&R%
+\nomenclature[Z]{HVAC}{Heating, Ventilating, and Air Conditioning} 
+industry, since these will be among the outputs of any model of the testing process. 
+\citet{wilcox2007} advocates the use of ASME PTC-10 (\cref{sec:TestMethodology}) and lists
+%\begin{itemize}
+  suction and discharge pressures,
+  suction and discharge temperatures,
+  mass flow rate,
+  fluid (refrigerant) composition,
+  rotational speed, and
+  driver load
+%\end{itemize}
+as critical field data for any compressor test.
+
+Furthermore, Wilcox outlines some general guidelines 
+for instrumentation on the test block to ensure representative data.  
+He notes that pressure and temperature sensors should be located 
+at least 10 pipe diameters from potential disturbances or obstructions such as tees or elbows.  
+All sensors should be calibrated prior to the test run, 
+and data should only be collected at steady-state conditions.  
+For a typical compressor test, Wilcox defines steady-state conditions to be achieved 
+once the discharge temperature remains constant (within sensing accuracy) over a \SI{15}{\minute} interval. 
+According to Wilcox, resistance temperature detectors (RTDs)%
+\nomenclature[Z]{RTD}{Resistance Temperature Detectors} 
+should be used instead of thermocouples wherever possible for improved accuracy. 
+Finally, he stresses the importance of recording test data at several different operating points 
+to allow recognition of a bad measurement in any one set of data.
+
+\subsection{Compressor Test Data Analysis}
+\todo{Summarize Wilcox (and others) compressor performance calculations\dots}
+
+\section{Cycle-Specific Research}
+The \IP{1500}{\horsepower} gas test block contains a number of components which must be modeled. 
+The compressor is not directly modeled in this work, 
+which instead uses external compressor maps or other means 
+to specify the discharge conditions given a set of suction conditions. 
+The flow measurement orifice, hot gas bypass (HGBP)%
+\nomenclature[Z]{HGBP}{Hot Gas Bypass} flow split, condenser, cooling towers, 
+throttling expansion devices, and a mixing chamber must be modeled. 
+A number of texts and papers were consulted to model these devices.
+
+The flow measurement orifice is modeled according to correlations presented in \citet{ptc19}. 
+This ASME standard presents relationships between 
+the pressure drop across the orifice and the flow rate, as shown in \cref{sec:Orifice}. 
+Compressible effects are included since the refrigerant will be in a 
+superheated vapor state at the orifice.
+
+The flow split, expansion devices, and mixing chamber are modeled using 
+basic extensive property balances (mass and energy) as detailed in 
+undergraduate thermodynamics texts such as \citet{cengel2011}. 
+The equations are developed from the general balance equations 
+in \cref{sec:FlowSplit,sec:ExpandMain,sec:ExpandSHV,sec:Mixing}.
+
+\citet{incropera2007} develop equations describing the performance of the condenser, 
+which in this case is a shell-and-tube unit. 
+The NTU-effectiveness method is used. 
+Engineering drawings from JCI were used to determine 
+the effectiveness and number of transfer units for the condenser.
+
+\citet{braun1989} developed equations for modeling cooling towers 
+using an effectiveness approach analogous to the heat exchanger model.
+This is useful as it avoids iteration wherever possible. 
+An example useful for verification of the cooling tower model 
+is presented by \citet{mitchell2013}. 
+A linear regression process is performed on experimental data from 
+the BAC cooling towers to determine two characteristic performance parameters, 
+which affect the NTU of the cooling tower. 
+\citet{braun1989} outline this process and provide several values 
+for typical cooling towers. \todo{Need to fit performance data.}
+
+\section{Test Block Design and Construction}
+Document York source documents here\dots engineering specifications, 
+design changes, pump curves, installed equipment, etc.
+
+\section{Summary}

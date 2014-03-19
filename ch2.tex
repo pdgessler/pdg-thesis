@@ -4,7 +4,8 @@
 One component of the research effort was 
 to study different methods of testing compressors. 
 Therefore, this section provides information regarding performance metrics 
-and testing methods for several types of compressors. 
+and testing methods for several types of compressors
+commonly used in the HVAC industry. 
 The research was done to better understand the testing methodology, 
 the data collected during a typical test, 
 and the expectations for a mathematical model of the test block refrigeration cycle.
@@ -22,10 +23,6 @@ to characterize the operating point of the compressor.
 Finally, ASME PTC 10 contains several sets of sample calculations 
 which are of use in verifying the implementation of the model, 
 particularly the calculation of the prime mover power requirements.
-
-The ISO 917 
-\todo{Take a look at this; it might be relevant even though it's tailored to positive displacement compressors.}
-standard primarily deals with positive displacement compressors, \dots \\
 
 \subsection{Compressor Performance Metrics}
 It is important to understand the specific quantities used 
@@ -70,8 +67,9 @@ The flow measurement orifice, hot gas bypass (HGBP)%
 throttling expansion devices, and a mixing chamber must be modeled. 
 A number of texts and papers were consulted to model these devices.
 
-The flow measurement orifice is modeled according to correlations presented in \citet{ptc19}. 
-This ASME standard presents relationships between 
+The flow measurement orifice is modeled according to correlations presented in 
+ASME PTC 19.5 \citep{ptc19}. 
+This standard presents relationships between 
 the pressure drop across the orifice and the flow rate, as shown in \cref{sec:Orifice}. 
 Compressible effects are included since the refrigerant will be in a 
 superheated vapor state at the orifice.

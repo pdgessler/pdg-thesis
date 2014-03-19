@@ -68,7 +68,6 @@ where $g$ is the gravitational acceleration
 and $z$ is the elevation of the inlet/outlet.
 
 \Cref{eqn:GenEnergy} shows the standard sign convention used throughout this thesis; 
-\todo{Short paragraph; find something else to talk about here.}
 \ie{} heat transfer \emph{into} the system is considered positive, 
 while work transfer \emph{out of} the system is considered positive.
 \Cref{eqn:GenMass,eqn:GenEnergy} form the basic equations to which 
@@ -84,8 +83,8 @@ As a consequence of assumptions~\ref{lst:pe} and~\ref{lst:ke},
 we can reduce the methalpy notation to the more familiar enthalpy form,
 and assumption~\ref{lst:sf} means that the left-hand sides of \cref{eqn:GenMass,eqn:GenEnergy} both become zero:
 \begin{align}
-  0 &= \sum_{\text{inlets}}{\dot{m}} - \sum_{\text{outlets}}{\dot{m}}, \\
-  0 &= \dot{Q} - \dot{W} + \sum_{\text{inlets}}{\dot{m}h} - \sum_{\text{outlets}}{\dot{m}h}.
+  0 &= \sum_{\text{inlets}}{\dot{m}} - \sum_{\text{outlets}}{\dot{m}}, \label{eqn:SemiMass}\\
+  0 &= \dot{Q} - \dot{W} + \sum_{\text{inlets}}{\dot{m}h} - \sum_{\text{outlets}}{\dot{m}h}. \label{eqn:SemiEnergy}
 \end{align}
 
 \section{Compressor} \label{sec:Compressor}
@@ -190,14 +189,13 @@ This calculation process is outlined in \cref{fig:DischargeCalc}.
 
 Once the inlet and outlet states at the compressor are known, 
 the mass and energy balances can be revisited. 
-From \cref{eqn:GenMass,eqn:GenEnergy}, we apply the steady-flow assumption, 
-letting the time derivative terms approach zero. 
-Additionally, assuming that the compressor can be modeled as a 
-single-input and single-output (SISO) device, we have
+From \cref{eqn:SemiMass,eqn:SemiEnergy} and
+ assuming that the compressor can be modeled as a 
+single-input, single-output (SISO) device, we have
 \begin{align}
   &\text{Mass:}   & 0 &= {\dot{m}_{\text{i}}} - {\dot{m}_{\text{o}}} \label{eqn:CompMass}\\
-  &\text{Energy:} & 0 &= \dot{Q} - \dot{W} + {\dot{m}_{\text{i}}h^{\circ}_{\text{i}}} - 
-		{\dot{m}_{\text{o}}h^{\circ}_{\text{o}}} \label{eqn:CompEnergy}.
+  &\text{Energy:} & 0 &= \dot{Q} - \dot{W} + {\dot{m}_{\text{i}}h_{\text{i}}} - 
+		{\dot{m}_{\text{o}}h_{\text{o}}} \label{eqn:CompEnergy}.
 \end{align}
 \note{Using `we' is a habit of mine in derivations. OK or should I lose it?}
 \Cref{eqn:CompMass} simply means that the mass flow 

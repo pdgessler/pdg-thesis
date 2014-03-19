@@ -199,9 +199,9 @@
 \setlength{\cftbeforeparagraphskip}{\onelineskip}
 \setlength{\cftbeforesubparagraphskip}{\onelineskip}
 \setlength{\cftbeforetableskip}{\onelineskip}
-%\setlength{\cftbeforesubtableskip}{\onelineskip}
+\setlength{\cftbeforesubtableskip}{\onelineskip}
 \setlength{\cftbeforefigureskip}{\onelineskip}
-%\setlength{\cftbeforesubfigureskip}{\onelineskip}
+\setlength{\cftbeforesubfigureskip}{\onelineskip}
 \renewcommand{\insertchapterspace}{}
 
 % switch to single spacing

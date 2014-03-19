@@ -96,29 +96,35 @@ for existing compressors or numerically (using CFD) for new compressor designs.
 A user of the model can select an operating point on the compressor map, 
 and with specification of the suction (inlet) conditions, 
 the discharge (outlet) state of the compressor is fixed. 
-Dimensionless coefficients of flow and head 
-($\Theta$ and $\Omega$, respectively) are used 
+Dimensionless coefficients of flow, head, and velocity
+($\Theta$, $\Omega$, and $\MA$, respectively) are used 
 to generalize the compressor maps to machine characteristics. 
 The flow coefficient $\Theta$ is given by
 \begin{equation}
-  \Theta = \frac{\text{CFM}}{\vel D^2},
-	\nomenclature[A$V$]{$\vel$}{Velocity magnitude\nomunit{\metre\per\second}}
-	\nomenclature[W]{$\Theta$}{Flow coefficient, $\dot{V}/{\vel D^2}$\nomunit{-}}
+  \Theta = \frac{\dot{V}}{\svel D^2},
+	\nomenclature{$\svel$}{Acoustic (sonic) velocity\nomunit{\metre\per\second}}
+	\nomenclature[W]{$\Theta$}{Flow coefficient, $\dot{V}/{\svel D^2}$\nomunit{-}}
 \end{equation}
-where $\text{CFM}$ is the volumetric flow in \si{\foot\cubed\per\minute}, 
-$\vel$ is the sonic velocity at suction conditions, 
+where $\dot{V}$ is the volumetric flow, 
+$\svel$ is the acoustic (sonic) velocity at suction conditions, 
 and $D$ is the impeller diameter.
-\todo{Choose appropriate subscripts and add to nomenclature.}
 The head coefficient $\Omega$ is given by
 \begin{equation}
-	\Omega = \frac{g_c \Delta h_s}{\vel^2},
-	\nomenclature[W]{$\Omega$}{Isentropic head coefficient, ${g_c \Delta h_s}/{\vel^2}$\nomunit{-}}
+	\Omega = \frac{g_c \Delta h_s}{\svel^2},
+	\nomenclature[W]{$\Omega$}{Isentropic head coefficient, ${g_c \Delta h_s}/{\svel^2}$\nomunit{-}}
 	\nomenclature{$g_c$}{Gravitational proportionality constant, $g_c=\SI{1}{\kilogram\metre\per\newton\second\squared}$\nomunit{\kilogram\metre\per\newton\second\squared}}
 \end{equation}
 where $g_c$ is the gravitational proportionality constant, 
 $\Delta h_s$ is the specific enthalpy change for an isentropic compression process, 
-and $\vel$ is, again, the suction sonic velocity.
+and $\svel$ is, again, the suction sonic velocity.
 
+The Machine Mach number $\MA$ is 
+\begin{equation}
+  \MA = \frac{\vel_{\text{tip}}}{a_{\text{i}}},
+  \nomenclature[A$Ma$]{$\MA$}{Machine Mach number, $\vel_{\text{tip}}/a_{\text{i}}$\nomunit{-}}
+\end{equation}
+where $\vel_{\text{tip}}$ is the impeller tip velocity
+and $a_{\text{i}}$ is the acoustic velocity at inlet (suction) conditions.
 The third and final compressor performance characteristic gleaned 
 from the compressor map is the isentropic efficiency, $\eta_s$, 
 which quantifies the deviation of the real compression process 
@@ -130,7 +136,25 @@ The isentropic efficiency is defined as
 where $h_{\text{o}s}$ is the discharge enthalpy for an isentropic compression process, 
 $h_{\text{i}}$ is the suction enthalpy, 
 and $h_{\text{o}}$ is the actual discharge enthalpy. 
-\todo{Look up and add $\text{Re}$ number correction.}
+
+While the model uses isentropic efficiency $\eta_s$, 
+the efficiency islands on standard compressor maps plot a corrected efficiency $\eta_{\text{map}}$,
+which includes a correction for the Reynolds number at the given operating point.
+To convert the corrected map efficiency into isentropic efficiency, 
+we use the transformation
+\begin{equation}
+  \eta_s = \eta_{\text{map}} + X(1 - \eta_{\text{peak}})\left(1-\left(\frac{10^6}{\RE_b}\right)^{0.1}\right),
+\end{equation}
+where the flow ratio $X = \max{(1,\Theta/\Theta_{\text{peak}})}$, 
+$\Theta_{\text{peak}}$ is the flow coefficient 
+corresponding to the point of maximum map efficiency,
+$\eta_{\text{peak}}$ is the maximum map efficiency,
+and $\RE_b$ is the Reynolds number 
+based on impeller tip width $b$%
+\nomenclature{$b$}{Impeller tip width\nomunit{\inch}}; \eg{}
+\begin{equation}
+\text{Re}_b=\frac{\rho \vel b}{\mu}.
+\end{equation}
 
 The three map parameters for the desired operating point 
 ($\Theta$, $\Omega$, and $\eta_s$), 
@@ -198,7 +222,7 @@ This value is one of the requirements of the model.
 \begin{equation}
   \dot{V} = C Y A_0 \sqrt{2v_2g_c\left(\frac{p_2-p_3}{1-\beta^4}\right)}
 \end{equation}
-\nomenclature[A$Re$]{$\RE_D$}{Reynolds number based on diameter, $\text{Re}_D=\rho \vel D/\mu$\nomunit{-}}
+\nomenclature[A$Re$]{$\RE_L$}{Reynolds number based on characteristic length $L$, $\text{Re}_L=\rho \vel L/\mu$\nomunit{-}}
 \nomenclature[W]{$\mu$}{Dynamic viscosity\nomunit{\newton\second\per\metre\squared}}
 \nomenclature{$D$}{Diameter\nomunit{\metre}}
 \nomenclature{$d$}{Orifice diameter\nomunit{\metre}}

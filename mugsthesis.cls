@@ -12,11 +12,11 @@
 %% 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{mugsthesis}
-  [2014/03/16 v1.1 Marquette University Graduate School Thesis Class]
+  [2014/03/20 v1.2 Marquette University Graduate School Thesis Class]
 
 \RequirePackage{etoolbox} % for patching commands
 
-\newbool{indentfirst}
+\newbool{indentfirst} % for indentation of initial paragraphs
 
 % only allow explicitly-defined options
 \DeclareOption{10pt}{\PassOptionsToClass{10pt}{memoir}}
@@ -40,15 +40,15 @@
 % set the line spacing and justification
 \DoubleSpacing
 \raggedright
-\flushbottom % gives too many underfull vboxes at moment; TODO find better solution
+\flushbottom % too many underfull vboxes at moment; TODO find better solution
 
 % set the page layout
-\setlrmarginsandblock{1.5in}{1.0in}{*}
-\setulmarginsandblock{1.0in}{1.0in}{*}
-\setheaderspaces{0.5in}{*}{*}
+\setlrmarginsandblock{1.5in}{1.0in}{*} % left and right margins
+\setulmarginsandblock{1.0in}{1.0in}{*} % top and bottom margins
+\setheaderspaces{0.5in}{*}{*} % header 0.5in from edge
 \marginparmargin{left} % use the wider (left) margin for notes
-\setmarginnotes{0.125in}{1.25in}{\baselineskip}
-\checkandfixthelayout[lines]
+\setmarginnotes{0.125in}{1.25in}{\baselineskip} % type area for notes
+\checkandfixthelayout[lines] % check the layout; TODO check algorithm selection
 
 % set paragraph indentation
 \setlength\parindent{0.5in}
@@ -57,7 +57,7 @@
 \makepagestyle{mugs}
 \makeevenhead{mugs}{}{}{\thepage}
 \makeoddhead{mugs}{}{}{\thepage}
-\aliaspagestyle{chapter}{mugs} % alias so chapter opening pages match our style
+\aliaspagestyle{chapter}{mugs} % alias so chapter opening pages match MUGS style
 \pagestyle{mugs}
 
 % title page information
@@ -103,7 +103,7 @@
     Marquette University, \mugsdegreeyr
     \vskip 2\baselineskip 
   \end{center}
-  \@afterindentfalse\@afterheading
+  \@afterindentfalse\@afterheading % makes indentfirst work with custom envs
 }{
   \end{SingleSpace}\setcounter{page}{0}
 }
@@ -127,6 +127,7 @@
   \@afterindentfalse\@afterheading
 }{\end{SingleSpace}}
 
+% subfloats (not needed for everyone; TODO consider options)
 \newsubfloat{figure}
 \newsubfloat{table}
 \setcounter{lofdepth}{2}
@@ -138,12 +139,13 @@
   \setlength{\midchapskip}{0.5\onelineskip}
   \setlength{\afterchapskip}{\onelineskip}
   \renewcommand*{\chapterheadstart}{}
-%  \renewcommand*{\afterchaptertitle}{\end{SingleSpace}}
   \renewcommand*{\chaptitlefont}{\bfseries}
   \renewcommand*{\printchaptername}{\centering \MakeTextUppercase{\@chapapp}}
   \renewcommand*{\printchapternum}{\thechapter}
   \renewcommand*{\printchaptertitle}[1]{%
-    \SingleSpacing \protect\parbox{\textwidth}{\centering \chaptitlefont \MakeTextUppercase{##1}}
+    \SingleSpacing \protect\parbox{\textwidth}{%
+      \centering \chaptitlefont \MakeTextUppercase{##1}
+    }
   }
 }% end{mugs}
 \chapterstyle{mugs}
@@ -180,7 +182,7 @@
 
 % set ToC, LoT, and LoF indents
 \setlength{      \cftchapterindent}{0.0in}
-\setlength{      \cftsectionindent}{0.5in}
+\setlength{      \cftsectionindent}{0.5in} % 0.5in additional per level
 \setlength{   \cftsubsectionindent}{1.0in}
 \setlength{\cftsubsubsectionindent}{1.5in}
 \setlength{    \cftparagraphindent}{2.0in}
@@ -190,7 +192,7 @@
 \setlength{       \cftfigureindent}{0.0in}
 \setlength{    \cftsubfigureindent}{0.5in}
 
-% ragged right ToC, LoT, and LoF entries
+% ragged right and spacing for ToC, LoT, and LoF entries
 \setrmarg{3.55em plus 1fil}
 \setlength{\cftbeforechapterskip}{\onelineskip}
 \setlength{\cftbeforesectionskip}{\onelineskip}
@@ -209,7 +211,7 @@
 \renewcommand{\afterlottitle}{\aftergroup\SingleSpacing}
 \renewcommand{\afterloftitle}{\aftergroup\SingleSpacing}
 
-% style the chapter headings
+% style the ToC chapter headings
 \renewcommand{\cftchapterfont}{\normalfont}
 \renewcommand{\cftchapterleader}{\cftsectionleader}
 \renewcommand{\cftchapterpagefont}{\normalfont}
@@ -217,7 +219,7 @@
 \settocpreprocessor{chapter}{%
 \let\tempf@rtoc\f@rtoc%
 \def\f@rtoc{%
-\texorpdfstring{\MakeTextUppercase{\tempf@rtoc}}{\tempf@rtoc}}%
+  \texorpdfstring{\MakeTextUppercase{\tempf@rtoc}}{\tempf@rtoc}}%
 }
 
 % set spacing in quot{e,ation} environments
@@ -233,10 +235,5 @@
 \setsubsecheadstyle{\bfseries\SingleSpacing}
 \setsubsubsecheadstyle{\bfseries\SingleSpacing}
 
-% caption justification
-%\precaption{\raggedright}
-%\captionstyle{\raggedright}
-
 % list spacings
 \tightlists
-%\setlength{\itemsep}{0.5\onelineskip}

@@ -58,3 +58,4 @@
 *.mexw64
 *.zip
 touch
+*$

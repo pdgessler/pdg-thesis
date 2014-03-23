@@ -58,6 +58,7 @@ is a convenient way to account for kinetic and potential energy effects if requi
 The methalpy can be calculated from the enthalpy, the kinetic energy
 \begin{equation}
   \text{ke} = \vel^2/2,
+  \nomenclature{$\vel$}{Velocity magnitude\nomunit{\metre\per\second}}
 \end{equation}
 where the average velocity $\vel$ can be calculated using 
 $\dot{m}=\rho \vel A$, and the potential energy
@@ -68,7 +69,7 @@ where $g$ is the gravitational acceleration
 and $z$ is the elevation of the inlet/outlet.
 
 \Cref{eqn:GenEnergy} shows the standard sign convention used throughout this thesis; 
-\ie{} heat transfer \emph{into} the system is considered positive, 
+that is, heat transfer \emph{into} the system is considered positive, 
 while work transfer \emph{out of} the system is considered positive.
 \Cref{eqn:GenMass,eqn:GenEnergy} form the basic equations to which 
 engineering assumptions are applied in \crefrange{sec:Compressor}{sec:Mixing}.
@@ -95,7 +96,7 @@ whether one existing now or one to be developed in the future.
 \note{Parallel structure seems odd on this sentence.} 
 Fortunately, detailed compressor models are not required 
 to predict compressor performance for the purposes of the present facility modeling. 
-The performance of the compressor is provided to the model \via{} compressor maps. 
+The performance of the compressor is provided to the model through compressor maps. 
 An example of a generic compressor map is shown in \cref{fig:GenMap}. 
 \begin{figure}[htbp]
   \centering
@@ -167,7 +168,7 @@ corresponding to the point of maximum map efficiency,
 $\eta_{\text{peak}}$ is the maximum map efficiency,
 and $\RE_b$ is the Reynolds number 
 based on impeller tip width $b$%
-\nomenclature{$b$}{Impeller tip width\nomunit{\inch}}; \eg{},
+\nomenclature{$b$}{Impeller tip width\nomunit{\inch}}; for example,
 \begin{equation}
 \text{Re}_b=\frac{\rho \vel b}{\mu}.
 \end{equation}
@@ -202,7 +203,7 @@ single-input, single-output (SISO) device, we have
 entering the compressor is equal to that leaving the compressor. 
 In \cref{eqn:CompEnergy}, we know the mass flow rates. 
 Finally, assuming that the compressor is well-insulated; 
-\ie{} $\dot{Q}=0$, leaves $\dot{W}$ 
+that is, $\dot{Q}=0$, leaves $\dot{W}$ 
 as the sole remaining unknown in \cref{eqn:CompEnergy}. 
 This value is one of the requirements of the model. 
 \todo{Add mechanical efficiency stuff.}
@@ -252,7 +253,7 @@ This value is one of the requirements of the model.
 \nomenclature[X]{$\text{i}$}{Inlet conditions}
 \nomenclature[X]{$i$}{The $i$th component/element of a mixture/series}
 \nomenclature[X]{$\text{o}$}{Outlet conditions}
-\nomenclature[Y]{$\Delta\left(\;\right)$}{Change in quantity, \eg{} $\text{final} - \text{initial or outlet} - \text{inlet}$\nomunit{$\left[\;\right]$}}
+\nomenclature[Y]{$\Delta\left(\;\right)$}{Change in quantity; for example, $\text{final} - \text{initial or outlet} - \text{inlet}$\nomunit{$\left[\;\right]$}}
 \nomenclature[X]{$\text{sh}$}{Superheat}
 \nomenclature[0]{\textbf{Symbol}}{\textbf{Description}\nomunit{\textbf{Units}}}
 

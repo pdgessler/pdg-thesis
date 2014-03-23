@@ -1,40 +1,57 @@
 \chapter{Introduction} \label{cha:intro}
 The increasingly competitive building equipment and control industry 
-pushes manufacturers to devote more resources each year to research and development, 
-continually improving the performance and efficiency of their products to develop a competitive edge. 
+pushes manufacturers to devote more resources each year to research and 
+development, continually improving the performance and efficiency 
+of their products to develop and maintain a competitive edge. 
 The design of centrifugal compressors is no exception to this trend, 
-since these compressors are used in many power-intensive applications
+since these compressors are used in many power-intensive applications,
 including water-cooled chillers in large commercial and industrial buildings. 
-The compressor transfers energy from the source (often a shaft driven by an electric motor) 
-into the refrigeration cycle, and is thus a scrutinized component of the design.
+The compressor transfers energy from the source (often a shaft driven by an 
+electric motor) into the refrigeration cycle, and is thus 
+a scrutinized component of the design.
 
-Compressor development is an expensive endeavor because of prototyping and testing costs. 
-The design of a new compressor requires at least one prototype to be constructed, 
-which is then subjected to a series of industry-standard performance tests 
-to quantify the improvements of the new design.
+Compressor development is an expensive endeavor 
+because of prototyping and testing costs. 
+The design of a new compressor requires at least one 
+prototype to be constructed, which is then subjected to 
+a series of industry-standard performance tests 
+to quantify the improvements in the new design.
 This adds cost and development time to an already expensive process. 
-For example, the costs for one week of testing can approach \SI{10000}[\$]{} \citep{sommer2013}.
+For example, the costs for one week of testing can approach 
+\SI{10000}[\$]{} \citep{sommer2013}.
 The requirement of physical performance tests should not be disputed, 
-since the resulting ratings are used by potential customers to compare offerings from different manufacturers. 
-However, minimizing testing time has a large impact on costs and time to market. 
-A model based on first principles has the potential to reduce the testing time 
-and thus decrease costs by assisting the test engineer in defining an optimized test plan
-built around test block capabilities at the expected ambient conditions.
-Furthermore, we can minimize down time for changing flow measurement orifices
-by providing a means to choose the best orifice diameter for a given range of test flow rates.
+since the resulting ratings are used by potential customers 
+to compare offerings from different manufacturers. 
+Additionally, all models are approximations of the real system and 
+cannot completely capture the behavior of the physical system.
 
-The overall goal of this research is to 
+Nevertheless, minimizing testing time has a 
+large impact on costs and time to market. 
+A model based on first principles has the potential to 
+reduce the testing time and thus decrease costs by 
+assisting the test engineer in defining an optimized test plan 
+built around test block capabilities at the expected ambient conditions.
+Furthermore, we can minimize down time for changing 
+flow measurement orifices by providing a means 
+to choose the best orifice diameter for a given range of test flow rates.
+
+With these considerations in mind, the overall goal of this research is to 
 create a numerical model to simulate the \IP{1500}{\horsepower} gas block 
 compressor testing equipment used by Johnson Controls, Inc.~%
 (JCI)\nomenclature[Z]{JCI}{Johnson Controls, Inc.} 
 at their facility in York, Pennsylvania. 
-The model will use the full-load design conditions of the new compressor (flow, head, and efficiency) 
-to determine the test setup (flow measurement orifice size and cooling tower fan speed) 
+The model will use the full-load design conditions of the new compressor 
+(flow, head, speed, and efficiency) 
+to determine the test setup 
+(flow measurement orifice size and cooling tower fan speed) 
 required for given ambient conditions. 
-The current testing process requires some trial and error to find a suitable setup for a new compressor. 
-The numerical model aims to quickly provide reasonably accurate initial estimates of the orifice diameter and cooling tower fan speed 
+The current testing process requires some trial and error 
+to find a suitable setup for a new compressor. 
+The numerical model aims to quickly provide reasonably accurate 
+initial estimates of the orifice diameter and cooling tower fan speed 
 required to test a new compressor at specified outdoor air conditions, 
-reducing the testing time by eliminating (or at least minimizing) the trial and error phase of the testing process.
+reducing the testing time by eliminating (or at least minimizing) 
+the trial and error phase of the testing process.
 
 \section{Background} \label{sec:background}
 A preferred method of evaluating compressor performance is to use a closed-loop gas test block
@@ -44,8 +61,9 @@ the gas test block makes isolating the compression portion of the refrigeration 
 The basic premise of the gas test block cycle is that 
 the cycle can maintain conditions at the compressor inlet similar to those experienced in a traditional vapor-compression refrigeration cycle, 
 while the conditions at other points in the cycle need not follow the traditional refrigeration cycle arrangement. 
-Temperature-entropy (\tssymb) 
-\nomenclature{$T$}{Temperature\nomunit{\kelvin}} \nomenclature{$s$}{Specific entropy\nomunit{\kilo\joule\per\kilogram\kelvin}}
+Temperature-entropy (\tssymb)% 
+\nomenclature{$T$}{Temperature\nomunit{\kelvin}}%
+\nomenclature{$s$}{Specific entropy\nomunit{\kilo\joule\per\kilogram\kelvin}}
 diagrams for the typical vapor-compression refrigeration cycle 
 and an idealized gas block test cycle are shown in \cref{fig:CycleComparison}. 
 \begin{figure}[htbp]
@@ -86,7 +104,7 @@ and their associated operating pressures and cooling loads,
 while a chiller may require different heat exchangers or piping 
 to operate with certain refrigerants at a full range of operating conditions.
 Additionally, the gas test block provides better locations for instrumentation 
-and conforms to industry-standard test codes (\eg{} ASME%
+and conforms to industry-standard test codes (for example, ASME%
 \nomenclature[Z]{ASME}{American Society of Mechanical Engineers} 
 PTC\nomenclature[Z]{PTC}{Performance Test Code}-10) 
 outlining proven and well-established data analysis and results reporting methods. 
@@ -181,3 +199,4 @@ and provides recommendations to users of the model and future maintainers.
 %\Cref{app:code} contains code listings and screenshots of the EES implementation
 %for the compressor gas test block model. 
 \todo{Describe any appendices as they are added.}
+\citet{flow1984}

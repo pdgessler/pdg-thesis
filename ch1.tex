@@ -8,7 +8,7 @@ since these compressors are used in many power-intensive applications,
 including water-cooled chillers in large commercial and industrial buildings. 
 The compressor transfers energy from the source (often a shaft driven by an 
 electric motor) into the refrigeration cycle, and is thus 
-a scrutinized component of the design.
+a scrutinized component of the overall design.
 
 Compressor development is an expensive endeavor 
 because of prototyping and testing costs. 
@@ -36,20 +36,28 @@ flow measurement orifices by providing a means
 to choose the best orifice diameter for a given range of test flow rates.
 
 With these considerations in mind, the overall goal of this research is to 
-create a numerical model to simulate the \IP{1500}{\horsepower} gas block 
+create a thermodynamic model to simulate the \IP{1500}{\horsepower} gas block 
 compressor testing equipment used by Johnson Controls, Inc.~%
 (JCI)\nomenclature[Z]{JCI}{Johnson Controls, Inc.} 
 at their facility in York, Pennsylvania. 
-The model will use the full-load design conditions of the new compressor 
-(flow, head, speed, and efficiency) 
-to determine the test setup 
+This equipment uses a hot gas bypass\nomenclature[Z]{HGBP}{Hot Gas Bypass}
+(HGBP) cycle to simulate the conditions of the actual refrigeration cycle
+without requiring an evaporator or associated cooling load.
+The primary refrigerant used in this system is R-134a, but the equipment
+allows for a wide variety of refrigerants to be used.
+
+The model will use the design conditions of the new compressor 
+(mass flow, pressure head, shaft speed, and isentropic/map efficiency) 
+to determine the test block setup 
 (flow measurement orifice size and cooling tower fan speed) 
-required for given ambient conditions. 
+required to conduct tests at given ambient conditions. 
 The current testing process requires some trial and error 
-to find a suitable setup for a new compressor. 
-The numerical model aims to quickly provide reasonably accurate 
-initial estimates of the orifice diameter and cooling tower fan speed 
-required to test a new compressor at specified outdoor air conditions, 
+to find a suitable test block setup for a new compressor. 
+The thermodynamic model aims to quickly provide reasonably accurate 
+initial estimates of the orifice diameter (based on pressure drop) 
+and cooling tower fan speed (based on condenser heat transfer) 
+required to test a new compressor at specified outdoor air conditions
+(temperature, barometric pressure, and relative humidity), 
 reducing the testing time by eliminating (or at least minimizing) 
 the trial and error phase of the testing process.
 

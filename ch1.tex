@@ -44,7 +44,8 @@ This equipment uses a hot gas bypass\nomenclature[Z]{HGBP}{Hot Gas Bypass}
 (HGBP) cycle to simulate the conditions of the actual refrigeration cycle
 without requiring an evaporator or associated cooling load.
 The primary refrigerant used in this system is R-134a, but the equipment
-allows for a wide variety of refrigerants to be used.
+allows for a wide variety of refrigerants to be used, as should the 
+thermodynamic model.
 
 The model will use the design conditions of the new compressor 
 (mass flow, pressure head, shaft speed, and isentropic/map efficiency) 
@@ -61,6 +62,18 @@ required to test a new compressor at specified outdoor air conditions
 reducing the testing time by eliminating (or at least minimizing) 
 the trial and error phase of the testing process.
 
+The equipment and configuration particular to the hot gas bypass test block
+cycle is described thoroughly in existing literature, primarily work by
+\citet{mcgovern1984} and \citet{sahs1956}.
+Thermodynamic models of the individual components in the test block cycle exist, 
+are well-established, and are used frequently in the thermal and fluid sciences.
+The novelty of this thesis is not derived from breakthroughs in the modeling theory
+surrounding the components, but rather from an integration of existing models
+into a holistic tool at an appropriate abstraction level 
+for use in industry applications.
+Its significance may be measured by the impact on the daily workflow
+of test engineers in the compressor development group.
+
 \section{Background} \label{sec:background}
 A preferred method of evaluating compressor performance is to use a closed-loop gas test block
 using the design process fluid (refrigerant) at design flow conditions. 
@@ -73,7 +86,8 @@ Temperature-entropy (\tssymb)%
 \nomenclature{$T$}{Temperature\nomunit{\kelvin}}%
 \nomenclature{$s$}{Specific entropy\nomunit{\kilo\joule\per\kilogram\kelvin}}
 diagrams for the typical vapor-compression refrigeration cycle 
-and an idealized gas block test cycle are shown in \cref{fig:CycleComparison}. 
+and an idealized gas block test cycle are shown in \cref{fig:CycleComparison},
+with \process{1}{2} representing the ideal compression process for both cycles. 
 \begin{figure}[htbp]
   \centering
   \subbottom[Vapor-compression refrigeration cycle.]{%

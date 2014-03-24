@@ -1,8 +1,24 @@
 \documentclass[12pt]{standalone}
 \input{FigsCommon}
 \begin{document}
+\makeatletter
+\newcommand{\pgfplotsdataxmin}{\pgfplots@data@xmin}
+\newcommand{\pgfplotsdataxmax}{\pgfplots@data@xmax}
+\newcommand{\pgfplotsdataymin}{\pgfplots@data@ymin}
+\newcommand{\pgfplotsdataymax}{\pgfplots@data@ymax}
+\makeatother
 \begin{tikzpicture}
-\begin{axis}[xmin=1.1,xmax=2.2,ymax=400,ylabel={Temperature, $T$},xlabel={Entropy, $s$},yticklabels={},xticklabels={},width=7cm]
+\begin{axis}[
+  range frame,
+  xmin=1.0,
+  xmax=2.3,
+  ymin=150,
+  ymax=405,
+  ylabel={Temperature, $T$},
+  xlabel={Entropy, $s$},
+  ticks=none,
+  width=8cm,
+]
   \plot[refr] file {R134a_sat_liq.txt};
   \plot[refr] file {R134a_sat_vap.txt};
   \plot[refr] file {R134a_p_0.1.txt};

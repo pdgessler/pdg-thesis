@@ -10,23 +10,31 @@ source is contained here, while any mathematical models used are presented
 One component of the research effort was 
 to study different methods of testing compressors. 
 Therefore, this section provides information regarding performance metrics 
-and testing methods for several types of compressors
-commonly used in the HVAC industry. 
+and testing methods compressors commonly used in the HVAC industry. 
 The research was done to better understand the testing methodology, 
 the data collected during a typical test, 
 and the expectations for a mathematical model of the test block refrigeration cycle.
 
 \subsection{Compressor Testing Methodology---ASME PTC 10} \label{sec:TestMethodology}
-The AMSE PTC 10 standard \citep{ptc10} prescribes test conditions, 
+The AMSE PTC 10-1972 standard \citep{ptc10} prescribes test conditions, 
 procedures, and measurement locations for a compressor test. 
 This allows different manufacturers' test results to be compared. 
-It also presents dimensionless coefficients used by different industries 
-to characterize the operating point of the compressor. 
+The standard also presents dimensionless coefficients used by different 
+industries to characterize the operating point of the compressor,
+with associated conversions. 
 The relevant coefficients are listed as part of the 
 compressor model development in \cref{sec:Compressor}.
+These are critical to the model's performance as they are input
+by the user and fully characterize the performance of the compressor
+in the thermodynamic model.
+Furthermore, the compressor operating point constrains
+many variables in the model, so good results here are crucial.
 
 Significant portions of PTC 10 focus on multistage compressor testing
-and sideload
+and sideload calculations. These are not needed for the present
+modeling effort, since the vast majority of recent compressor tests
+conducted on the \IP{1500}{\horsepower} gas test block use 
+single-stage compressor setups \citep{trevino2012}.
 
 Finally, ASME PTC 10 contains several sets of sample calculations 
 which are of use in verifying the implementation of the model, 
@@ -68,9 +76,11 @@ Finally, he stresses the importance of recording test data at several different 
 to allow recognition of a bad measurement in any one set of data.
 All of these guidelines are met by the instrumentation and testing procedures
 in use on the \IP{1500}{\horsepower} gas test block.
+This ensures that validation data provide a good representation
+of the actual operation of the system.
 
-\subsection{Compressor Test Data Analysis}
-\todo{Summarize Wilcox (and others) compressor performance calculations\dots}
+%\subsection{Compressor Test Data Analysis}
+%\todo{Summarize Wilcox (and others) compressor performance calculations\dots}
 
 \section{Cycle-Specific Research}
 The \IP{1500}{\horsepower} gas test block contains a number of components which must be modeled. 
@@ -88,6 +98,9 @@ This standard presents relationships between
 the pressure drop across the orifice and the flow rate, as shown in \cref{sec:Orifice}. 
 Compressible effects are included since the refrigerant will be in a 
 superheated vapor state at the orifice.
+According to \citet{trevino2012} and \citet{flow1984}, flange taps
+are in use on the test block, so the corresponding correlations in ASME PTC 19.5
+are used.
 
 The flow split, expansion devices, and mixing chamber are modeled using 
 basic extensive property balances (mass and energy) as detailed in 
@@ -95,22 +108,33 @@ undergraduate thermodynamics texts such as \citet{cengel2011}.
 The equations are developed from the general balance equations 
 in \cref{sec:FlowSplit,sec:ExpandMain,sec:ExpandSHV,sec:Mixing}.
 
-\citet{incropera2007} develop equations describing the performance of the condenser, 
-which in this case is a shell-and-tube unit. 
+\citet{incropera2007} and \citet{incropera1985} developed equations describing the 
+performance of the condenser, which in this case is a shell-and-tube unit. 
 The NTU-effectiveness method is used. 
-Engineering drawings from JCI were used to determine 
-the effectiveness and number of transfer units for the condenser.
+Engineering drawings from JCI \citep{cond1983} and a technical manual
+for the condenser \citep{condman} were used, along with experimental data,
+to determine the effectiveness and number of transfer units for the condenser.
 
-\citet{braun1989} developed equations for modeling cooling towers 
+\citet{braun1989} and \citet{mitchell2013} developed equations for modeling cooling towers 
 using an effectiveness approach analogous to the heat exchanger model.
 This is useful as it avoids iteration wherever possible. 
 An example useful for verification of the cooling tower model 
 is presented by \citet{mitchell2013}. 
 A linear regression process is performed on experimental data from 
-the BAC cooling towers to determine two characteristic performance parameters, 
+the BAC cooling towers \citep{CLTselect} to determine two characteristic performance parameters, 
 which affect the NTU of the cooling tower. 
-\citet{braun1989} outline this process and provide several values 
-for typical cooling towers. \todo{Need to fit performance data.}
+\citet{braun1989} outlined this process and provide several values 
+for typical cooling towers. 
+\citet{qureshi2006} extended the model to include fill fouling.
+This component is not included currently, but could be added 
+in the future if desired.
+
+In addition to the York documentation already cited, further details
+regarding the test facility are found in the Applied Systems Operating Limits
+report \citep{bluebook}. This includes pipe diameters, orifice diameters, and
+operating instructions. The condenser water pump is a fixed-speed unit,
+Aurora Type 410, Size $6\times8\times15$, with pump curves given by
+\citet{aurora2007}.
 
 \section{Test Block Design and Construction}
 Document York source documents here\dots engineering specifications, 

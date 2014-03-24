@@ -196,8 +196,8 @@ while \MLS{} requires interfacing with an external library.
 The execution time of the model is a primary concern of JCI's compressor engineers, 
 and should be less than \SI{1}{\minute} for each individual compressor test.
 The accuracy of the model is another critical requirement.
-Output variables concerning the compressor and orifice must not deviate
-from experimental results by more that 5\%.
+Output variables concerning the compressor and flow measurement orifice 
+must not deviate from experimental results by more than 5\%.
 At other areas in the cycle, such as at the condenser and cooling tower,
 a relaxed maximum deviation of 10\% is required.
 This is justified by the inherent complexities in modeling the heat transfer
@@ -205,7 +205,10 @@ in both the condenser and cooling tower.
 
 \section{Organization} \label{sec:organization}
 This thesis documents the creation of a one-dimensional, steady-flow model 
-of a specific gas test block for use by compressor development engineers at JCI's York, PA location. 
+of a specific gas test block for use by compressor 
+development and test engineers at JCI's York, PA location.
+\Cref{cha:intro} has introduced the work, its motivation and objectives,
+and provided an overview of the assumptions and form of the project.
 \Cref{cha:litreview} summarizes a review of the current state of the art 
 compressor testing and modeling techniques 
 and other reference materials used in developing and implementing the model. 
@@ -213,7 +216,6 @@ and other reference materials used in developing and implementing the model.
 and its inherent engineering assumptions. 
 \Cref{cha:solnmethod} documents the implementation of the numerical model, 
 including numerical solution techniques and user interface considerations. 
-\note{Might combine Chs. 3 and 4.}
 
 \Cref{cha:results} presents the predictions of the model 
 for a variety of compressor designs and operating points. 
@@ -227,4 +229,3 @@ and provides recommendations to users of the model and future maintainers.
 %\Cref{app:code} contains code listings and screenshots of the EES implementation
 %for the compressor gas test block model. 
 \todo{Describe any appendices as they are added.}
-\citet{flow1984}

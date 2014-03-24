@@ -111,12 +111,12 @@ which is the building cooling load or refrigeration effect.
 In a chiller test block situation, this load is simulated 
 by mixing water from the condenser and evaporator loops. 
 In the gas block test cycle, no water loop is required for this process, 
-\state{1} being reestablished instead by mixing saturated liquid-vapor mixture (\state{4}) 
-with a superheated vapor separated from the discharge stream and throttled to the cycle's low pressure (\state{5}). 
+\state{1} being reestablished instead by mixing saturated liquid-vapor mixture (\state{6}) 
+with a superheated vapor separated from the discharge stream and throttled to the cycle's low pressure (\state{8}). 
 The conditions at \state{1} are controlled by adjusting 
 the discharge flow split that occurs near \state{2} of \cref{fig:CycleComparisonGasBlock}. 
 In addition to eliminating one water loop from the system, the condenser heat transfer%
----\process{2}{3} of \cref{fig:CycleComparisonGasBlock}---%
+---\process{2}{5} of \cref{fig:CycleComparisonGasBlock}---%
 is also reduced, since only a portion of the refrigerant flow must be condensed.
 
 A primary benefit of this arrangement is that the gas block is 
@@ -146,7 +146,7 @@ with state numbering corresponding to \cref{fig:CycleComparisonGasBlock}.
 As discussed in the opening of \cref{cha:intro}, 
 the numerical model of the test block will reduce the time required during physical testing of new compressor designs 
 by giving engineers a starting point for the test setup for a particular compressor. 
-This setup includes the flow measurement orifice diameter, the mixing valve positions, and the cooling tower fan speeds.
+This setup includes the flow measurement orifice diameter and the cooling tower fan speeds.
 
 Additionally, the model will check if a set of test conditions 
 can be achieved at specified outdoor air conditions. 

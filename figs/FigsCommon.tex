@@ -2,7 +2,7 @@
 \usepackage{pgfplots} % plot stuff
 \pgfplotsset{compat=1.9} % avoid warnings
 
-%\input{../mymacros} % for convenience and consistency
+\input{../mymacros} % for convenience and consistency
 \input{../fonts} % choose fonts from main thesis
 \input{../units} % choose units from main thesis
 
@@ -14,6 +14,14 @@
   },
   refr/.style={%
     gray
+  },
+  range frame/.style={%
+    tick align=outside,
+    axis line style={opacity=0},
+    after end axis/.code={
+      \draw ({rel axis cs:0,0}-|{axis cs:\pgfplotsdataxmin,0}) -- ({rel axis cs:0,0}-|{axis cs:\pgfplotsdataxmax,0});
+      \draw ({rel axis cs:0,0}|-{axis cs:0,\pgfplotsdataymin}) -- ({rel axis cs:0,0}|-{axis cs:0,\pgfplotsdataymax});
+    }
   }
 }
 
@@ -26,7 +34,7 @@
   }
 }
 
-\newcommand{\state}[3]{%
+\newcommand{\drawstate}[3]{%
   \draw[fill=white] (axis cs:#1) circle (2pt) node[stat,#2] {#3};
 }
 

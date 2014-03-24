@@ -175,15 +175,6 @@ To accomplish the overall goal, the model must
 \end{itemize}
 
 \section{Requirements and Constraints} \label{sec:requirements}
-The numerical model must be easy for engineers in the compressor engineering group at JCI 
-to use and update and should minimize dependencies on licensed software for better portability. 
-The software tools generally available to the compressor engineering group are 
-Engineering Equation Solver (EES)\nomenclature[Z]{EES}{Engineering Equation Solver} and \MLS{}. 
-Engineering Equation Solver was chosen since \MLS{} is more suited to dynamic models, 
-the engineers at York are more familiar with EES, 
-and EES has built-in thermophysical property relations 
-while \MLS{} requires interfacing with an external library.
-
 The compressor block model should be one-dimensional and steady-flow in nature; 
 that is, the flow conditions at a cross section of flow 
 are treated as spatially uniform and constant over time. 
@@ -192,6 +183,15 @@ neglecting the effects of property gradients within the flow,
 such as viscous and thermal boundary layers. 
 Modeling such detailed phenomena would complicate the model 
 and would not significantly improve the predictions requested by JCI listed in \cref{sec:objective}.
+
+The numerical model must be easy for engineers in the compressor engineering group at JCI 
+to use and update and should minimize dependencies on licensed software for better portability. 
+The software tools generally available to the compressor engineering group are 
+Engineering Equation Solver (EES)\nomenclature[Z]{EES}{Engineering Equation Solver} and \MLS{}. 
+Engineering Equation Solver was chosen since \MLS{} is more suited to dynamic models, 
+the engineers at York are more familiar with EES, 
+and EES has built-in thermophysical property relations 
+while \MLS{} requires interfacing with an external library.
 
 The execution time of the model is a primary concern of JCI's compressor engineers, 
 and should be less than \SI{30}{\second} for each individual compressor test.

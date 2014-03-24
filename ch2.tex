@@ -1,4 +1,10 @@
 \chapter{Literature Review} \label{cha:litreview}
+As discussed in \cref{cha:intro}, thermodynamic models of each component
+in the hot gas bypass test cycle have already been created and widely used.
+This literature review surveys existing models and information about the
+test block cycle including equipment details. A general description of each
+source is contained here, while any mathematical models used are presented
+(with citations) in the complete model development of \cref{cha:modeldev}.
 
 \section{General Compressor Testing} \label{sec:gencomp}
 One component of the research effort was 
@@ -10,19 +16,24 @@ The research was done to better understand the testing methodology,
 the data collected during a typical test, 
 and the expectations for a mathematical model of the test block refrigeration cycle.
 
-\subsection{Compressor Testing Methodology} \label{sec:TestMethodology}
-Two of the main standards organizations (the American Society of Mechanical Engineers (ASME) 
-and the International Organization for Standardization (ISO)) 
-publish guidelines for refrigerant compressor testing methods, data analysis, and results reporting.
-
+\subsection{Compressor Testing Methodology---ASME PTC 10} \label{sec:TestMethodology}
 The AMSE PTC 10 standard \citep{ptc10} prescribes test conditions, 
 procedures, and measurement locations for a compressor test. 
 This allows different manufacturers' test results to be compared. 
 It also presents dimensionless coefficients used by different industries 
 to characterize the operating point of the compressor. 
+The relevant coefficients are listed as part of the 
+compressor model development in \cref{sec:Compressor}.
+
+Significant portions of PTC 10 focus on multistage compressor testing
+and sideload
+
 Finally, ASME PTC 10 contains several sets of sample calculations 
 which are of use in verifying the implementation of the model, 
 particularly the calculation of the prime mover power requirements.
+These calculations are similar in form to those used in the existing
+compressor test block data acquisition program and the compressor
+module of the present thermodynamic model.
 
 \subsection{Compressor Performance Metrics}
 It is important to understand the specific quantities used 
@@ -39,6 +50,8 @@ industry, since these will be among the outputs of any model of the testing proc
   driver load
 %\end{itemize}
 as critical field data for any compressor test.
+These critical field data also appear as inputs or outputs 
+of the thermodynamic model of the compressor, presented in \cref{sec:Compressor}.
 
 Furthermore, Wilcox outlines some general guidelines 
 for instrumentation on the test block to ensure representative data.  
@@ -53,6 +66,8 @@ According to Wilcox, resistance temperature detectors (RTDs)%
 should be used instead of thermocouples wherever possible for improved accuracy. 
 Finally, he stresses the importance of recording test data at several different operating points 
 to allow recognition of a bad measurement in any one set of data.
+All of these guidelines are met by the instrumentation and testing procedures
+in use on the \IP{1500}{\horsepower} gas test block.
 
 \subsection{Compressor Test Data Analysis}
 \todo{Summarize Wilcox (and others) compressor performance calculations\dots}

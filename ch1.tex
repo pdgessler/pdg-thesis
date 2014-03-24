@@ -83,8 +83,8 @@ The basic premise of the gas test block cycle is that
 the cycle can maintain conditions at the compressor inlet similar to those experienced in a traditional vapor-compression refrigeration cycle, 
 while the conditions at other points in the cycle need not follow the traditional refrigeration cycle arrangement. 
 Temperature-entropy (\tssymb)% 
-\nomenclature{$T$}{Temperature\nomunit{\kelvin}}%
-\nomenclature{$s$}{Specific entropy\nomunit{\kilo\joule\per\kilogram\kelvin}}
+\nomenclature{$T$}{Temperature\nomunit{\fahrenheit}}%
+\nomenclature{$s$}{Specific entropy\nomunit{\btu\per\poundmass\rankine}}
 diagrams for the typical vapor-compression refrigeration cycle 
 and an idealized gas block test cycle are shown in \cref{fig:CycleComparison},
 with \process{1}{2} representing the ideal compression process for both cycles. 
@@ -194,7 +194,7 @@ and EES has built-in thermophysical property relations
 while \MLS{} requires interfacing with an external library.
 
 The execution time of the model is a primary concern of JCI's compressor engineers, 
-and should be less than \SI{30}{\second} for each individual compressor test.
+and should be less than \SI{1}{\minute} for each individual compressor test.
 The accuracy of the model is another critical requirement.
 Output variables concerning the compressor and orifice must not deviate
 from experimental results by more that 5\%.

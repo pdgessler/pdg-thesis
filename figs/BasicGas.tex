@@ -1,8 +1,24 @@
 \documentclass[12pt]{standalone}
 \input{FigsCommon}
 \begin{document}
+\makeatletter
+\newcommand{\pgfplotsdataxmin}{\pgfplots@data@xmin}
+\newcommand{\pgfplotsdataxmax}{\pgfplots@data@xmax}
+\newcommand{\pgfplotsdataymin}{\pgfplots@data@ymin}
+\newcommand{\pgfplotsdataymax}{\pgfplots@data@ymax}
+\makeatother
 \begin{tikzpicture}
-\begin{axis}[xmin=1.1,xmax=2.2,ymax=400,ylabel={Temperature, $T$},xlabel={Entropy, $s$},yticklabels={},xticklabels={},width=7cm]
+\begin{axis}[
+  range frame,
+  xmin=1.0,
+  xmax=2.3,
+  ymin=150,
+  ymax=405,
+  ylabel={Temperature, $T$},
+  xlabel={Entropy, $s$},
+  ticks=none,
+  width=7cm,
+]
   \plot[refr] file {R134a_sat_liq.txt};
   \plot[refr] file {R134a_sat_vap.txt};
   \plot[refr] file {R134a_p_0.1.txt};
@@ -83,11 +99,11 @@
     (1.9689,322.35)
     (1.7475,246.79)
   };
-  \state{1.7475,246.79}{right}{1}
-  \state{1.7475,353.00}{right}{2};
-  \state{1.3209,340.63}{above left}{5};
-  \state{1.4145,246.79}{below}{6};
-  \state{1.9689,322.35}{right}{8};
+  \drawstate{1.7475,246.79}{right}{1}
+  \drawstate{1.7475,353.00}{right}{2};
+  \drawstate{1.3209,340.63}{above left}{5};
+  \drawstate{1.4145,246.79}{below}{6};
+  \drawstate{1.9689,322.35}{right}{8};
 \end{axis}
 \end{tikzpicture}
 \end{document}

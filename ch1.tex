@@ -195,7 +195,13 @@ while \MLS{} requires interfacing with an external library.
 
 The execution time of the model is a primary concern of JCI's compressor engineers, 
 and should be less than \SI{30}{\second} for each individual compressor test.
-\todo{Add additional quantitative metrics (percent error for different quantities, interface features, etc.) to this paragraph. Maybe a table if things expand significantly.}
+The accuracy of the model is another critical requirement.
+Output variables concerning the compressor and orifice must not deviate
+from experimental results by more that 5\%.
+At other areas in the cycle, such as at the condenser and cooling tower,
+a relaxed maximum deviation of 10\% is required.
+This is justified by the inherent complexities in modeling the heat transfer
+in both the condenser and cooling tower.
 
 \section{Organization} \label{sec:organization}
 This thesis documents the creation of a one-dimensional, steady-flow model 

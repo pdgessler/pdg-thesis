@@ -82,16 +82,18 @@ of the actual operation of the system.
 %\subsection{Compressor Test Data Analysis}
 %\todo{Summarize Wilcox (and others) compressor performance calculations\dots}
 
-\section{Cycle-Specific Research}
+\section{Existing Component Thermodynamic Models}
 The \IP{1500}{\horsepower} gas test block contains a number of components which must be modeled. 
 The compressor is not directly modeled in this work, 
 which instead uses external compressor maps or other means 
-to specify the discharge conditions given a set of suction conditions. 
+to specify the discharge conditions given a set of suction conditions
+as discussed in \cref{sec:TestMethodology,sec:Compressor}. 
 The flow measurement orifice, hot gas bypass (HGBP)%
 \nomenclature[Z]{HGBP}{Hot Gas Bypass} flow split, condenser, cooling towers, 
 throttling expansion devices, and a mixing chamber must be modeled. 
 A number of texts and papers were consulted to model these devices.
 
+\subsection{Flow Measurement Orifice}
 The flow measurement orifice is modeled according to correlations presented in 
 ASME PTC 19.5 \citep{ptc19}. 
 This standard presents relationships between 
@@ -102,12 +104,7 @@ According to \citet{trevino2012} and \citet{flow1984}, flange taps
 are in use on the test block, so the corresponding correlations in ASME PTC 19.5
 are used.
 
-The flow split, expansion devices, and mixing chamber are modeled using 
-basic extensive property balances (mass and energy) as detailed in 
-undergraduate thermodynamics texts such as \citet{cengel2011}. 
-The equations are developed from the general balance equations 
-in \cref{sec:FlowSplit,sec:ExpandMain,sec:ExpandSHV,sec:Mixing}.
-
+\subsection{Condenser}
 \citet{incropera2007} and \citet{incropera1985} developed equations describing the 
 performance of the condenser, which in this case is a shell-and-tube unit. 
 The NTU-effectiveness method is used. 
@@ -115,6 +112,7 @@ Engineering drawings from JCI \citep{cond1983} and a technical manual
 for the condenser \citep{condman} were used, along with experimental data,
 to determine the effectiveness and number of transfer units for the condenser.
 
+\subsection{Cooling Tower}
 \citet{braun1989} and \citet{mitchell2013} developed equations for modeling cooling towers 
 using an effectiveness approach analogous to the heat exchanger model.
 This is useful as it avoids iteration wherever possible. 
@@ -129,15 +127,36 @@ for typical cooling towers.
 This component is not included currently, but could be added 
 in the future if desired.
 
+\subsection{Minor Components}
+The flow split, expansion devices, and mixing chamber are modeled using 
+basic extensive property balances (mass and energy) as detailed in 
+undergraduate thermodynamics texts such as \citet{cengel2011}. 
+The equations are developed from the general balance equations 
+in \cref{sec:FlowSplit,sec:ExpandMain,sec:ExpandSHV,sec:Mixing}.
+
+\section{Test Block Design and Construction}
 In addition to the York documentation already cited, further details
 regarding the test facility are found in the Applied Systems Operating Limits
 report \citep{bluebook}. This includes pipe diameters, orifice diameters, and
 operating instructions. The condenser water pump is a fixed-speed unit,
-Aurora Type 410, Size $6\times8\times15$, with pump curves given by
+Aurora Type 410, size $6\times8\times15$, with pump curves given by
 \citet{aurora2007}.
 
-\section{Test Block Design and Construction}
-Document York source documents here\dots engineering specifications, 
-design changes, pump curves, installed equipment, etc.
+The US Patent by Sahs and Mould~\citep{sahs1956}, \citet{dirlea1996},
+and \citet{mcgovern1984} describe the general configuration
+of the cycle, and illustrate how the different components interact with one 
+another.
+However, no holistic modeling effort is attempted in either of these sources.
+To the best of the author's knowledge, a complete model of the hot gas bypass
+test block cycle is a novel undertaking.
+The completion of this model will have significant impact on the testing process
+used every day by test engineers at JCI \citep{sommer2013}.
 
 \section{Summary}
+The survey of literature contained in \cref{cha:litreview} provides
+the theoretical basis for each component-level model in the complete cycle.
+Existing descriptions of the hot gas bypass test cycle may be found in the
+literature, but, to date, a complete thermodynamic model of the cycle has
+not been developed.
+The construction of such a model will assist test engineers in their daily
+work and reduce testing costs and time.

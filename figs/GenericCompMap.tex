@@ -1,20 +1,33 @@
 \documentclass[12pt]{standalone}
 \input{FigsCommon}
 \begin{document}
+\makeatletter
+\newcommand{\pgfplotsdataxmin}{\pgfplots@data@xmin}
+\newcommand{\pgfplotsdataxmax}{\pgfplots@data@xmax}
+\newcommand{\pgfplotsdataymin}{\pgfplots@data@ymin}
+\newcommand{\pgfplotsdataymax}{\pgfplots@data@ymax}
+\makeatother
 \begin{tikzpicture}
 \begin{axis}[
-  xlabel={Flow Coefficient, $\Theta$ (\si{--})},
-  ylabel={Head Coefficient, $\Omega$ (\si{--})},
+  width=10cm,
+  range frame,
+  ticks=none,
+  xlabel={Flow Coefficient, $\Theta$ (\si{-})},
+  ylabel={Head Coefficient, $\Omega$ (\si{-})},
 ]
-\foreach \line in {20k,25k,30k,35k,40k,45k,50k} {
+\addplot[smooth,mark=none] file {../code/matlab/SpeedLine50k.dat} node [pos=0.55,pin={[pin distance=10pt,pin edge={black,thin}]90:$\MA=\text{const.}$},inner sep=0pt] {};
+\foreach \line in {20k,25k,30k,35k,40k,45k} {
 	\addplot[smooth,mark=none] file {../code/matlab/SpeedLine\line.dat};
 }
 \foreach \line in {Surge,Choke} {
-	\addplot file {../code/matlab/\line.dat};
+	\addplot[black,thick] file {../code/matlab/\line.dat};
 }
-\foreach \island in {40,50,59,65,68,70,71} {
-	\addplot file {../code/matlab/EffContour\island.dat};
+\addplot[black,dashed] file {../code/matlab/EffContour68.dat} node [pos=0.35,pin={[pin distance=20pt,pin edge={black,thin}]170:$\eta_{\text{map}}=\text{const.}$},inner sep=0pt] {};
+\foreach \island in {40,50,59,65,70,71} {
+	\addplot[black,dashed] file {../code/matlab/EffContour\island.dat};
 }
+\node at (axis cs:20,2) {Surge};
+\node at (axis cs:120,1.2) {Choke};
 \end{axis}
 \end{tikzpicture}
 \end{document}

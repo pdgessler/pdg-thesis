@@ -61,7 +61,7 @@ the kinetic energy
 where the average velocity $\vel$ can be calculated using 
 $\dot{m}=\rho \vel A%
   \nomenclature[W]{$\rho$}{Density, $1/v$\nomunit{\poundmass\per\foot\cubed}}%
-  \nomenclature{$A$}{Area\nomunit{\foot\squared}}$, and the potential energy
+  \nomenclature{$A$}{Area\nomunit{\foot\squared,\,\inch\squared}}$, and the potential energy
 \begin{equation}
   \mathrm{pe} = gz,
 	\nomenclature[A$p$]{$\mathrm{pe}$}{Specific potential energy, $\mathrm{pe}=gz$\nomunit{\btu\per\poundmass}}
@@ -176,10 +176,11 @@ corresponding to the point of maximum map efficiency,
 $\eta_{\text{peak}}$ is the maximum map efficiency,
 and $\RE_b$ is the Reynolds number 
 based on impeller tip width $b$%
-\nomenclature{$b$}{Impeller tip width\nomunit{\inch}}; that is,
+\nomenclature{$b$}{Impeller tip width\nomunit{\foot}}; that is,
 \begin{equation}
 \text{Re}_b=\frac{\rho \vel b}{\mu},
 \nomenclature[A$Re$]{$\RE_L$}{Reynolds number based on characteristic length $L$, $\text{Re}_L=\rho \vel L/\mu$\nomunit{-}}
+\nomenclature[W]{$\mu$}{Dynamic viscosity\nomunit{\poundforce\minute\per\foot\squared}}
 \end{equation}
 with fluid properties evaluated at total suction conditions.
 
@@ -224,69 +225,111 @@ with an empirical mechanical efficiency factor $\eta_{\text{mech}}$
 which is discussed further in \cref{cha:solnmethod}.
 
 \section{Orifice Flow Meter} \label{sec:Orifice}
-\emph{PDG TODO: This section needs cleanup, text added, and equations (subscripts) fixed for consistency.}
+\citet{ptc19} presents correlations relating the orifice pressure drop to the
+flow rate for flow measurement purposes.
+In the model, the flow rate is known and the pressure drop is to be predicted,
+in order to facilitate orifice selection.
+The relationships listed in this section hold for flange taps as used
+on the \IP{1500}{\horsepower} test block's three flow measurement stations.
+
+First, the volume flow rate based on the conditions 
+upstream of the orifice is given by
 \begin{equation}
-  \dot{V} = \dot{m}_{\text{i}}v_{\text{i}}
+  \dot{V} = \dot{m}_{\text{i}}v_{\text{i}},
 \end{equation}
+which is used elsewhere in the correlations.
+The orifice (diameter $d$) and 
+pipe (diameter $D_{\text{pipe}}$) cross-sectional areas, 
+respectively, are given by
 \begin{align}
-  A_0 &= \frac{\pi}{4} d^2 \\
-  A_1 &= \frac{\pi}{4} D_{\text{pipe}}^2 \\
-  \vel &= \dot{V}/A_1 \\
-  \RE_{D,\text{ pipe}} &= \frac{\rho_{\text{i}} \vel D_{\text{pipe}}}{\mu_{\text{i}}} \\
-  \beta &= \frac{d}{D_{\text{pipe}}}
+  A_d &= \frac{\pi}{4} d^2 
+  \nomenclature{$d$}{Orifice diameter\nomunit{\inch}} \\
+  \shortintertext{and}
+  A_D &= \frac{\pi}{4} D_{\text{pipe}}^2.
+  \nomenclature{$D$}{Diameter\nomunit{\foot,\,\inch}}
 \end{align}
+Then  the average velocity $\vel_D$ in the pipe is
+\begin{align}
+  \vel_D &= \dot{V}/A_D, \\
+  \intertext{and the corresponding Reynolds number is}
+  \RE_{D,\text{ pipe}} &= \frac{\rho_{\text{i}} \vel_D D_{\text{pipe}}}{\mu_{\text{i}}}. \\
+  \intertext{Similarly, at the orifice,}
+  \vel_d &= \dot{V}/A_d \\
+  \shortintertext{and}
+  \RE_{d} &= \frac{\rho_{\text{i}} \vel_d d}{\mu_{\text{i}}}.
+\end{align}
+Even though compressibility effects are allowed, we assume that using the inlet properties
+is valid for the calculations at the orifice location, since compressibility effects 
+will be small over the pressure drop in the orifice.
+
+For convenience, PTC~19.5 also defines a ratio of diameters, 
+$\beta = {d}/{D_{\text{pipe}}}%
+\nomenclature[W]{$\beta$}{Ratio of orifice diameter to pipe diameter, $\beta = d/D$\nomunit{-}}$,
+which is used throughout the calculations.
+For flange taps, the correlations take a nested form, with the orifice 
+coefficient of discharge $C$ represented by
+\begin{align}
+C &= K\sqrt{1-\beta^4},
+\nomenclature{$C$}{Orifice coefficient of discharge\nomunit{-}}\\
+\shortintertext{where the flow coefficient}
+K &= K_0 \left(1+\frac{\alpha}{\RE_d}\right).
+\end{align}
+Here,
+\begin{equation}
+\alpha = d\left(\IP{830}{\per\inch} - (\IP{5000}{\per\inch})\beta + (\IP{9000}{\per\inch})\beta^2 - (\IP{4200}{\per\inch})\beta^3 + \frac{\IP{530}{\per\inch^{0.5}}}{\sqrt{D}}\right)
+\end{equation}
+and
+\begin{equation}
+K_0 = K_e \left(\frac{10^6 d}{10^6 d + (\IP{15}{\inch})\alpha}\right).
+\end{equation}
+The particular form of $K_e$ uses singularity function notation; that is,
+if the quantity in angle brackets is negative, that term becomes zero.
 \begin{multline}
-  C = 0.5959 + 0.0312\beta^{2.1} - 0.1840\beta^8 + 0.0029\beta^{2.5}\left(\frac{10^6}{\RE_d}\right)^{0.75} \\ 
-      + 0.0900\left(\frac{L_1}{D_{\text{pipe}}}\right)\frac{\beta^4}{\left(1-\beta^4\right)} 
-      - 0.0337\left(\frac{L_2}{D_{\text{pipe}}}\right)\beta^3.
+K_e = 0.5993 + \frac{\IP{0.007}{\inch}}{D} + \left(0.364 + \frac{\IP{0.076}{\inch^{0.5}}}{\sqrt{D}}\right)\beta^4 
+      + 0.4\left(1.6 - \frac{\IP{1}{\inch}}{D}\right)^5 \langle 0.07 + {\IP{0.5}{\inch}}/{D} - \beta\rangle^{5/2} \\
+      - \left(0.009 + \frac{\IP{0.034}{\inch}}{D}\right) \langle0.5 - \beta\rangle^{3/2} 
+      + \left(\frac{\IP{65}{\inch\squared}}{D^2} + 3\right)\langle\beta - 0.7\rangle^{5/2}.
 \end{multline}
+
+To account for the compressibility of the refrigerant, PTC~19.5 defines
+the expansion factor,
 \begin{equation}
-  \gamma = \frac{c_p}{c_v}
-\end{equation}
-\begin{equation}
-  r = \frac{p_3}{p_2}
-\end{equation}
-\begin{equation}
-  Y = \sqrt{r^{2/\gamma}\left(\frac{\gamma}{\gamma-1}\right)\frac{1-r^{(\gamma-1)/\gamma}}{1-r}\frac{1-\beta^4}{1-\beta^4r^{2/\gamma}}}
-\end{equation}
-\begin{equation}
-  \dot{V} = C Y A_0 \sqrt{2v_2g_c\left(\frac{p_2-p_3}{1-\beta^4}\right)}
-\end{equation}
-\nomenclature[W]{$\mu$}{Dynamic viscosity\nomunit{\poundforce\minute\per\foot\squared}}
-\nomenclature{$D$}{Diameter\nomunit{\foot}}
-\nomenclature{$d$}{Orifice diameter\nomunit{\foot}}
-\nomenclature[W]{$\beta$}{Ratio of orifice diameter to pipe diameter, $\beta = d/D$\nomunit{-}}
-\nomenclature{$C$}{Orifice coefficient of discharge\nomunit{-}}
-\nomenclature{$c_p$, $c_v$}{Specific heats, constant pressure and volume, respectively\nomunit{\btu\per\poundmass\rankine}}
-\nomenclature[W]{$\gamma$}{Ratio of specific heats, $\gamma = c_p/c_v$\nomunit{-}}
-\nomenclature{$r$}{Orifice pressure ratio, $r=p_{\text{o}}/p_{\text{i}}$\nomunit{-}}
+Y = 1 - (0.41 + 0.35 \beta^4) \frac{\Delta p}{p_{\text{i}}\gamma},
 \nomenclature{$Y$}{Expansion factor\nomunit{-}}
-\nomenclature{$x$}{Quality\nomunit{-}}
-\nomenclature[X]{$i$}{The $i$th component/element of a mixture/series}
-\nomenclature[Y]{$\Delta\left(\;\right)$}{Change in quantity; for example, $\text{final} - \text{initial or outlet} - \text{inlet}$\nomunit{$\left[\;\right]$}}
-\nomenclature[X]{$\text{sh}$}{Superheat}
-\nomenclature[0]{\textbf{Symbol}}{\textbf{Description}\nomunit{\textbf{Units}}}
+\end{equation}
+where $\Delta p$ is the orifice differential pressure, $p_{\text{i}}-p_{\text{o}}$, and
+$\gamma\nomenclature[W]{$\gamma$}{Ratio of specific heats, $\gamma = c_p/c_v$\nomunit{-}}$ 
+is the ratio of specific heats (evaluated at upstream conditions), 
+$\gamma = c_p/c_v\nomenclature{$c_p$, $c_v$}{Specific heats, constant pressure and volume, respectively\nomunit{\btu\per\poundmass\rankine}}$.
+\nomenclature{$x$}{Quality\nomunit{-}}%
+\nomenclature[X]{$i$}{The $i$th component/element of a mixture/series}%
+\nomenclature[Y]{$\Delta\left(\;\right)$}{Change in quantity; for example, $\text{final} - \text{initial or outlet} - \text{inlet}$\nomunit{$\left[\;\right]$}}%
+\nomenclature[X]{$\text{sh}$}{Superheat}%
+\nomenclature[0]{\textbf{Symbol}}{\textbf{Description}\nomunit{\textbf{Units}}}%
+The model also has provisions for choked flow, which may occur when 
+running the orifice selection routine in large flow ranges with the smaller orifices.
+From \citet{munson2009}, 
+\begin{equation}
+p_{\text{o, choked}} = p_{\text{i}} \left(\frac{2}{\gamma+1}\right)^{\gamma/(\gamma-1)};
+\end{equation}
+and if $p_{\text{o, choked}} > p_{\text{o, free}}$, where free denotes the un-choked condition, the flow is said to be choked.
+The model selects the larger of the two pressures to continue calculations.
+Ultimately, the compressible orifice equation is used to predict the differential pressure based on mass flow rate:
+\begin{equation}
+\dot{m} = C Y A_d \sqrt{2\rho_{\text{i}} \Delta p}.
+\end{equation}
 
-FROM PTC 19.5:
-
-\begin{equation}
-C = K/E = K\sqrt{1-\beta^4}
-\end{equation}
-\begin{equation}
-K = K_0 \left(1+\frac{A}{\RE_d}\right)
-\end{equation}
-\begin{equation}
-K_0=K_e \left(\frac{10^6 d}{10^6 d + 15A}\right)
-\end{equation}
-\begin{multline}
-K_e = 0.5993 + \frac{0.007}{D} + \left(0.364 + \frac{0.076}{\sqrt{D}}\right)\beta^4 
-      + 0.4\left(1.6 - \frac{1}{D}\right)^5 \left[\left(0.07 + \frac{0.5}{D}\right) - \beta\right]^{5/2} \\
-      - \left(0.009 + \frac{0.034}{D}\right) \left(0.5 - \beta\right)^{3/2} 
-      + \left(\frac{65}{D^2} + 3\right)\left(\beta - 0.7\right)^{5/2}
-\end{multline}
-\begin{equation}
-A = d\left(830 - 5000\beta + 9000\beta^2 - 4200\beta^3 + \frac{530}{\sqrt{D}}\right)
-\end{equation}
+In addition to the pressure calculations, mass and energy balances are required
+for this SISO device:
+\begin{align}
+  &\text{Mass:}   & 0 &= {\dot{m}_{\text{i}}} - {\dot{m}_{\text{o}}} \label{eqn:OrifMass}\\
+  &               & {\dot{m}_{\text{o}}} &= {\dot{m}_{\text{i}}} \\
+  &\text{Energy:} & 0 &= \dot{Q} - \dot{W} + {\dot{m}_{\text{i}}h_{\text{i}}} - 
+		{\dot{m}_{\text{o}}h_{\text{o}}} \label{eqn:OrifEnergy}.
+\end{align}
+For the orifice, we assume a rigid control volume and no shaft work, and additionally
+assume the orifice is well-insulated. So $\dot{Q}=\dot{W}=0$, and $h_{\text{o}} = h_{\text{i}}$
+for the orifice.
 
 \section{Flow Split} \label{sec:FlowSplit}
 

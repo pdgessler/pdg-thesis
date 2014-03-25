@@ -20,7 +20,7 @@
 	\addplot[smooth,mark=none] file {../code/matlab/SpeedLine\line.dat};
 }
 \foreach \line in {Surge,Choke} {
-	\addplot[black,thick] file {../code/matlab/\line.dat};
+	\addplot[black,thick,smooth] file {../code/matlab/\line.dat};
 }
 \addplot[black,dashed] file {../code/matlab/EffContour68.dat} node [pos=0.35,pin={[pin distance=20pt,pin edge={black,thin}]170:$\eta_{\text{map}}=\text{const.}$},inner sep=0pt] {};
 \foreach \island in {40,50,59,65,70,71} {

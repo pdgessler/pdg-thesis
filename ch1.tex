@@ -27,12 +27,12 @@ cannot completely capture the behavior of the physical system.
 
 Nevertheless, minimizing testing time has a 
 large impact on costs and time to market. 
-A model based on first principles has the potential to 
+A test block model based on first principles has the potential to 
 reduce the testing time and thus decrease costs by 
 assisting the test engineer in defining an optimized test plan 
 built around test block capabilities at the expected ambient conditions.
-Furthermore, we can minimize down time for changing 
-flow measurement orifices by providing a means 
+Furthermore, the downtime for changing flow measurement orifices 
+can be minimized by providing a means 
 to choose the best orifice diameter for a given range of test flow rates.
 
 With these considerations in mind, the overall goal of this research is to 
@@ -41,7 +41,7 @@ compressor testing equipment used by Johnson Controls, Inc.~%
 (JCI)\nomenclature[Z]{JCI}{Johnson Controls, Inc.} 
 at their facility in York, Pennsylvania. 
 This equipment uses a hot gas bypass\nomenclature[Z]{HGBP}{Hot Gas Bypass}
-(HGBP) cycle to simulate the conditions of the actual refrigeration cycle
+(HGBP) cycle to simulate the compressor operating conditions of the actual refrigeration cycle
 without requiring an evaporator or associated cooling load.
 The primary refrigerant used in this system is R-134a, but the equipment
 allows for a wide variety of refrigerants to be used, as should the 
@@ -58,24 +58,24 @@ The thermodynamic model aims to quickly provide reasonably accurate
 initial estimates of the orifice diameter (based on pressure drop) 
 and cooling tower fan speed (based on condenser heat transfer) 
 required to test a new compressor at specified outdoor air conditions
-(temperature, barometric pressure, and relative humidity), 
-reducing the testing time by eliminating (or at least minimizing) 
+(temperature, barometric pressure, and relative humidity). 
+Therefore, the testing time is reduced by eliminating (or at least minimizing) 
 the trial and error phase of the testing process.
 
-The equipment and configuration particular to the hot gas bypass test block
-cycle is described thoroughly in existing literature, primarily work by
+The equipment and configuration of a typical hot gas bypass test block
+cycle is described thoroughly in existing literature, primarily in work by
 \citet{mcgovern1984}, \citet{dirlea1996}, and \citet{sahs1956}.
 Thermodynamic models of the individual components in the test block cycle exist, 
 are well-established, and are used frequently in the thermal and fluid sciences.
 The novelty of this thesis is not derived from breakthroughs in the modeling theory
 surrounding the components, but rather from an integration of existing models
-into a holistic tool at an appropriate abstraction level 
+into a holistic tool at an appropriate level 
 for use in industry applications.
 Its significance may be measured by the impact on the daily workflow
 of test engineers in the compressor development group.
 
 \section{Background} \label{sec:background}
-A preferred method of evaluating compressor performance is to use a closed-loop gas test block
+A preferred method of evaluating compressor performance is to test the compressor on a closed-loop gas test block
 using the design process fluid (refrigerant) at design flow conditions. 
 While the equipment can be expensive to construct, operate, and maintain, 
 the gas test block makes isolating the compression portion of the refrigeration cycle easier. 
@@ -87,7 +87,7 @@ Temperature-entropy (\tssymb)%
 \nomenclature{$s$}{Specific entropy\nomunit{\btu\per\poundmass\rankine}}
 diagrams for the typical vapor-compression refrigeration cycle 
 and an idealized gas block test cycle are shown in \cref{fig:CycleComparison},
-with \process{1}{2} representing the ideal compression process for both cycles. 
+with \process{1}{2} representing the ideal, isentropic compression process for both cycles. 
 \begin{figure}[htbp]
   \centering
   \subbottom[Vapor-compression refrigeration cycle.]{%
@@ -117,7 +117,7 @@ The conditions at \state{1} are controlled by adjusting
 the discharge flow split that occurs near \state{2} of \cref{fig:CycleComparisonGasBlock}. 
 In addition to eliminating one water loop from the system, the condenser heat transfer%
 ---\process{4}{5} of \cref{fig:CycleComparisonGasBlock}---%
-is also reduced, since only a portion of the refrigerant flow must be condensed.
+is also reduced because only a portion of the refrigerant flow must be condensed.
 
 A primary benefit of this arrangement is that the gas block is 
 more versatile than a traditional refrigeration cycle used in a chiller. 
@@ -145,13 +145,14 @@ with state numbering corresponding to \cref{fig:CycleComparisonGasBlock}.
 \section{Motivation} \label{sec:motivation}
 As discussed in the opening of \cref{cha:intro}, 
 the numerical model of the test block will reduce the time required during physical testing of new compressor designs 
-by giving engineers a starting point for the test setup for a particular compressor. 
-This setup includes the flow measurement orifice diameter and the cooling tower fan speeds.
+by helping engineers choose an appropriate test setup for a particular compressor. 
+The parameters of the test setup predicted by the model include 
+the flow measurement orifice diameter and the cooling tower fan speeds.
 
-Additionally, the model will check if a set of test conditions 
+Additionally, the model will check whether or not a set of test conditions 
 can be achieved at specified outdoor air conditions. 
-These limit the performance of the cooling towers and may preclude certain compressor tests. 
-This prediction could prevent lost time and resources expended setting up a compressor test 
+These air conditions limit the performance of the cooling towers and may preclude certain compressor tests. 
+This prediction could prevent the loss of time and resources required to set up a compressor test 
 for conditions that are not feasible at the current outside temperature and humidity.
 
 Finally, JCI has expressed interest in building an automated test block in the future. 
@@ -165,17 +166,17 @@ representing the \IP{1500}{\horsepower} gas test block at JCI's York, PA facilit
 The numerical model will be used in conjunction with compressor maps and/or computational fluid dynamics (CFD)%
 \nomenclature[Z]{CFD}{Computational Fluid Dynamics}
 models of the compressors to quantitatively predict the performance of new compressor designs on the test block. 
-To accomplish the overall goal \citep{iancu2012}, the model must
+To accomplish the overall goal and satisfy the needs of JCI \citep{iancu2012}, the model must
 \begin{itemize}
   \item compute the power requirements for the prime mover of the test block,
   \item choose the orifice diameter that results in the smallest error in measured
     flow rate over the desired range of operating conditions, and 
-  \item report the limits of the test block operating conditions for given compressor 
+  \item report the limits of the test block operating conditions for a given compressor 
 		design, test block control settings, and ambient air conditions.
 \end{itemize}
 
 \section{Requirements and Constraints} \label{sec:requirements}
-The compressor block model should be one-dimensional and steady-flow in nature; 
+The compressor test block model should be one-dimensional and steady-flow in nature; 
 that is, the flow conditions at a cross section of flow 
 are treated as spatially uniform and constant over time. 
 Modeling is conducted on a macroscopic level, 
@@ -194,22 +195,23 @@ and EES has built-in thermophysical property relations
 while \MLS{} requires interfacing with an external library.
 
 The execution time of the model is a primary concern of JCI's compressor engineers, 
-and should be less than \SI{1}{\minute} for each individual compressor test.
+and should be less than one minute for each individual compressor test.
 The accuracy of the model is another critical requirement.
 Output variables concerning the compressor and flow measurement orifice 
 must not deviate from experimental results by more than 5\%.
 At other areas in the cycle, such as at the condenser and cooling tower,
 a relaxed maximum deviation of 10\% is required.
 This is justified by the inherent complexities in modeling the heat transfer
-in both the condenser and cooling tower.
+in both the condenser and cooling tower and the relatively small impact
+on the desired outputs.
 
 \section{Organization} \label{sec:organization}
-This thesis documents the creation of a one-dimensional, steady-flow model 
-of a specific gas test block for use by compressor 
+This thesis documents the creation of the one-dimensional, 
+steady-flow test block model for use by compressor 
 development and test engineers at JCI's York, PA location.
 \Cref{cha:intro} has introduced the work, its motivation and objectives,
 and provided an overview of the assumptions and form of the project.
-\Cref{cha:litreview} summarizes a review of the current state of the art 
+\Cref{cha:litreview} summarizes the current state of the art 
 compressor testing and modeling techniques 
 and other reference materials used in developing and implementing the model. 
 \Cref{cha:modeldev} presents the mathematical formulation of the model 

@@ -1,40 +1,41 @@
 \chapter{Literature Review} \label{cha:litreview}
 As discussed in \cref{cha:intro}, thermodynamic models of each component
-in the hot gas bypass test cycle have already been created and widely used.
-This literature review surveys existing models and information about the
-test block cycle including equipment details. A general description of each
+in the hot gas bypass test cycle have already been created and are widely used.
+This literature review surveys the existing test methods and models 
+and summarizes information about the JCI
+test block cycle, including equipment details. A general description of each
 source is contained here, while any mathematical models used are presented
 (with citations) in the complete model development of \cref{cha:modeldev}.
 
 \section{General Compressor Testing} \label{sec:gencomp}
 One component of the research effort was 
 to study different methods of testing compressors. 
-Therefore, this section provides information regarding performance metrics 
-and testing methods compressors commonly used in the HVAC industry. 
+Therefore, this section provides information regarding compressor performance metrics 
+and testing methods commonly used in the HVAC industry. 
 The research was done to better understand the testing methodology, 
 the data collected during a typical test, 
 and the expectations for a mathematical model of the test block refrigeration cycle.
 
 \subsection{Compressor Testing Methodology---ASME PTC 10} \label{sec:TestMethodology}
-The AMSE PTC 10-1972 standard \citep{ptc10} prescribes test conditions, 
+The AMSE PTC 10-1972 standard \parencite{ptc10} prescribes test conditions, 
 procedures, and measurement locations for a compressor test. 
 This allows different manufacturers' test results to be compared. 
 The standard also presents dimensionless coefficients used by different 
-industries to characterize the operating point of the compressor,
+industries to characterize the operating point of the compressor
 with associated conversions. 
-The relevant coefficients are listed as part of the 
+The relevant coefficients are described in greater detail as part of the 
 compressor model development in \cref{sec:Compressor}.
-These are critical to the model's performance as they are input
-by the user and fully characterize the performance of the compressor
-in the thermodynamic model.
-Furthermore, the compressor operating point constrains
-many variables in the model, so good results here are crucial.
+These coefficients serve as inputs to the thermodynamic model
+that fully characterize the performance of the compressor.
+Because the compressor operating point constrains
+many variables in the model, these coefficients 
+are critical to the model's performance.
 
 Significant portions of PTC 10 focus on multistage compressor testing
 and sideload calculations. These are not needed for the present
 modeling effort, since the vast majority of recent compressor tests
 conducted on the \IP{1500}{\horsepower} gas test block use 
-single-stage compressor setups \citep{trevino2012}.
+single-stage compressor setups \parencite{trevino2012}.
 
 Finally, ASME PTC 10 contains several sets of sample calculations 
 which are of use in verifying the implementation of the model, 
@@ -48,7 +49,7 @@ It is important to understand the specific quantities used
 to describe a compressor's performance within the HVAC\&R%
 \nomenclature[Z]{HVAC}{Heating, Ventilating, and Air Conditioning} 
 industry, since these will be among the outputs of any model of the testing process. 
-\citet{wilcox2007} advocates the use of ASME PTC-10 (\cref{sec:TestMethodology}) and lists
+\textcite{wilcox2007} advocates the use of ASME PTC-10 (\cref{sec:TestMethodology}) and lists
 %\begin{itemize}
   suction and discharge pressures,
   suction and discharge temperatures,
@@ -75,7 +76,7 @@ should be used instead of thermocouples wherever possible for improved accuracy.
 Finally, he stresses the importance of recording test data at several different operating points 
 to allow recognition of a bad measurement in any one set of data.
 All of these guidelines are met by the instrumentation and testing procedures
-in use on the \IP{1500}{\horsepower} gas test block.
+in use on the \IP{1500}{\horsepower} gas test block at JCI.
 This ensures that validation data provide a good representation
 of the actual operation of the system.
 
@@ -90,74 +91,79 @@ to specify the discharge conditions given a set of suction conditions
 as discussed in \cref{sec:TestMethodology,sec:Compressor}. 
 The flow measurement orifice, hot gas bypass (HGBP) flow split, condenser, cooling towers, 
 throttling expansion devices, and a mixing chamber must be modeled. 
-A number of texts and papers were consulted to model these devices.
+This section summarizes a number of texts and papers that were consulted to model these devices.
 
 \subsection{Flow Measurement Orifice}
 The flow measurement orifice is modeled according to correlations presented in 
-ASME PTC 19.5 \citep{ptc19} and following the general form of \citet{munson2009}. 
+ASME PTC 19.5 \parencite{ptc19} and following the general form of \textcite{munson2009}. 
 The ASME PTC 19.5 standard presents relationships between 
 the pressure drop across the orifice and the flow rate, as shown in \cref{sec:Orifice}. 
 Compressible effects are included since the refrigerant will be in a 
 superheated vapor state at the orifice.
-According to \citet{trevino2012} and \citet{flow1984}, flange taps
-are used on the test block, so the corresponding correlations in ASME PTC 19.5
-are used.
+According to \textcite{trevino2012} and \textcite{flow1984}, flange taps
+are used on the test block, so the correlations in ASME PTC 19.5
+for flange tap pressure measurements are used.
 
 \subsection{Condenser}
-\citet{incropera2007}, \citet{incropera1985}, and \citet{kays1984} 
+\textcites{incropera2007}{incropera1985}, and \textcite{kays1984} 
 developed equations describing the performance of the condenser, 
 which in this case is a shell-and-tube unit. 
-The NTU-effectiveness method is used. 
-Engineering drawings from JCI \citep{cond1983} and a technical manual
-for the condenser \citep{condman} were used, along with experimental data,
+The $\NTU$-effectiveness method is used to calculate the heat transfer rate
+in terms of inlet and outlet temperatures since internal temperature measurements are not available. 
+Engineering drawings from JCI \parencite{cond1983} and a technical manual
+for the condenser \parencite{condman} were used, along with experimental data,
 to determine the effectiveness and number of transfer units for the condenser.
 
 \subsection{Cooling Tower}
-\citet{braun1989} and \citet{mitchell2013} developed equations for modeling cooling towers 
+\textcite{braun1989} and \textcite{mitchell2013} developed equations for modeling cooling towers 
 using an effectiveness approach analogous to the heat exchanger model.
-This is useful as it avoids iteration wherever possible. 
+This is useful as it avoids iteration wherever possible
+and does not require detailed cooling tower data. 
 An example useful for verification of the cooling tower model 
-is presented by \citet{mitchell2013}. 
-A linear regression process is performed on experimental data from 
-the Baltimore Aircoil Company (B.A.C.) cooling towers \citep{CLTselect} 
-to determine two characteristic performance parameters, 
-which affect the number of transfer units ($\mathrm{NTU}$) of the cooling tower. 
-\citet{braun1989} outlined this process and provide several values 
+is presented by \textcite{mitchell2013}. 
+The model requires two characteristic performance parameters, 
+which affect the number of transfer units ($\NTU$) of the cooling tower.
+Therefore, a linear regression process is performed on experimental data from 
+the Baltimore Aircoil Company\nomenclature[Z]{BAC}{Baltimore Aircoil Company} 
+(BAC) cooling towers \parencite{CLTselect} 
+to determine these parameters.
+\textcite{braun1989} outlined this process and provide several values 
 for typical cooling towers. 
-\citet{qureshi2006} extended the model to include fill fouling.
-This component is not included currently, but could be added 
+\textcite{qureshi2006} extended the model to include fill fouling.
+The effect of fill fouling is not included currently, but could be added 
 in the future if desired.
 
 \subsection{Minor Components}
 The flow split, expansion devices, and mixing chamber are modeled using 
 basic extensive property balances (mass and energy) as detailed in 
-undergraduate thermodynamics texts such as \citet{cengel2011}. 
+undergraduate thermodynamics texts such as \textcite{cengel2011}. 
 The equations are developed from the general balance equations 
 in \cref{sec:FlowSplit,sec:Expand,sec:Mixing}.
 
 \section{Test Block Design and Construction}
 In addition to the York documentation already cited, further details
 regarding the test facility are found in the Applied Systems Operating Limits
-report \citep{bluebook}. This includes pipe diameters, orifice diameters, and
+report \parencite{bluebook}. This includes pipe diameters, orifice diameters, and
 operating instructions. The condenser water pump is a fixed-speed unit,
 Aurora Type 410, size $6\times8\times15$, with pump curves given by
-\citet{aurora2007}.
+\textcite{aurora2007}.
 
-The US Patent by Sahs and Mould~\citep{sahs1956}, \citet{dirlea1996},
-and \citet{mcgovern1984} describe the general configuration
+The US Patent by Sahs and Mould~\parencite{sahs1956}, \textcite{dirlea1996},
+and \textcite{mcgovern1984} describe the general configuration
 of the cycle, and illustrate how the different components interact with one 
 another.
 However, no holistic modeling effort is attempted in any of these sources.
+
+\section{Summary}
 To the best of the author's knowledge, a complete model of the hot gas bypass
 test block cycle is a novel undertaking.
 The completion of this model will have significant impact on the testing process
-used every day by test engineers at JCI \citep{sommer2013}.
-
-\section{Summary}
+used every day by test engineers at JCI \parencite{sommer2013}.
 The survey of literature contained in \cref{cha:litreview} provides
 the theoretical basis for each component-level model in the complete cycle.
-Existing descriptions of the hot gas bypass test cycle may be found in the
-literature, but, to date, a complete thermodynamic model of the cycle has
-not been developed.
-The construction of such a model will assist test engineers in their daily
-work and reduce testing costs and time.
+\cref{cha:modeldev} will discuss each component model in greater detail.
+%Existing descriptions of the hot gas bypass test cycle may be found in the
+%literature, but, to date, a complete thermodynamic model of the cycle has
+%not been developed.
+%The construction of such a model will assist test engineers in their daily
+%work and reduce testing costs and time.

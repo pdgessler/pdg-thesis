@@ -11,7 +11,7 @@ are used to indicate the inlet and outlet states of the device, respectively.
 \section{General Balance Equations} \label{sec:GenBal}
 Throughout the model, the rate forms of the balance equations are used 
 since compressor test data from the block are recorded once steady-flow conditions are reached. 
-This section lists the mass and energy balances in their most general form \citep{cengel2011}, 
+This section lists the mass and energy balances in their most general form \parencite{cengel2011}, 
 so that engineering assumptions may be applied on a per-device basis.
 
 The general mass balance is obtained by 
@@ -122,7 +122,7 @@ the discharge (outlet) state of the compressor is fixed.
 Dimensionless coefficients of flow, head, and velocity
 ($\Theta$, $\Omega$, and $\MA$, respectively) are used 
 to generalize the compressor maps to machine characteristics. 
-The flow coefficient $\Theta$ \citep{trevino2012} is given by
+The flow coefficient $\Theta$ \parencite{trevino2012} is given by
 \begin{equation}
   \Theta = \frac{\dot{V}}{\svel D^2},
 	\nomenclature{$\svel$}{Acoustic (sonic) velocity\nomunit{\foot\per\minute}}
@@ -131,7 +131,7 @@ The flow coefficient $\Theta$ \citep{trevino2012} is given by
 where $\dot{V}$ is the volumetric flow rate, 
 $\svel$ is the acoustic (sonic) velocity at total suction conditions, 
 and $D$ is the impeller tip diameter.
-The head coefficient $\Omega$ \citep{trevino2012} is given by
+The head coefficient $\Omega$ \parencite{trevino2012} is given by
 \begin{equation}
 	\Omega = \frac{g_c \Delta h_s}{\svel^2},
 	\nomenclature[W]{$\Omega$}{Isentropic head coefficient, ${g_c \Delta h_s}/{\svel^2}$\nomunit{-}}
@@ -147,12 +147,12 @@ The Machine Mach number $\MA$ is
   \nomenclature[A$Ma$]{$\MA$}{Machine Mach number, $\vel_{\text{tip}}/a$\nomunit{-}}
 \end{equation}
 where $\vel_{\text{tip}}$ is the impeller tip velocity
-and $a$ is the acoustic velocity at total inlet (suction) conditions \citep{trevino2012}.
+and $a$ is the acoustic velocity at total inlet (suction) conditions \parencite{trevino2012}.
 The third and final compressor performance characteristic gleaned 
 from the compressor map is the isentropic efficiency, $\eta_s$, 
 which quantifies the deviation of the real compression process 
 from an isentropic (adiabatic and reversible) compression process. 
-The isentropic efficiency \citep{cengel2011} is defined as
+The isentropic efficiency \parencite{cengel2011} is defined as
 \begin{equation}
   \eta_s = \frac{h_{\text{o}s}-h_{\text{i}}}{h_{\text{o}}-h_{\text{i}}},
   \nomenclature[X]{$s$}{Isentropic} 
@@ -165,7 +165,7 @@ and $h_{\text{o}}$ is the actual discharge enthalpy.
 While the model uses isentropic efficiency $\eta_s$, 
 the efficiency islands on standard compressor maps plot a corrected efficiency $\eta_{\text{map}}$,
 which includes a correction for the Reynolds number at the given operating point.
-To convert the corrected map efficiency into isentropic efficiency \citep{kauffman2006}, 
+To convert the corrected map efficiency into isentropic efficiency \parencite{kauffman2006}, 
 we use the transformation
 \begin{equation}
   \eta_s = \eta_{\text{map}} + X(1 - \eta_{\text{peak}})\left(1-\left(\frac{10^6}{\RE_b}\right)^{0.1}\right),
@@ -225,7 +225,7 @@ with an empirical mechanical efficiency factor $\eta_{\text{mech}}$
 which is discussed further in \cref{cha:solnmethod}.
 
 \section{Orifice Flow Meter} \label{sec:Orifice}
-\citet{ptc19} presents correlations relating the orifice pressure drop to the
+\textcite{ptc19} presents correlations relating the orifice pressure drop to the
 flow rate for flow measurement purposes.
 In the model, the flow rate is known and the pressure drop is to be predicted,
 in order to facilitate orifice selection.
@@ -252,15 +252,12 @@ Then  the average velocity $\vel_D$ in the pipe is
 \begin{align}
   \vel_D &= \dot{V}/A_D, \\
   \intertext{and the corresponding Reynolds number is}
-  \RE_{D,\text{ pipe}} &= \frac{\rho_{\text{i}} \vel_D D_{\text{pipe}}}{\mu_{\text{i}}}. \\
-  \intertext{Similarly, at the orifice,}
-  \vel_d &= \dot{V}/A_d \\
-  \shortintertext{and}
-  \RE_{d} &= \frac{\rho_{\text{i}} \vel_d d}{\mu_{\text{i}}}.
+  \RE_{D,\text{ pipe}} &= \frac{\rho_{\text{i}} \vel_D D_{\text{pipe}}}{\mu_{\text{i}}}.
 \end{align}
+Similar results follow at the orifice, using $d$ and $A_d$ instead.
 Even though compressibility effects are allowed, we assume that using the inlet properties
-is valid for the calculations at the orifice location, since compressibility effects 
-will be small over the pressure drop in the orifice.
+is valid for the calculations at the orifice location, since the effect of compressibility
+on thermophysical properties will be small over the pressure drop across the orifice.
 
 For convenience, PTC~19.5 also defines a ratio of diameters, 
 $\beta = {d}/{D_{\text{pipe}}}%
@@ -273,6 +270,7 @@ C &= K\sqrt{1-\beta^4},
 \nomenclature{$C$}{Orifice coefficient of discharge\nomunit{-}}\\
 \shortintertext{where the flow coefficient}
 K &= K_0 \left(1+\frac{\alpha}{\RE_d}\right).
+\nomenclature{$K_{(\;)}$}{Flow coefficients for orifice correlations; refer to \cref{sec:Orifice} for details\nomunit{-}}
 \end{align}
 Here,
 \begin{equation}
@@ -308,7 +306,7 @@ $\gamma = c_p/c_v\nomenclature{$c_p$, $c_v$}{Specific heats, constant pressure a
 \nomenclature[0]{\textbf{Symbol}}{\textbf{Description}\nomunit{\textbf{Units}}}%
 The model also has provisions for choked flow, which may occur when 
 running the orifice selection routine in large flow ranges with the smaller orifices.
-From \citet{munson2009}, 
+From \textcite{munson2009}, 
 \begin{equation}
 p_{\text{o, choked}} = p_{\text{i}} \left(\frac{2}{\gamma+1}\right)^{\gamma/(\gamma-1)};
 \end{equation}
@@ -320,30 +318,59 @@ Ultimately, the compressible orifice equation is used to predict the differentia
 \end{equation}
 
 In addition to the pressure calculations, mass and energy balances are required
-for this SISO device:
+for this single-input, single-output device:
 \begin{align}
-  &\text{Mass:}   & 0 &= {\dot{m}_{\text{i}}} - {\dot{m}_{\text{o}}} \label{eqn:OrifMass}\\
-  &               & {\dot{m}_{\text{o}}} &= {\dot{m}_{\text{i}}} \\
+  &\text{Mass:}   & 0 &= {\dot{m}_{\text{i}}} - {\dot{m}_{\text{o}}} \to {\dot{m}_{\text{o}}} = {\dot{m}_{\text{i}}} \label{eqn:OrifMass}\\
   &\text{Energy:} & 0 &= \dot{Q} - \dot{W} + {\dot{m}_{\text{i}}h_{\text{i}}} - 
 		{\dot{m}_{\text{o}}h_{\text{o}}} \label{eqn:OrifEnergy}.
 \end{align}
 For the orifice, we assume a rigid control volume and no shaft work, and additionally
-assume the orifice is well-insulated. So $\dot{Q}=\dot{W}=0$, and $h_{\text{o}} = h_{\text{i}}$
-for the orifice.
+assume the orifice is well-insulated. So $\dot{Q}=\dot{W}=0$, and thus 
+$h_{\text{o}} = h_{\text{i}}$ for the orifice.
 
 \section{Flow Split} \label{sec:FlowSplit}
+The flow split is assumed to be rigid and well-insulated.
+Additionally, we assume that the two outlet states are the same as the inlet state.
+The actual division of mass flow rate is determined elsewhere in the model, 
+by requiring that the throttled condensed stream mix with the throttled hot gas bypass
+stream in the correct proportion to re-establish the specified compressor suction condition.
+So for the flow split, it is sufficient to specify the outlet states equal to the inlet:
+\begin{align}
+  T_{\text{o}} &= T_{\text{o, HGBP}} = T_{\text{i}}, \\
+  p_{\text{o}} &= p_{\text{o, HGBP}} = p_{\text{i}}, \\
+  \shortintertext{and}
+  x_{\text{o}} &= x_{\text{o, HGBP}} = x_{\text{i}},  
+\end{align}
+where subscript $\text{o}$ indicates the main outlet flow stream (leading to the condenser)
+and subscript $\text{o, HGBP}$ indicates the flow stream bypassing the condenser.
 
 \section{Condenser} \label{sec:Condenser}
+In the condenser, we assume constant pressure for both the water and refrigerant
+streams and assume a rigid control volume and no shaft work so that $\dot{W}=0$.
 
 \section{Cooling Tower} \label{sec:CoolingTower}
 \begin{align*}
   c = 1.684; &\quad n = - 0.391 \\
-  \text{NTU} &= c\left(\frac{\dot{m}_{w,i}}{\dot{m}_{a,i}}\right)^{1 + n}
+  \NTU &= c\left(\frac{\dot{m}_{w,i}}{\dot{m}_{a,i}}\right)^{1 + n}
 \end{align*}
 
-\section{Expansion Device---Saturated Liquid-Vapor Mixture Stream} \label{sec:ExpandMain}
+\section{Expansion Devices} \label{sec:Expand}
+The actual gas test block cycle has a complicated arrangement 
+of numerous valves and spray nozzles which simultaneously throttle and mix 
+the condensed refrigerant stream with the bypassed refrigerant stream 
+to reestablish the compressor suction conditions.
+For the purposes of a one-dimensional model, this complex arrangement
+may be separated into three distinct processes: 
+throttling the condensed refrigerant stream to the cycle's low pressure (suction pressure),
+throttling the hot gas bypass refrigerant stream to the cycle's low pressure, and
+mixing the two refrigerant streams in the correct proportions 
+to achieve the specified test suction conditions.
 
-\section{Expansion Device---Superheated Stream} \label{sec:ExpandSHV}
+While the condensed refrigerant stream is a subcooled liquid 
+or saturated liquid-vapor mixture and the hot gas bypass refrigerant stream
+is a superheated vapor, the theory for the throttling process is the same
+in both cases, as described in this section.
+The theory for the mixing process is described in \cref{sec:Mixing}.
 
 \section{Mixing Chamber} \label{sec:Mixing}
 

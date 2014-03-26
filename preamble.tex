@@ -1,7 +1,7 @@
 \usepackage{graphicx}
 \usepackage[american]{babel}
 \usepackage{csquotes}
-\usepackage[natbib=true,style=apa,backend=biber]{biblatex}
+\usepackage[style=apa,backend=biber]{biblatex}
 \DeclareLanguageMapping{american}{american-apa}
 \addto\captionsamerican{%
   \renewcommand{\contentsname}{TABLE OF CONTENTS}%
@@ -86,3 +86,6 @@ A ONE-DIMENSIONAL MODEL OF A CLOSED-LOOP\\
   \addtolength{\itemindent}{-\labelsep}    
   \addtolength{\itemindent}{-\leftmargin}    
 }
+
+% detect underfull vboxes
+%\directlua{dofile("DetectUnderfull.lua")}

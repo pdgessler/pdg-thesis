@@ -402,13 +402,19 @@ $\dot{Q}$, given by
 \end{equation}
 
 Finally, the energy balance for the refrigerant stream may be written as
-\begin{align*}
+\begin{align}
   0 &= -\dot{Q} + \dot{m}_{\rfr}(h_{\rfr,\inl} - h_{\rfr,\out}), \\
   \shortintertext{and, for the water stream,}
   0 &= \dot{Q} + \dot{m}_{\wat}(h_{\wat,\inl} - h_{\wat,\out}).
-\end{align*}
+\end{align}
 
 \section{Cooling Tower} \label{sec:CoolingTower}
+The JCI gas test block has multiple rooftop cooling towers to reject
+energy from the cycle.
+To simplify the model, these physical cooling towers are lumped into
+a single component.
+Additionally, experimental data for validation are only available
+on an overall basis and not per tower.
 \begin{align*}
   c = 1.684; &\quad n = - 0.391 \\
   \NTU &= c\left(\frac{\dot{m}_{w,i}}{\dot{m}_{a,i}}\right)^{1 + n}

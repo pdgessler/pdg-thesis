@@ -355,6 +355,7 @@ and subscript $\text{o, HGBP}$ indicates the flow stream bypassing the condenser
 
 \section{Condenser} \label{sec:Condenser}
 In the condenser, both the water and refrigerant streams are modeled as having constant pressure.
+The refrigerant and water streams are unmixed.
 The condenser is modeled as a rigid control volume with no shaft work so that $\dot{W}=0$.
 It is also assumed to be well-insulated so that the heat transfer (external) $\dot{Q}=0$.
 The $\NTU$-effectiveness method is derived by \textcite{incropera2007}; 
@@ -399,6 +400,13 @@ $\dot{Q}$, given by
 \begin{equation}
   \dot{Q} = \epsilon \dot{Q}_{\max}.
 \end{equation}
+
+Finally, the energy balance for the refrigerant stream may be written as
+\begin{align*}
+  0 &= -\dot{Q} + \dot{m}_{\rfr}(h_{\rfr,\inl} - h_{\rfr,\out}), \\
+  \shortintertext{and, for the water stream,}
+  0 &= \dot{Q} + \dot{m}_{\wat}(h_{\wat,\inl} - h_{\wat,\out}).
+\end{align*}
 
 \section{Cooling Tower} \label{sec:CoolingTower}
 \begin{align*}

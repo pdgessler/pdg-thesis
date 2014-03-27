@@ -9,8 +9,7 @@ and $\text{o}\nomenclature[X]{$\text{o}$}{Outlet conditions}$
 are used to indicate the inlet and outlet states of the device, respectively. 
 
 \section{General Balance Equations} \label{sec:GenBal}
-Throughout the model, the rate forms of the balance equations are used 
-since compressor test data from the block are recorded once steady-flow conditions are reached. 
+The rate forms of the balance equations are used throughout the model.
 This section lists the mass and energy balances in their most general form \parencite{cengel2011}, 
 so that engineering assumptions may be applied on a per-device basis.
 
@@ -18,7 +17,7 @@ The general mass balance is obtained by
 applying conservation of mass to the control volume. 
 This process yields
 \begin{equation}
-	\dod{m_\CV}{t} = \sum_{\text{inlets}}{\dot{m}} - \sum_{\text{outlets}}{\dot{m}},
+	\dod{m_\CV}{t} = \sum_{\text{inlets}}{\dot{m}_\inl} - \sum_{\text{outlets}}{\dot{m}_\out},
   \label{eqn:GenMass}
 	\nomenclature{$t$}{Time\nomunit{\minute}} 
   \nomenclature{$m$}{Mass\nomunit{\poundmass}} 
@@ -33,11 +32,11 @@ Similarly, the general energy balance is obtained by writing
 an extensive property balance over the control volume. 
 By the first law of thermodynamics, energy production is identically zero 
 (again, neglecting nuclear processes), so only transport terms remain in the equation. 
-Here though, heat transfer and work transfer interactions, and kinetic and potential energy changes
+However, heat transfer and work transfer interactions, and kinetic and potential energy changes
 can change the energy of the control volume in addition to the transport terms, so
 \begin{equation}
-	\dod{E_\CV}{t} = \dot{Q} - \dot{W} + \sum_{\text{inlets}}{\dot{m}h^{\circ}} - 
-		\sum_{\text{outlets}}{\dot{m}h^{\circ}},
+	\dod{E_\CV}{t} = \dot{Q} - \dot{W} + \sum_{\text{inlets}}{(\dot{m}h^{\circ})_\inl} - 
+		\sum_{\text{outlets}}{(\dot{m}h^{\circ})_\out},
   \label{eqn:GenEnergy}
 	\nomenclature{$e$}{Specific energy, $e=u+\text{ke}+\text{pe}$\nomunit{\btu\per\poundmass}} 
 	\nomenclature{$Q$}{Heat transfer\nomunit{\btu}} 
@@ -50,9 +49,10 @@ can change the energy of the control volume in addition to the transport terms, 
 \end{equation}
 where the \emph{methalpy}, $h^\circ = h+\mathrm{ke}+\mathrm{pe}%
   \nomenclature{$h^{\circ}$}{Specific methalpy, $h^\circ=h+\mathrm{ke}+\mathrm{pe}$\nomunit{\btu\per\poundmass}}$, 
-is a convenient way to account for kinetic and potential energy effects if required. 
-The methalpy can be calculated from the enthalpy $h\nomenclature{$h$}{Specific enthalpy, $h=u+pv$\nomunit{\btu\per\poundmass}}$,
-the kinetic energy
+is a convenient way to account for 
+the enthalpy, $h$, and
+kinetic and potential energy effects if required. 
+The kinetic energy can be calculated as
 \begin{equation}
   \mathrm{ke} = \vel^2/2,
   \nomenclature[A$k$]{$\mathrm{ke}$}{Specific kinetic energy, $\mathrm{ke}=\vel^2/2$\nomunit{\btu\per\poundmass}}
@@ -61,7 +61,8 @@ the kinetic energy
 where the average velocity $\vel$ can be calculated using 
 $\dot{m}=\rho \vel A%
   \nomenclature[W]{$\rho$}{Density, $1/v$\nomunit{\poundmass\per\foot\cubed}}%
-  \nomenclature{$A$}{Area\nomunit{\foot\squared,\,\inch\squared}}$, and the potential energy
+  \nomenclature{$A$}{Area\nomunit{\foot\squared,\,\inch\squared}}$. The potential energy
+can be calculated as
 \begin{equation}
   \mathrm{pe} = gz,
 	\nomenclature[A$p$]{$\mathrm{pe}$}{Specific potential energy, $\mathrm{pe}=gz$\nomunit{\btu\per\poundmass}}
@@ -78,13 +79,13 @@ while work transfer \emph{out of} the system is considered positive.
 engineering assumptions are applied in \crefrange{sec:Compressor}{sec:Mixing}.
 Assumptions common to each device in the cycle are that
 \begin{enumerate}
-  \item the steady-flow condition leads to both time derivatives $\dif{m_\CV}/\!\dif{t} = \dif{E_\CV}/\!\dif{t} = 0$, \label{lst:sf}
+  \item the steady-flow condition eliminates both time derivatives $\dif{m_\CV}/\!\dif{t}$ and $\dif{E_\CV}/\!\dif{t}$, \label{lst:sf}
   \item changes in potential energy are neglected, so $\Delta \text{pe} = 0$, and \label{lst:pe}
   \todo{generalize for MISO or SIMO devices?}
   \item changes in kinetic energy are neglected, so $\Delta \text{ke} = 0$. \label{lst:ke}
 \end{enumerate}
 As a consequence of assumptions~\ref{lst:pe} and~\ref{lst:ke},
-we can reduce the methalpy notation to the more familiar enthalpy form,
+the methalpy notation reduces to the more familiar enthalpy form,
 and assumption~\ref{lst:sf} means that the left-hand sides of \cref{eqn:GenMass,eqn:GenEnergy} both become zero:
 \begin{align}
   0 &= \sum_{\text{inlets}}{\dot{m}} - \sum_{\text{outlets}}{\dot{m}}, \label{eqn:SemiMass}\\
@@ -98,9 +99,9 @@ Detailed modeling of the compressor is complex and worthy of a dissertation in i
 To make matters worse, the model should make reasonable predictions 
 of a compressor test for \emph{any} compressor, 
 whether already prototyped or in the early stages of development.
-Fortunately, detailed compressor models are not required 
-to predict compressor performance for the purposes test block modeling. 
-The performance of the compressor is calculated by the model using
+Fortunately, detailed compressor models 
+for predicting compressor performance are not required for the purposes of test block modeling. 
+Instead, the performance of the compressor is calculated by the model using
 data from compressor maps. 
 An example of a typical compressor map is shown in \cref{fig:GenMap}. 
 \note{Don't worry, this isn't one of yours, JT and Steve! :)}
@@ -119,8 +120,8 @@ to full three-dimensional CFD---for new compressor designs.
 A user of the model can select an operating point on the compressor map, 
 and with specification of the suction (inlet) conditions, 
 the discharge (outlet) state of the compressor is fixed. 
-Dimensionless coefficients of flow, head, and velocity
-($\Theta$, $\Omega$, and $\MA$, respectively) are used 
+Dimensionless coefficients of flow, head, velocity, and efficiency
+($\Theta$, $\Omega$, $\MA$, and $\eta_s$, respectively) are used 
 to generalize the compressor maps to machine characteristics. 
 The flow coefficient $\Theta$ \parencite{trevino2012} is given by
 \begin{equation}
@@ -166,14 +167,22 @@ While the model uses isentropic efficiency $\eta_s$,
 the efficiency islands on standard compressor maps plot a corrected efficiency $\eta_{\text{map}}$,
 which includes a correction for the Reynolds number at the given operating point.
 To convert the corrected map efficiency into isentropic efficiency \parencite{kauffman2006}, 
-we use the transformation
+the transformation
 \begin{equation}
-  \eta_s = \eta_{\text{map}} + X(1 - \eta_{\text{peak}})\left(1-\left(\frac{10^6}{\RE_b}\right)^{0.1}\right),
+  \eta_s = \eta_{\text{map}} + X(1 - \eta_{\text{peak}})\left(1-\left(\frac{10^6}{\RE_b}\right)^{0.1}\right)
+  \label{eqn:ReCorr}
 \end{equation}
-where the flow ratio $X = \max{(1,\Theta/\Theta_{\text{peak}})}\nomenclature{$X$}{Flow ratio, $X=\max{(1,\Theta/\Theta_{\text{peak}})}$\nomunit{-}}$, 
-$\Theta_{\text{peak}}$ is the flow coefficient 
-corresponding to the point of maximum map efficiency,
-$\eta_{\text{peak}}$ is the maximum map efficiency,
+is used. In \cref{eqn:ReCorr}, the flow ratio $X$ is given by
+\begin{equation}
+  X = \begin{cases}
+        \Theta/\Theta_{\text{peak}} & \text{if } \Theta/\Theta_{\text{peak}} < 1 \\
+        1       & \text{if } \Theta/\Theta_{\text{peak}} \geq 1
+      \end{cases},
+  \nomenclature{$X$}{Flow ratio, $X=\max{(1,\Theta/\Theta_{\text{peak}})}$\nomunit{-}}
+\end{equation} 
+where $\Theta_{\text{peak}}$ is the flow coefficient 
+corresponding to the point of maximum map efficiency.
+Additionally, $\eta_{\text{peak}}$ is the maximum map efficiency
 and $\RE_b$ is the Reynolds number 
 based on impeller tip width $b$%
 \nomenclature{$b$}{Impeller tip width\nomunit{\foot}}; that is,
@@ -197,24 +206,25 @@ Once the inlet and outlet states at the compressor are known,
 the mass and energy balances can be revisited. 
 From \cref{eqn:SemiMass,eqn:SemiEnergy} and
 assuming that the compressor can be modeled as a 
-single-input, single-output (SISO) device (no leakage assumption), we have
+single-input, single-output (SISO) device (no leakage assumption), 
+the balance equations become
 \begin{align}
   &\text{Mass:}   & 0 &= {\dot{m}_{\text{i}}} - {\dot{m}_{\text{o}}} \label{eqn:CompMass}\\
   &\text{Energy:} & 0 &= \dot{Q} - \dot{W} + {\dot{m}_{\text{i}}h_{\text{i}}} - 
 		{\dot{m}_{\text{o}}h_{\text{o}}} \label{eqn:CompEnergy}.
 \end{align}
-\note{Using `we' is a habit of mine in derivations. OK or should I lose it?}
 \Cref{eqn:CompMass} simply means that the mass flow 
 entering the compressor is equal to that leaving the compressor. 
-In \cref{eqn:CompEnergy}, we know the mass flow rates from the 
+The mass flow rate is known from the 
 calculation procedure with the compressor map parameters. 
-Finally, assuming that the compressor is well-insulated; 
-that is, $\dot{Q}=0$, leaves $\dot{W}$ 
+Finally, assuming that the compressor is well-insulated, 
+$\dot{Q}=0$, leaves $\dot{W}$ 
 as the sole remaining unknown in \cref{eqn:CompEnergy}. 
-This value is one of the requirements of the model. 
+This value is one of the required outputs of the model. 
 
 The value calculated for $\dot{W}$ in the compressor is known
-as the \emph{gas horsepower}. The actual power requirements of the
+as the \emph{gas horsepower} because it represents the power input
+directly to the gas. The actual power requirements of the
 prime mover are slightly larger as a result of mechanical inefficiencies
 in the speed-increasing gearbox and compressor itself.
 These losses are modeled assuming the form
@@ -255,8 +265,8 @@ Then  the average velocity $\vel_D$ in the pipe is
   \RE_{D,\text{ pipe}} &= \frac{\rho_{\text{i}} \vel_D D_{\text{pipe}}}{\mu_{\text{i}}}.
 \end{align}
 Similar results follow at the orifice, using $d$ and $A_d$ instead.
-Even though compressibility effects are allowed, we assume that using the inlet properties
-is valid for the calculations at the orifice location, since the effect of compressibility
+Even though compressibility effects are allowed, it is assumed that the inlet properties
+can be used for calculations at the orifice location, since the effect of compressibility
 on thermophysical properties will be small over the pressure drop across the orifice.
 
 For convenience, PTC~19.5 also defines a ratio of diameters, 
@@ -324,13 +334,12 @@ for this single-input, single-output device:
   &\text{Energy:} & 0 &= \dot{Q} - \dot{W} + {\dot{m}_{\text{i}}h_{\text{i}}} - 
 		{\dot{m}_{\text{o}}h_{\text{o}}} \label{eqn:OrifEnergy}.
 \end{align}
-For the orifice, we assume a rigid control volume and no shaft work, and additionally
-assume the orifice is well-insulated. So $\dot{Q}=\dot{W}=0$, and thus 
-$h_{\text{o}} = h_{\text{i}}$ for the orifice.
+The orifice is modeled as a rigid, well-insulated control volume with no shaft work. 
+So $\dot{Q}=\dot{W}=0$, and thus $h_{\text{o}} = h_{\text{i}}$ for the orifice.
 
 \section{Flow Split} \label{sec:FlowSplit}
 The flow split is assumed to be rigid and well-insulated.
-Additionally, we assume that the two outlet states are the same as the inlet state.
+Additionally, the two outlet states are modeled as being the same as the inlet state.
 The actual division of mass flow rate is determined elsewhere in the model, 
 by requiring that the throttled condensed stream mix with the throttled hot gas bypass
 stream in the correct proportion to re-establish the specified compressor suction condition.
@@ -345,8 +354,51 @@ where subscript $\text{o}$ indicates the main outlet flow stream (leading to the
 and subscript $\text{o, HGBP}$ indicates the flow stream bypassing the condenser.
 
 \section{Condenser} \label{sec:Condenser}
-In the condenser, we assume constant pressure for both the water and refrigerant
-streams and assume a rigid control volume and no shaft work so that $\dot{W}=0$.
+In the condenser, both the water and refrigerant streams are modeled as having constant pressure.
+The condenser is modeled as a rigid control volume with no shaft work so that $\dot{W}=0$.
+It is also assumed to be well-insulated so that the heat transfer (external) $\dot{Q}=0$.
+The $\NTU$-effectiveness method is derived by \textcite{incropera2007}; 
+this section contains the pertinent results.
+
+For a condenser application in the gas test block refrigeration cycle,
+the refrigerant is always the hot fluid and the water is always the cold fluid.
+So the heat capacities for each flow stream are
+\begin{align}
+  C_h &= \dot{m}_\rfr c_{p,\rfr} \\
+  \shortintertext{and}
+  C_c &= \dot{m}_\wat c_{p,\wat},
+\end{align}
+where the specific heats are evaluated at the inlet conditions of each flow stream.
+Then $C_{\min} = \min{(C_h,C_c)}$ and $C_{\max} = \max{(C_h,C_c)}$. The $\NTU$
+for the condenser is defined by
+\begin{equation}
+  \NTU = \frac{UA}{C_{\min}},
+\end{equation}
+where $UA$ is the overall heat transfer coefficient 
+as determined using experimental data.
+
+For a phase-change application such as the condensation process here, 
+the effectiveness $\epsilon$ is given by
+\begin{equation}
+  \epsilon = 1 - \mathrm{e}^{-\NTU},
+\end{equation}
+with
+\begin{equation}
+  \epsilon = \frac{\dot{Q}}{\dot{Q}_{\max}}.
+\end{equation}
+The maximum theoretical heat transfer rate $\dot{Q}_{\max}$ is 
+calculated using
+\begin{equation}
+  \dot{Q}_{\max} = \dot{m}_\rfr (h_{\rfr,\inl} - h_{\rfr,T=T_{\wat,\inl}}),
+\end{equation}
+which represents fully condensing and cooling the refrigerant stream to the
+inlet water temperature. This maximum heat transfer rate $\dot{Q}_{\max}$ 
+represents the performance of heat exchanger with infinite surface area.
+The effectiveness $\epsilon$ is used to determine the actual heat transfer rate
+$\dot{Q}$, given by
+\begin{equation}
+  \dot{Q} = \epsilon \dot{Q}_{\max}.
+\end{equation}
 
 \section{Cooling Tower} \label{sec:CoolingTower}
 \begin{align*}

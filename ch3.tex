@@ -354,8 +354,16 @@ where subscript $\text{o}$ indicates the main outlet flow stream (leading to the
 and subscript $\text{o, HGBP}$ indicates the flow stream bypassing the condenser.
 
 \section{Condenser} \label{sec:Condenser}
+The condenser has two flow streams: a refrigerant stream and a water stream.
+These streams are unmixed, so the mass balances for each stream are given by
+\begin{align}
+  \dot{m}_{\rfr,\inl} &= \dot{m}_{\rfr,\out} (=\dot{m}_{\rfr})\\
+  \shortintertext{and}
+  \dot{m}_{\wat,\inl} &= \dot{m}_{\wat,\out} (=\dot{m}_{\wat}),
+\end{align}
+where $\dot{m}_{\rfr}$ and $\dot{m}_{\wat}$, respectively, are used to simplify the notation.
+
 In the condenser, both the water and refrigerant streams are modeled as having constant pressure.
-The refrigerant and water streams are unmixed.
 The condenser is modeled as a rigid control volume with no shaft work so that $\dot{W}=0$.
 It is also assumed to be well-insulated so that the heat transfer (external) $\dot{Q}=0$.
 The $\NTU$-effectiveness method is derived by \textcite{incropera2007}; 
@@ -396,7 +404,7 @@ which represents fully condensing and cooling the refrigerant stream to the
 inlet water temperature. This maximum heat transfer rate $\dot{Q}_{\max}$ 
 represents the performance of heat exchanger with infinite surface area.
 The effectiveness $\epsilon$ is used to determine the actual heat transfer rate
-$\dot{Q}$, given by
+$\dot{Q}$, which is given by
 \begin{equation}
   \dot{Q} = \epsilon \dot{Q}_{\max}.
 \end{equation}
@@ -415,10 +423,70 @@ To simplify the model, these physical cooling towers are lumped into
 a single component.
 Additionally, experimental data for validation are only available
 on an overall basis and not per tower.
-\begin{align*}
-  c = 1.684; &\quad n = - 0.391 \\
-  \NTU &= c\left(\frac{\dot{m}_{w,i}}{\dot{m}_{a,i}}\right)^{1 + n}
-\end{align*}
+The aggregated cooling tower has two flow streams: a water stream
+and a psychrometric mixture of air and water vapor.
+These flow streams are mixed and a portion of the water stream
+evaporates into the air-water mixture.
+By convention, the mass balance for the air-water vapor mixture
+is written in terms of the dry air mass flow rates, so
+\begin{equation}
+  \dot{m}_{\air,\inl} = \dot{m}_{\air,\out} (=\dot{m}_{\air}).
+\end{equation}
+For the water stream, an additional term, $\dot{m}_{\wat,\text{evap}}$, accounts for
+the water evaporated into the air-water vapor mixture stream,
+so the mass balance is
+\begin{equation}
+  \dot{m}_{\wat,\inl} = \dot{m}_{\wat,\out} + \dot{m}_{\wat,\text{evap}},
+\end{equation}
+where the water lost to evaporation is given by
+\begin{equation}
+  \dot{m}_{\wat,\text{evap}} = \dot{m}_{\air} (\omega_{\air,\out} - \omega_{\air,\inl}).
+  \label{eqn:watevap}
+\end{equation}
+In \cref{eqn:watevap}, $\omega_{\air,\out}$ and $\omega_{\air,\inl}$ 
+represent the absolute humidity ratio of the 
+air-water vapor mixture outlet and inlet, respectively.
+
+\textcite{braun1989} developed correlations which are used to apply
+the $\NTU$-effectiveness method to the cooling tower. First, the
+\emph{saturation specific heat}, $c_s$, is approximated by
+\begin{equation}
+  c_s = \frac{h_{\air,\sat,\inl}-h_{\air,\sat,\out}}{T_{\wat,\inl} - T_{\wat,\out}},
+\end{equation}
+where subscript $\sat$ indicates that the enthalpy is to be evaluated 
+for a saturated psychrometric mixture.
+An effective mass flow rate $m^*$ is defined as
+\begin{equation}
+  m^* = \frac{\dot{m}_{\air}}{\dot{m}_{\wat,\inl} c_{p,\wat}/c_s},
+\end{equation}
+where the water specific heat $c_{p,\wat}$ is evaluated at the inlet conditions.
+The number of transfer units ($\NTU$) for the cooling tower is calculated using
+a semi-empirical approach; this relationship is
+\begin{equation}
+  \NTU = c \bigg( \frac{\dot{m}_{\wat,\inl}}{\dot{m}_{\air,\inl}} \bigg)^{1+n},
+\end{equation}
+where $c$ and $n$ are empirically determined constants for the cooling tower.
+The cooling tower effectiveness $\epsilon_{\air}$ is then defined as
+\begin{equation}
+  \epsilon_{\air} = \frac{1-\exp{\big(-\NTU(1-m^*)\big)}}{1-m^*\exp{\big(-\NTU(1-m^*)\big)}}.
+\end{equation}
+
+Analogous to the energy balances for the condenser, the energy balance for the
+air-water vapor stream is
+\begin{equation}
+  \dot{Q} = \epsilon_{\air} \dot{m}_{\air} (h_{\air,\sat,T=T_{\wat,\inl}} - h_{\air,\inl}),
+\end{equation}
+where the maximum possible heat transfer is calculated by assuming that the outlet
+air is fully saturated at the inlet water temperature 
+(the difference $h_{\air,\sat,T=T_{\wat,\inl}} - h_{\air,\inl}$).
+The outlet air state is then calculated using
+\begin{equation}
+  \dot{Q} = \dot{m}_{\air} (h_{\air,\out} - h_{\air,\inl}).
+\end{equation}
+Finally, the outlet water temperature is given by
+\begin{equation}
+  T_{\wat,\out} = T_{\wat,\inl} - \frac{\dot{m}_{\air,\inl}(h_{\air,\out} - h_{\air,\inl})}{\dot{m}_{\wat,\inl} c_{p,\wat}}.
+\end{equation}
 
 \section{Expansion Devices} \label{sec:Expand}
 The actual gas test block cycle has a complicated arrangement 
@@ -438,5 +506,31 @@ is a superheated vapor, the theory for the throttling process is the same
 in both cases, as described in this section.
 The theory for the mixing process is described in \cref{sec:Mixing}.
 
-\section{Mixing Chamber} \label{sec:Mixing}
+The throttle is modeled as a rigid control volume and no shaft work ($\dot{W}=0$).
+Additionally, it is well-insulated ($\dot{Q}=0$). The mass balance for this single input
+single output system is
+\begin{equation}
+  \dot{m}_{\inl} = \dot{m}_{\out} (=\dot{m}).
+\end{equation}
+The energy balance then reduces to
+\begin{equation}
+  h_{\inl} = h_{\out}.
+\end{equation}
+The pressure at the exit of each throttle is assumed to be the suction pressure
+of the current operating point, which allows the outlet states to be fixed.
 
+\section{Mixing Chamber} \label{sec:Mixing}
+The mixing chamber is assumed to be a rigid control volume which is also well-insulated.
+It has two inputs (condensed and bypassed refrigerant) and one outlet leading to the
+compressor suction inlet.
+The mass balance for the mixing chamber is
+\begin{equation}
+  \dot{m}_{\inl} + \dot{m}_{\inl,\text{HGBP}} = \dot{m}_{\out}.
+\end{equation}
+The energy balance is given by
+\begin{equation}
+  \dot{m}_{\inl}h_{\inl} + \dot{m}_{\inl,\text{HGBP}}h_{\inl,\text{HGBP}} = \dot{m}_{\out}h_{\out}.
+\end{equation}
+The two balances for this component constrain the division of flow between
+the condensed and bypassed streams by requiring that their mixing re-establishes
+the specified suction condition.

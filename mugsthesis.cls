@@ -237,3 +237,6 @@
 
 % list spacings
 \tightlists
+
+% table spacings
+\AtBeginEnvironment{tabular}{\SingleSpacing}

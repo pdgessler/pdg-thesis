@@ -1,3 +1,40 @@
 \chapter{Solution Methodology} \label{cha:solnmethod}
 
-Implementation details to be included here.
+The equations developed in \cref{cha:modeldev} are implemented in
+Engineering Equation Solver (EES). 
+This software package provides thermophysical property data, unit checking, 
+a graphical user interface (GUI) framework, and an automatic equation 
+blocking scheme for iteratively solving systems of simultaneous equations. 
+These features, along with compressor engineers' familiarity with the program, 
+make EES an ideal choice for implementation of the gas test block model.
+
+The model is implemented using an EES module for each device in the cycle. 
+As much as possible, the equations and assumptions for each device are contained
+within the corresponding module.
+This facilitates a semantic calling structure in the main body of the program 
+and will simplify code maintenance for future modifications or improvements 
+to the model.
+The overall structure of the implementation is described in \cref{sec:Overall}.
+
+One of the goals of the project, the ability to select the best flow measurement
+orifice for a user-input range of operating points, requires multiple operating points
+to be evaluated.
+The remainder of the goals consist of calculations for a single operating point at a time.
+A limitation of the EES software restricts the number of variables stored.
+Therefore, it is not feasible to store the results for the entire cycle at multiple operating points.
+For this reason, two EES programs were developed, each sharing a common code base. 
+
+The first program computes results for the entire cycle, but only 
+for a single operating point at a time.
+This program is used for all use cases except orifice selection
+and is discussed in \cref{sec:MainModel}.
+The second program has the capability to evaluate and store orifice and 
+compressor model results for multiple operating points.
+It calls only the compressor and orifice modules of the code to minimize the number of variables required.
+This model is used for orifice selection and is discussed in \cref{sec:OrifSelect}.
+
+\section{Structure} \label{sec:Overall}
+
+\section{Complete Cycle Program} \label{sec:MainModel}
+
+\section{Orifice Selection Program} \label{sec:OrifSelect}

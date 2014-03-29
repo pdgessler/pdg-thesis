@@ -4,8 +4,8 @@ the compressor test block from first principles.
 \Cref{sec:GenBal} contains the general mass and energy balance equations, 
 to which the appropriate assumptions for each device in the cycle are applied 
 to produce the device-specific equations, as detailed in \crefrange{sec:Compressor}{sec:Mixing}. 
-Subscripts $\text{i}\nomenclature[X]{$\text{i}$}{Inlet conditions}$ 
-and $\text{o}\nomenclature[X]{$\text{o}$}{Outlet conditions}$ 
+Subscripts $\inl\nomenclature[X]{$\inl$}{Inlet conditions}$ 
+and $\out\nomenclature[X]{$\out$}{Outlet conditions}$ 
 are used to indicate the inlet and outlet states of the device, respectively. 
 
 \section{General Balance Equations} \label{sec:GenBal}
@@ -50,7 +50,7 @@ can change the energy of the control volume in addition to the transport terms, 
 where the \emph{methalpy}, $h^\circ = h+\mathrm{ke}+\mathrm{pe}%
   \nomenclature{$h^{\circ}$}{Specific methalpy, $h^\circ=h+\mathrm{ke}+\mathrm{pe}$\nomunit{\btu\per\poundmass}}$, 
 is a convenient way to account for 
-the enthalpy, $h$, and
+the enthalpy, $h\nomenclature{$h$}{Specific enthalpy, $h=u+pv$\nomunit{\btu\per\poundmass}}$, and
 kinetic and potential energy effects if required. 
 The kinetic energy can be calculated as
 \begin{equation}
@@ -88,8 +88,8 @@ As a consequence of assumptions~\ref{lst:pe} and~\ref{lst:ke},
 the methalpy notation reduces to the more familiar enthalpy form,
 and assumption~\ref{lst:sf} means that the left-hand sides of \cref{eqn:GenMass,eqn:GenEnergy} both become zero:
 \begin{align}
-  0 &= \sum_{\text{inlets}}{\dot{m}} - \sum_{\text{outlets}}{\dot{m}}, \label{eqn:SemiMass}\\
-  0 &= \dot{Q} - \dot{W} + \sum_{\text{inlets}}{\dot{m}h} - \sum_{\text{outlets}}{\dot{m}h}. \label{eqn:SemiEnergy}
+  0 &= \sum_{\text{inlets}}{\dot{m}_{\inl}} - \sum_{\text{outlets}}{\dot{m}_{\out}}, \label{eqn:SemiMass}\\
+  0 &= \dot{Q} - \dot{W} + \sum_{\text{inlets}}{(\dot{m}h)_{\inl}} - \sum_{\text{outlets}}{(\dot{m}h)_{\out}}. \label{eqn:SemiEnergy}
 \end{align}
 \cref{eqn:SemiMass,eqn:SemiEnergy} are used as the basis for all component models
 in \crefrange{sec:Compressor}{sec:Mixing}.
@@ -155,13 +155,13 @@ which quantifies the deviation of the real compression process
 from an isentropic (adiabatic and reversible) compression process. 
 The isentropic efficiency \parencite{cengel2011} is defined as
 \begin{equation}
-  \eta_s = \frac{h_{\text{o}s}-h_{\text{i}}}{h_{\text{o}}-h_{\text{i}}},
+  \eta_s = \frac{h_{\out s}-h_{\inl}}{h_{\out}-h_{\inl}},
   \nomenclature[X]{$s$}{Isentropic} 
   \nomenclature[W]{$\eta$}{Efficiency\nomunit{-}}
 \end{equation}
-where $h_{\text{o}s}$ is the discharge enthalpy for an isentropic compression process, 
-$h_{\text{i}}$ is the suction enthalpy, 
-and $h_{\text{o}}$ is the actual discharge enthalpy. 
+where $h_{\out s}$ is the discharge enthalpy for an isentropic compression process, 
+$h_{\inl}$ is the suction enthalpy, 
+and $h_{\out}$ is the actual discharge enthalpy. 
 
 While the model uses isentropic efficiency $\eta_s$, 
 the efficiency islands on standard compressor maps plot a corrected efficiency $\eta_{\text{map}}$,
@@ -178,7 +178,7 @@ is used. In \cref{eqn:ReCorr}, the flow ratio $X$ is given by
         \Theta/\Theta_{\text{peak}} & \text{if } \Theta/\Theta_{\text{peak}} < 1 \\
         1       & \text{if } \Theta/\Theta_{\text{peak}} \geq 1
       \end{cases},
-  \nomenclature{$X$}{Flow ratio, $X=\max{(1,\Theta/\Theta_{\text{peak}})}$\nomunit{-}}
+  \nomenclature{$X$}{Flow ratio, $X=\min{(1,\Theta/\Theta_{\text{peak}})}$\nomunit{-}}
 \end{equation} 
 where $\Theta_{\text{peak}}$ is the flow coefficient 
 corresponding to the point of maximum map efficiency.
@@ -188,16 +188,16 @@ based on impeller tip width $b$%
 \nomenclature{$b$}{Impeller tip width\nomunit{\foot}}; that is,
 \begin{equation}
 \text{Re}_b=\frac{\rho \vel b}{\mu},
-\nomenclature[A$Re$]{$\RE_L$}{Reynolds number based on characteristic length $L$, $\text{Re}_L=\rho \vel L/\mu$\nomunit{-}}
+\nomenclature[A$Re$]{$\RE_{(\;)}$}{Reynolds number based on characteristic length $(\;)$, $\text{Re}_{(\;)}=\rho \vel (\;)/\mu$\nomunit{-}}
 \nomenclature[W]{$\mu$}{Dynamic viscosity\nomunit{\poundforce\minute\per\foot\squared}}
 \end{equation}
 with fluid properties evaluated at total suction conditions.
 
 The four map parameters for the desired operating point 
 ($\Theta$, $\Omega$, $\MA$, and $\eta_{\text{map}}$), 
-specified suction conditions ($T_{\text{i}}$ and $p_{\text{i}}$), 
+specified suction conditions ($T_{\inl}$ and $p_{\inl}$), 
 and machine characteristics ($D$, $b$, $\Theta_{\text{peak}}$, and $\eta_{\text{peak}}$) 
-allow the model to compute the discharge conditions ($T_{\text{o}}$ and $p_{\text{o}}$) 
+allow the model to compute the discharge conditions ($T_{\out}$ and $p_{\out}$) 
 and mass flow rate $\dot{m}$. 
 A flowchart showing this calculation process is shown in \cref{cha:solnmethod}.
 \todo{update cross-reference to flowchart.}
@@ -209,9 +209,9 @@ assuming that the compressor can be modeled as a
 single-input, single-output (SISO) device (no leakage assumption), 
 the balance equations become
 \begin{align}
-  &\text{Mass:}   & 0 &= {\dot{m}_{\text{i}}} - {\dot{m}_{\text{o}}} \label{eqn:CompMass}\\
-  &\text{Energy:} & 0 &= \dot{Q} - \dot{W} + {\dot{m}_{\text{i}}h_{\text{i}}} - 
-		{\dot{m}_{\text{o}}h_{\text{o}}} \label{eqn:CompEnergy}.
+  &\text{Mass:}   & 0 &= {\dot{m}_{\inl}} - {\dot{m}_{\out}} \label{eqn:CompMass}\\
+  &\text{Energy:} & 0 &= \dot{Q} - \dot{W} + {(\dot{m}h)_{\inl}} - 
+		{(\dot{m}h)_{\out}} \label{eqn:CompEnergy}.
 \end{align}
 \Cref{eqn:CompMass} simply means that the mass flow 
 entering the compressor is equal to that leaving the compressor. 
@@ -245,7 +245,7 @@ on the \IP{1500}{\horsepower} test block's three flow measurement stations.
 First, the volume flow rate based on the conditions 
 upstream of the orifice is given by
 \begin{equation}
-  \dot{V} = \dot{m}_{\text{i}}v_{\text{i}},
+  \dot{V} = \dot{m}_{\inl}v_{\inl},
 \end{equation}
 which is used elsewhere in the correlations.
 The orifice (diameter $d$) and 
@@ -262,7 +262,7 @@ Then  the average velocity $\vel_D$ in the pipe is
 \begin{align}
   \vel_D &= \dot{V}/A_D, \\
   \intertext{and the corresponding Reynolds number is}
-  \RE_{D,\text{ pipe}} &= \frac{\rho_{\text{i}} \vel_D D_{\text{pipe}}}{\mu_{\text{i}}}.
+  \RE_{D,\text{pipe}} &= \frac{\rho_{\inl} \vel_D D_{\text{pipe}}}{\mu_{\inl}}.
 \end{align}
 The velocity and Reynolds number at the orifice can be calculated using 
 the same equations but substituting $d$ and $A_d$ instead of $D$ and $A_D$.
@@ -286,6 +286,7 @@ K &= K_0 \left(1+\frac{\alpha}{\RE_d}\right).
 Here,
 \begin{equation}
 \alpha = d\left(\IP{830}{\per\inch} - (\IP{5000}{\per\inch})\beta + (\IP{9000}{\per\inch})\beta^2 - (\IP{4200}{\per\inch})\beta^3 + \frac{\IP{530}{\per\inch^{0.5}}}{\sqrt{D}}\right)
+\nomenclature[W]{$\alpha$}{Correction factor for orifice correlations; refer to \cref{sec:Orifice} for details\nomunit{-}}
 \end{equation}
 and
 \begin{equation}
@@ -298,15 +299,16 @@ K_e = 0.5993 + \frac{\IP{0.007}{\inch}}{D} + \left(0.364 + \frac{\IP{0.076}{\inc
       + 0.4\left(1.6 - \frac{\IP{1}{\inch}}{D}\right)^5 \langle 0.07 + {\IP{0.5}{\inch}}/{D} - \beta\rangle^{5/2} \\
       - \left(0.009 + \frac{\IP{0.034}{\inch}}{D}\right) \langle0.5 - \beta\rangle^{3/2} 
       + \left(\frac{\IP{65}{\inch\squared}}{D^2} + 3\right)\langle\beta - 0.7\rangle^{5/2}.
+\nomenclature[Y]{$\langle\;\rangle$}{Singularity function notation, $\max{(0,\langle\;\rangle)}$ \nomunit{$\left[\;\right]$}}
 \end{multline}
 
 To account for the compressibility of the refrigerant, PTC~19.5 defines
 the expansion factor,
 \begin{equation}
-Y = 1 - (0.41 + 0.35 \beta^4) \frac{\Delta p}{p_{\text{i}}\gamma},
+Y = 1 - (0.41 + 0.35 \beta^4) \frac{\Delta p}{p_{\inl}\gamma},
 \nomenclature{$Y$}{Expansion factor\nomunit{-}}
 \end{equation}
-where $\Delta p$ is the orifice differential pressure, $p_{\text{i}}-p_{\text{o}}$, and
+where $\Delta p$ is the orifice differential pressure, $p_{\inl}-p_{\out}$, and
 $\gamma\nomenclature[W]{$\gamma$}{Ratio of specific heats, $\gamma = c_p/c_v$\nomunit{-}}$ 
 is the ratio of specific heats evaluated at upstream conditions, 
 $\gamma = c_p/c_v\nomenclature{$c_p$, $c_v$}{Specific heats, constant pressure and volume, respectively\nomunit{\btu\per\poundmass\rankine}}$.
@@ -319,37 +321,37 @@ The model also has provisions for choked flow, which may occur when
 running the orifice selection routine over large flow ranges with the smaller orifices.
 From \textcite{munson2009}, 
 \begin{equation}
-p_{\text{o, choked}} = p_{\text{i}} \left(\frac{2}{\gamma+1}\right)^{\gamma/(\gamma-1)};
+p_{\out,\text{choked}} = p_{\inl} \left(\frac{2}{\gamma+1}\right)^{\gamma/(\gamma-1)};
 \end{equation}
-and if $p_{\text{o, choked}} > p_{\text{o, free}}$, where free denotes 
+and if $p_{\out,\text{choked}} > p_{\out\text{free}}$, where free denotes 
 the un-choked outlet pressure, then the flow is said to be choked.
 The model selects the larger of the two pressures to continue calculations.
 Finally, the compressible orifice equation is used to relate the differential pressure to the mass flow rate:
 \begin{equation}
-\dot{m} = C Y A_d \sqrt{2\rho_{\text{i}} \Delta p}.
+\dot{m} = C Y A_d \sqrt{2\rho_{\inl} \Delta p}.
 \end{equation}
 
 In addition to the pressure calculations, mass and energy balances are required
 for this single-input, single-output device:
 \begin{align}
-  &\text{Mass:}   & 0 &= {\dot{m}_{\text{i}}} - {\dot{m}_{\text{o}}} \\ %\to {\dot{m}_{\text{o}}} = {\dot{m}_{\text{i}}} \label{eqn:OrifMass}\\
-  &\text{Energy:} & 0 &= \dot{Q} - \dot{W} + {\dot{m}_{\text{i}}h_{\text{i}}} - 
-		{\dot{m}_{\text{o}}h_{\text{o}}} \label{eqn:OrifEnergy}.
+  &\text{Mass:}   & 0 &= {\dot{m}_{\inl}} - {\dot{m}_{\out}} \\ %\to {\dot{m}_{\text{o}}} = {\dot{m}_{\text{i}}} \label{eqn:OrifMass}\\
+  &\text{Energy:} & 0 &= \dot{Q} - \dot{W} + {(\dot{m}h)_{\inl}} - 
+		{(\dot{m}h)_{\out}} \label{eqn:OrifEnergy}.
 \end{align}
 The orifice is modeled as a rigid, well-insulated control volume with no shaft work. 
-So $\dot{Q}=\dot{W}=0$, and thus $h_{\text{o}} = h_{\text{i}}$ for the orifice.
+So $\dot{Q}=\dot{W}=0$, and thus $h_{\out} = h_{\inl}$ for the orifice.
 
 \section{Flow Split} \label{sec:FlowSplit}
 The flow split is assumed to be rigid and well-insulated with a negligible pressure drop.
 Additionally, the two outlet states are modeled as being the same as the inlet state, so
 \begin{align}
-  T_{\text{o}} &= T_{\text{o, HGBP}} = T_{\text{i}} \\
+  T_{\out} &= T_{\out,\text{HGBP}} = T_{\inl} \\
   \shortintertext{and}
-  p_{\text{o}} &= p_{\text{o, HGBP}} = p_{\text{i}},
-%  x_{\text{o}} &= x_{\text{o, HGBP}} = x_{\text{i}},  
+  p_{\out} &= p_{\out,\text{HGBP}} = p_{\inl},
+%  x_{\out} &= x_{\out,\text{HGBP}} = x_{\inl},  
 \end{align}
-where subscript ``$\text{o}$'' indicates the main outlet flow stream (leading to the condenser)
-and subscript ``$\text{o, HGBP}$'' indicates the flow stream bypassing the condenser.
+where subscript ``$\out$'' indicates the main outlet flow stream (leading to the condenser)
+and subscript ``$\out,\text{HGBP}$'' indicates the flow stream bypassing the condenser.
 The actual division of mass flow rate between the two outlets is determined elsewhere in the model, 
 by requiring that the throttled condensed stream mix with the throttled hot gas bypass
 stream in the correct proportion to re-establish the specified compressor suction condition.
@@ -389,6 +391,7 @@ Then $C_{\min} = \min{(C_h,C_c)}$ and $C_{\max} = \max{(C_h,C_c)}$. The $\NTU$
 for the condenser is defined by
 \begin{equation}
   \NTU = \frac{UA}{C_{\min}},
+  \nomenclature[A$N$]{$\NTU$}{Number of transfer units \nomunit{-}}
 \end{equation}
 where $UA$ is the overall heat transfer coefficient determined from experimental data.
 
@@ -452,6 +455,10 @@ so the mass balance is
 where the water lost to evaporation is given by
 \begin{equation}
   \dot{m}_{\wat,\text{evap}} = \dot{m}_{\air} (\omega_{\air,\out} - \omega_{\air,\inl}).
+  \nomenclature[W]{$\omega$}{Absolute humidity ratio \nomunit{\poundmass_{\wat}\per\poundmass_{\air}}}
+  \nomenclature[X]{$\wat$}{Water}
+  \nomenclature[X]{$\air$}{Air-water vapor mixture}
+  \nomenclature[X]{$\rfr$}{Refrigerant}
   \label{eqn:watevap}
 \end{equation}
 In \cref{eqn:watevap}, $\omega_{\air,\out}$ and $\omega_{\air,\inl}$ 
@@ -460,9 +467,11 @@ air-water vapor mixture at the cooling tower outlet and inlet, respectively.
 
 \textcite{braun1989} developed correlations which are used to apply
 the $\NTU$-effectiveness method to the cooling tower. First, the
-saturation specific heat, $c_s$, is approximated by
+saturation specific heat, $c_{\sat}$, is approximated by
 \begin{equation}
-  c_s = \frac{h_{\air,\sat,\inl}-h_{\air,\sat,\out}}{T_{\wat,\inl} - T_{\wat,\out}},
+  c_{\sat} = \frac{h_{\air,\sat,\inl}-h_{\air,\sat,\out}}{T_{\wat,\inl} - T_{\wat,\out}},
+  \nomenclature{$c_{\sat}$}{Saturation specific heat \nomunit{\btu\per\poundmass\rankine}}
+  \nomenclature[X]{$\sat$}{Saturated}
 \end{equation}
 where subscript $\sat$ indicates that the enthalpy is to be evaluated 
 for a saturated air-water vapor mixture.
@@ -480,6 +489,7 @@ where $c$ and $n$ are empirically determined constants for the cooling tower.
 The cooling tower effectiveness, $\epsilon_{\air}$, is then defined as
 \begin{equation}
   \epsilon_{\air} = \frac{1-\exp{\big(-\NTU(1-m^*)\big)}}{1-m^*\exp{\big(-\NTU(1-m^*)\big)}}.
+  \nomenclature[W]{$\epsilon$}{Heat exchanger (or cooling tower) effectiveness, $\dot{Q}/\dot{Q}_{\max}$ \nomunit{-}}
 \end{equation}
 
 Analogous to the energy balances for the condenser, the energy balance for the

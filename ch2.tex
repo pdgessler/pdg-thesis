@@ -11,13 +11,15 @@ source is contained here, while any mathematical models used are presented
 One component of the research effort was 
 to study different methods of testing compressors. 
 Therefore, this section provides information regarding compressor performance metrics 
-and testing methods commonly used in the HVAC industry. 
+and testing methods commonly used in the HVAC%
+\nomenclature[Z]{HVAC}{Heating, Ventilating, and Air Conditioning} 
+industry. 
 The research was done to better understand the testing methodology, 
 the data collected during a typical test, 
 and the expectations for a mathematical model of the test block refrigeration cycle.
 
-\subsection{Compressor Testing Methodology---ASME PTC 10} \label{sec:TestMethodology}
-The AMSE PTC 10-1972 standard \parencite{ptc10} prescribes test conditions, 
+\subsection{Compressor Testing Methodology---ASME PTC~10} \label{sec:TestMethodology}
+The AMSE PTC~10-1972 standard \parencite{ptc10} prescribes test conditions, 
 procedures, and measurement locations for a compressor test. 
 This allows different manufacturers' test results to be compared. 
 The standard also presents dimensionless coefficients used by different 
@@ -31,13 +33,13 @@ Because the compressor operating point constrains
 many variables in the model, these coefficients 
 are critical to the model's performance.
 
-Significant portions of PTC 10 focus on multistage compressor testing
+Significant portions of PTC~10 focus on multistage compressor testing
 and sideload calculations. These are not needed for the present
 modeling effort, since the vast majority of recent compressor tests
 conducted on the \IP{1500}{\horsepower} gas test block use 
 single-stage compressor setups \parencite{trevino2012}.
 
-Finally, ASME PTC 10 contains several sets of sample calculations 
+Finally, ASME PTC~10 contains several sets of sample calculations 
 which are of use in verifying the implementation of the model, 
 particularly the calculation of the prime mover power requirements.
 These calculations are similar in form to those used in the existing
@@ -45,11 +47,9 @@ compressor test block data acquisition program and the compressor
 module of the present thermodynamic model.
 
 \subsection{Compressor Performance Metrics}
-It is important to understand the specific quantities used 
-to describe a compressor's performance within the HVAC\&R%
-\nomenclature[Z]{HVAC}{Heating, Ventilating, and Air Conditioning} 
-industry, since these will be among the outputs of any model of the testing process. 
-\textcite{wilcox2007} advocates the use of ASME PTC-10 (\cref{sec:TestMethodology}) and lists
+Although ASME PTC~10 prescribes many parts of the test methodology,
+it is also important to understand other recommendations for compressor testing. 
+\textcite{wilcox2007} advocates the use of ASME PTC~10 (\cref{sec:TestMethodology}) and lists
 %\begin{itemize}
   suction and discharge pressures,
   suction and discharge temperatures,
@@ -95,13 +95,13 @@ This section summarizes a number of texts and papers that were consulted to mode
 
 \subsection{Flow Measurement Orifice}
 The flow measurement orifice is modeled according to correlations presented in 
-ASME PTC 19.5 \parencite{ptc19} and following the general form of \textcite{munson2009}. 
-The ASME PTC 19.5 standard presents relationships between 
+ASME PTC~19.5 \parencite{ptc19} and following the general form of \textcite{munson2009}. 
+The ASME PTC~19.5 standard presents relationships between 
 the pressure drop across the orifice and the flow rate, as shown in \cref{sec:Orifice}. 
 Compressible effects are included since the refrigerant will be in a 
 superheated vapor state at the orifice.
 According to \textcite{trevino2012} and \textcite{flow1984}, flange taps
-are used on the test block, so the correlations in ASME PTC 19.5
+are used on the test block, so the correlations in ASME PTC~19.5
 for flange tap pressure measurements are used.
 
 \subsection{Condenser}
@@ -127,8 +127,9 @@ Therefore, a linear regression process is performed on experimental data from
 the Baltimore Aircoil Company\nomenclature[Z]{BAC}{Baltimore Aircoil Company} 
 (BAC) cooling towers \parencite{CLTselect} 
 to determine these parameters.
-\textcite{braun1989} outlined this process and provide several values 
+\textcite{braun1989} outlined this process and provided several values 
 for typical cooling towers. 
+These parameters are discussed in \cref{sec:CoolingTower}.
 \textcite{qureshi2006} extended the model to include fill fouling.
 The effect of fill fouling is not included currently, but could be added 
 in the future if desired.

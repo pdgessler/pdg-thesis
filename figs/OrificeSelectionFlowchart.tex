@@ -31,8 +31,8 @@
   \drawprocess{below of=norif, node distance=6em}{runmodel}{Compute and store $\Delta p_{\text{orif}}$}
   \node[decision,right of=runmodel] (ncheck) {$i_{\text{orif}} < n_{\text{orif}}$?};
   \node[process,right of=ncheck,node distance=8em] (increment) {$i_{\text{orif}}++$};
-  \node[process,below of=runmodel,node distance=10em] (checkp) {Check all $\Delta p$s against \SIrange{10}{990}{\inch\ce{H2O}} range};
-  \inoutput{below of=ncheck,node distance=10em}{output}{Output results array of orifice diameters and flows}
+  \node[process,below of=runmodel,node distance=10em] (checkp) {Check all $\Delta p$s against acceptable range};
+  \inoutput{below of=ncheck,node distance=10em}{output}{Output results plot}
   \node[terminal,below of=increment,node distance=10em] (end) {End};
   
   \path[line] (start.east)--(input.west);

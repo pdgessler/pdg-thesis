@@ -120,9 +120,9 @@ to full three-dimensional CFD---for new compressor designs.
 A user of the model can select an operating point on the compressor map, 
 and with specification of the suction (inlet) conditions, 
 the discharge (outlet) state of the compressor is fixed. 
-Dimensionless coefficients of flow, head, velocity, and efficiency
-($\Theta$, $\Omega$, $\MA$, and $\eta_s$, respectively) are used 
-to generalize the compressor maps to machine characteristics. 
+The compressor maps use the dimensionless coefficients of flow, head, velocity, and efficiency
+($\Theta$, $\Omega$, $\MA$, and $\eta_s$, respectively)  
+to generalize machine characteristics. 
 The flow coefficient $\Theta$ \parencite{trevino2012} is given by
 \begin{equation}
   \Theta = \frac{\dot{V}}{\svel D^2},
@@ -264,17 +264,18 @@ Then  the average velocity $\vel_D$ in the pipe is
   \intertext{and the corresponding Reynolds number is}
   \RE_{D,\text{ pipe}} &= \frac{\rho_{\text{i}} \vel_D D_{\text{pipe}}}{\mu_{\text{i}}}.
 \end{align}
-Similar results follow at the orifice, using $d$ and $A_d$ instead.
-Even though compressibility effects are allowed, it is assumed that the inlet properties
-can be used for calculations at the orifice location, since the effect of compressibility
+The velocity and Reynolds number at the orifice can be calculated using 
+the same equations but substituting $d$ and $A_d$ instead of $D$ and $A_D$.
+Even though compressibility effects are present, it is assumed that the pipe inlet properties
+can be used for calculations at the orifice location because the effect of compressibility
 on thermophysical properties will be small over the pressure drop across the orifice.
 
 For convenience, PTC~19.5 also defines a ratio of diameters, 
 $\beta = {d}/{D_{\text{pipe}}}%
 \nomenclature[W]{$\beta$}{Ratio of orifice diameter to pipe diameter, $\beta = d/D$\nomunit{-}}$,
 which is used throughout the calculations.
-For flange taps, the correlations take a nested form, with the orifice 
-coefficient of discharge $C$ represented by
+For flange taps, the correlations relating pressure drop to mass flow rate take a nested form.
+The orifice coefficient of discharge, $C$, is represented by
 \begin{align}
 C &= K\sqrt{1-\beta^4},
 \nomenclature{$C$}{Orifice coefficient of discharge\nomunit{-}}\\
@@ -290,8 +291,8 @@ and
 \begin{equation}
 K_0 = K_e \left(\frac{10^6 d}{10^6 d + (\IP{15}{\inch})\alpha}\right).
 \end{equation}
-The particular form of $K_e$ uses singularity function notation; that is,
-if the quantity in angle brackets is negative, that term becomes zero.
+The expression for $K_e$ uses singularity function notation; that is,
+if the quantity in angle brackets is negative, then that term becomes zero.
 \begin{multline}
 K_e = 0.5993 + \frac{\IP{0.007}{\inch}}{D} + \left(0.364 + \frac{\IP{0.076}{\inch^{0.5}}}{\sqrt{D}}\right)\beta^4 
       + 0.4\left(1.6 - \frac{\IP{1}{\inch}}{D}\right)^5 \langle 0.07 + {\IP{0.5}{\inch}}/{D} - \beta\rangle^{5/2} \\
@@ -307,7 +308,7 @@ Y = 1 - (0.41 + 0.35 \beta^4) \frac{\Delta p}{p_{\text{i}}\gamma},
 \end{equation}
 where $\Delta p$ is the orifice differential pressure, $p_{\text{i}}-p_{\text{o}}$, and
 $\gamma\nomenclature[W]{$\gamma$}{Ratio of specific heats, $\gamma = c_p/c_v$\nomunit{-}}$ 
-is the ratio of specific heats (evaluated at upstream conditions), 
+is the ratio of specific heats evaluated at upstream conditions, 
 $\gamma = c_p/c_v\nomenclature{$c_p$, $c_v$}{Specific heats, constant pressure and volume, respectively\nomunit{\btu\per\poundmass\rankine}}$.
 \nomenclature{$x$}{Quality\nomunit{-}}%
 \nomenclature[X]{$i$}{The $i$th component/element of a mixture/series}%
@@ -315,14 +316,15 @@ $\gamma = c_p/c_v\nomenclature{$c_p$, $c_v$}{Specific heats, constant pressure a
 \nomenclature[X]{$\text{sh}$}{Superheat}%
 \nomenclature[0]{\textbf{Symbol}}{\textbf{Description}\nomunit{\textbf{Units}}}%
 The model also has provisions for choked flow, which may occur when 
-running the orifice selection routine in large flow ranges with the smaller orifices.
+running the orifice selection routine over large flow ranges with the smaller orifices.
 From \textcite{munson2009}, 
 \begin{equation}
 p_{\text{o, choked}} = p_{\text{i}} \left(\frac{2}{\gamma+1}\right)^{\gamma/(\gamma-1)};
 \end{equation}
-and if $p_{\text{o, choked}} > p_{\text{o, free}}$, where free denotes the un-choked condition, the flow is said to be choked.
+and if $p_{\text{o, choked}} > p_{\text{o, free}}$, where free denotes 
+the un-choked outlet pressure, then the flow is said to be choked.
 The model selects the larger of the two pressures to continue calculations.
-Ultimately, the compressible orifice equation is used to predict the differential pressure based on mass flow rate:
+Finally, the compressible orifice equation is used to relate the differential pressure to the mass flow rate:
 \begin{equation}
 \dot{m} = C Y A_d \sqrt{2\rho_{\text{i}} \Delta p}.
 \end{equation}
@@ -330,7 +332,7 @@ Ultimately, the compressible orifice equation is used to predict the differentia
 In addition to the pressure calculations, mass and energy balances are required
 for this single-input, single-output device:
 \begin{align}
-  &\text{Mass:}   & 0 &= {\dot{m}_{\text{i}}} - {\dot{m}_{\text{o}}} \to {\dot{m}_{\text{o}}} = {\dot{m}_{\text{i}}} \label{eqn:OrifMass}\\
+  &\text{Mass:}   & 0 &= {\dot{m}_{\text{i}}} - {\dot{m}_{\text{o}}} \\ %\to {\dot{m}_{\text{o}}} = {\dot{m}_{\text{i}}} \label{eqn:OrifMass}\\
   &\text{Energy:} & 0 &= \dot{Q} - \dot{W} + {\dot{m}_{\text{i}}h_{\text{i}}} - 
 		{\dot{m}_{\text{o}}h_{\text{o}}} \label{eqn:OrifEnergy}.
 \end{align}
@@ -338,102 +340,111 @@ The orifice is modeled as a rigid, well-insulated control volume with no shaft w
 So $\dot{Q}=\dot{W}=0$, and thus $h_{\text{o}} = h_{\text{i}}$ for the orifice.
 
 \section{Flow Split} \label{sec:FlowSplit}
-The flow split is assumed to be rigid and well-insulated.
-Additionally, the two outlet states are modeled as being the same as the inlet state.
-The actual division of mass flow rate is determined elsewhere in the model, 
+The flow split is assumed to be rigid and well-insulated with a negligible pressure drop.
+Additionally, the two outlet states are modeled as being the same as the inlet state, so
+\begin{align}
+  T_{\text{o}} &= T_{\text{o, HGBP}} = T_{\text{i}} \\
+  \shortintertext{and}
+  p_{\text{o}} &= p_{\text{o, HGBP}} = p_{\text{i}},
+%  x_{\text{o}} &= x_{\text{o, HGBP}} = x_{\text{i}},  
+\end{align}
+where subscript ``$\text{o}$'' indicates the main outlet flow stream (leading to the condenser)
+and subscript ``$\text{o, HGBP}$'' indicates the flow stream bypassing the condenser.
+The actual division of mass flow rate between the two outlets is determined elsewhere in the model, 
 by requiring that the throttled condensed stream mix with the throttled hot gas bypass
 stream in the correct proportion to re-establish the specified compressor suction condition.
-So for the flow split, it is sufficient to specify the outlet states equal to the inlet:
-\begin{align}
-  T_{\text{o}} &= T_{\text{o, HGBP}} = T_{\text{i}}, \\
-  p_{\text{o}} &= p_{\text{o, HGBP}} = p_{\text{i}}, \\
-  \shortintertext{and}
-  x_{\text{o}} &= x_{\text{o, HGBP}} = x_{\text{i}},  
-\end{align}
-where subscript $\text{o}$ indicates the main outlet flow stream (leading to the condenser)
-and subscript $\text{o, HGBP}$ indicates the flow stream bypassing the condenser.
+%So for the flow split, it is sufficient to specify the outlet states equal to the inlet:
 
 \section{Condenser} \label{sec:Condenser}
 The condenser has two flow streams: a refrigerant stream and a water stream.
 These streams are unmixed, so the mass balances for each stream are given by
 \begin{align}
-  \dot{m}_{\rfr,\inl} &= \dot{m}_{\rfr,\out} (=\dot{m}_{\rfr})\\
+  \dot{m}_{\rfr,\inl} &= \dot{m}_{\rfr,\out} \\% (=\dot{m}_{\rfr})\\
   \shortintertext{and}
-  \dot{m}_{\wat,\inl} &= \dot{m}_{\wat,\out} (=\dot{m}_{\wat}),
+  \dot{m}_{\wat,\inl} &= \dot{m}_{\wat,\out} %(=\dot{m}_{\wat}),
 \end{align}
-where $\dot{m}_{\rfr}$ and $\dot{m}_{\wat}$, respectively, are used to simplify the notation.
+where $\dot{m}_{\rfr}$ and $\dot{m}_{\wat}$ are used to simplify the notation
+for the refrigerant and water streams, respectively.
 
 In the condenser, both the water and refrigerant streams are modeled as having constant pressure.
 The condenser is modeled as a rigid control volume with no shaft work so that $\dot{W}=0$.
-It is also assumed to be well-insulated so that the heat transfer (external) $\dot{Q}=0$.
-The $\NTU$-effectiveness method is derived by \textcite{incropera2007}; 
-this section contains the pertinent results.
+It is also assumed to be well-insulated so that the heat transfer across the external boundary $\dot{Q}=0$.
+The internal heat transfer is modeled using the $\NTU$-effectiveness method 
+derived by \textcite{incropera2007}; this section contains the pertinent results.
 
-For a condenser application in the gas test block refrigeration cycle,
+For the condenser in the gas test block refrigeration cycle,
 the refrigerant is always the hot fluid and the water is always the cold fluid.
-So the heat capacities for each flow stream are
+Therefore, the heat capacities for the hot and cold flow streams are
 \begin{align}
   C_h &= \dot{m}_\rfr c_{p,\rfr} \\
   \shortintertext{and}
   C_c &= \dot{m}_\wat c_{p,\wat},
 \end{align}
 where the specific heats are evaluated at the inlet conditions of each flow stream.
+Although the specific heats vary slightly with temperature, the impact of assuming
+constant specific heats is negligible.
+In addition, evaluating specific heats at the inlet temperature greatly 
+simplifies the problem since the outlet temperatures are initially unknown.
 Then $C_{\min} = \min{(C_h,C_c)}$ and $C_{\max} = \max{(C_h,C_c)}$. The $\NTU$
 for the condenser is defined by
 \begin{equation}
   \NTU = \frac{UA}{C_{\min}},
 \end{equation}
-where $UA$ is the overall heat transfer coefficient 
-as determined using experimental data.
+where $UA$ is the overall heat transfer coefficient determined from experimental data.
 
-For a phase-change application such as the condensation process here, 
-the effectiveness $\epsilon$ is given by
+In the $\NTU$-effectiveness method, the heat transfer is modeled in terms of
+the effectiveness, $\epsilon$, and the theoretical maximum heat transfer rate,
+$\dot{Q}_{\max}$,
+which represents the performance of heat exchanger with infinite surface area.
+The effectiveness is used to determine the actual heat transfer rate
+$\dot{Q}$, which is given by
+\begin{equation}
+  \dot{Q} = \epsilon \dot{Q}_{\max}.
+\end{equation}
+For a phase-change application such as the condensation process, 
+the effectiveness $\epsilon$ is defined as
 \begin{equation}
   \epsilon = 1 - \mathrm{e}^{-\NTU},
 \end{equation}
-with
-\begin{equation}
-  \epsilon = \frac{\dot{Q}}{\dot{Q}_{\max}}.
-\end{equation}
-The maximum theoretical heat transfer rate $\dot{Q}_{\max}$ is 
+while the maximum theoretical heat transfer rate $\dot{Q}_{\max}$ is 
 calculated using
 \begin{equation}
   \dot{Q}_{\max} = \dot{m}_\rfr (h_{\rfr,\inl} - h_{\rfr,T=T_{\wat,\inl}}),
 \end{equation}
 which represents fully condensing and cooling the refrigerant stream to the
-inlet water temperature. This maximum heat transfer rate $\dot{Q}_{\max}$ 
-represents the performance of heat exchanger with infinite surface area.
-The effectiveness $\epsilon$ is used to determine the actual heat transfer rate
-$\dot{Q}$, which is given by
-\begin{equation}
-  \dot{Q} = \epsilon \dot{Q}_{\max}.
-\end{equation}
+inlet water temperature. 
 
-Finally, the energy balance for the refrigerant stream may be written as
+Finally, the enthalpies of the water and refrigerant exiting the condenser
+can be determined from an energy balance for each flow stream:
 \begin{align}
-  0 &= -\dot{Q} + \dot{m}_{\rfr}(h_{\rfr,\inl} - h_{\rfr,\out}), \\
-  \shortintertext{and, for the water stream,}
+  0 &= -\dot{Q} + \dot{m}_{\rfr}(h_{\rfr,\inl} - h_{\rfr,\out}) \\
+  \shortintertext{and}
   0 &= \dot{Q} + \dot{m}_{\wat}(h_{\wat,\inl} - h_{\wat,\out}).
 \end{align}
+Any other properties of the water and refrigerant exiting the condenser,
+such as temperatures, can be determined based on the known pressures and enthalpies.
 
 \section{Cooling Tower} \label{sec:CoolingTower}
 The JCI gas test block has multiple rooftop cooling towers to reject
-energy from the cycle.
+energy from the cycle to the outdoor air.
 To simplify the model, these physical cooling towers are lumped into
 a single component.
 Additionally, experimental data for validation are only available
-on an overall basis and not per tower.
-The aggregated cooling tower has two flow streams: a water stream
-and a psychrometric mixture of air and water vapor.
-These flow streams are mixed and a portion of the water stream
-evaporates into the air-water mixture.
+on an overall basis and not for each individual tower.
+The aggregated cooling tower has two primary flow streams: a water stream
+requiring cooling and outdoor air, which is treated as a mixture of air and water vapor.
+These flow streams mix in the cooling tower and a portion of the water stream
+evaporates into the air-water vapor mixture.
 By convention, the mass balance for the air-water vapor mixture
-is written in terms of the dry air mass flow rates, so
+is written in terms of the dry air mass flow rates, which are equal 
+for a steady-flow system:
 \begin{equation}
-  \dot{m}_{\air,\inl} = \dot{m}_{\air,\out} (=\dot{m}_{\air}).
+  \dot{m}_{\air,\inl} = \dot{m}_{\air,\out}.
 \end{equation}
-For the water stream, an additional term, $\dot{m}_{\wat,\text{evap}}$, accounts for
-the water evaporated into the air-water vapor mixture stream,
+As in the condenser model, the notation $\dot{m}_{\air}$ will be used throughout
+for simplicity.
+For a mass balance on the water stream, an additional term, $\dot{m}_{\wat,\text{evap}}$, accounts for
+the water evaporated into the moist air stream,
 so the mass balance is
 \begin{equation}
   \dot{m}_{\wat,\inl} = \dot{m}_{\wat,\out} + \dot{m}_{\wat,\text{evap}},
@@ -445,28 +456,28 @@ where the water lost to evaporation is given by
 \end{equation}
 In \cref{eqn:watevap}, $\omega_{\air,\out}$ and $\omega_{\air,\inl}$ 
 represent the absolute humidity ratio of the 
-air-water vapor mixture outlet and inlet, respectively.
+air-water vapor mixture at the cooling tower outlet and inlet, respectively.
 
 \textcite{braun1989} developed correlations which are used to apply
 the $\NTU$-effectiveness method to the cooling tower. First, the
-\emph{saturation specific heat}, $c_s$, is approximated by
+saturation specific heat, $c_s$, is approximated by
 \begin{equation}
   c_s = \frac{h_{\air,\sat,\inl}-h_{\air,\sat,\out}}{T_{\wat,\inl} - T_{\wat,\out}},
 \end{equation}
 where subscript $\sat$ indicates that the enthalpy is to be evaluated 
-for a saturated psychrometric mixture.
-An effective mass flow rate $m^*$ is defined as
+for a saturated air-water vapor mixture.
+An effective mass flow rate, $m^*$, is defined as
 \begin{equation}
   m^* = \frac{\dot{m}_{\air}}{\dot{m}_{\wat,\inl} c_{p,\wat}/c_s},
 \end{equation}
-where the water specific heat $c_{p,\wat}$ is evaluated at the inlet conditions.
+where the water specific heat, $c_{p,\wat}$, is evaluated at the inlet conditions.
 The number of transfer units ($\NTU$) for the cooling tower is calculated using
-a semi-empirical approach; this relationship is
+a semi-empirical approach:
 \begin{equation}
   \NTU = c \bigg( \frac{\dot{m}_{\wat,\inl}}{\dot{m}_{\air,\inl}} \bigg)^{1+n},
 \end{equation}
 where $c$ and $n$ are empirically determined constants for the cooling tower.
-The cooling tower effectiveness $\epsilon_{\air}$ is then defined as
+The cooling tower effectiveness, $\epsilon_{\air}$, is then defined as
 \begin{equation}
   \epsilon_{\air} = \frac{1-\exp{\big(-\NTU(1-m^*)\big)}}{1-m^*\exp{\big(-\NTU(1-m^*)\big)}}.
 \end{equation}
@@ -474,11 +485,13 @@ The cooling tower effectiveness $\epsilon_{\air}$ is then defined as
 Analogous to the energy balances for the condenser, the energy balance for the
 air-water vapor stream is
 \begin{equation}
-  \dot{Q} = \epsilon_{\air} \dot{m}_{\air} (h_{\air,\sat,T=T_{\wat,\inl}} - h_{\air,\inl}),
+  \dot{Q} = \epsilon_{\air} \dot{Q}_{\max},
 \end{equation}
-where the maximum possible heat transfer is calculated by assuming that the outlet
-air is fully saturated at the inlet water temperature 
-(the difference $h_{\air,\sat,T=T_{\wat,\inl}} - h_{\air,\inl}$).
+where the maximum possible heat transfer, $\dot{Q}_{\max}$, is calculated 
+by assuming that the outlet air is fully saturated at the inlet water temperature:
+\begin{equation}
+  \dot{Q}_{\max} = \dot{m}_{\air} (h_{\air,\sat,T=T_{\wat,\inl}} - h_{\air,\inl}).
+\end{equation}
 The outlet air state is then calculated using
 \begin{equation}
   \dot{Q} = \dot{m}_{\air} (h_{\air,\out} - h_{\air,\inl}).
@@ -506,22 +519,23 @@ is a superheated vapor, the theory for the throttling process is the same
 in both cases, as described in this section.
 The theory for the mixing process is described in \cref{sec:Mixing}.
 
-The throttle is modeled as a rigid control volume and no shaft work ($\dot{W}=0$).
-Additionally, it is well-insulated ($\dot{Q}=0$). The mass balance for this single input
+The throttle is modeled as a rigid control volume with no shaft work ($\dot{W}=0$).
+Additionally, it is assumed to be well-insulated ($\dot{Q}=0$). The mass balance for this single input,
 single output system is
 \begin{equation}
-  \dot{m}_{\inl} = \dot{m}_{\out} (=\dot{m}).
+  \dot{m}_{\inl} = \dot{m}_{\out}.
 \end{equation}
 The energy balance then reduces to
 \begin{equation}
   h_{\inl} = h_{\out}.
 \end{equation}
-The pressure at the exit of each throttle is assumed to be the suction pressure
-of the current operating point, which allows the outlet states to be fixed.
+The pressure at the exit of each throttle is assumed to be the 
+compressor suction pressure, and thus the outlet states of the
+throttling devices are fixed by the known enthalpy and pressure.
 
 \section{Mixing Chamber} \label{sec:Mixing}
-The mixing chamber is assumed to be a rigid control volume which is also well-insulated.
-It has two inputs (condensed and bypassed refrigerant) and one outlet leading to the
+The mixing chamber also is assumed to be a rigid control volume which is well-insulated.
+It has two input streams (condensed and bypassed refrigerant) and one outlet leading to the
 compressor suction inlet.
 The mass balance for the mixing chamber is
 \begin{equation}
@@ -531,6 +545,7 @@ The energy balance is given by
 \begin{equation}
   \dot{m}_{\inl}h_{\inl} + \dot{m}_{\inl,\text{HGBP}}h_{\inl,\text{HGBP}} = \dot{m}_{\out}h_{\out}.
 \end{equation}
-The two balances for this component constrain the division of flow between
+It is assumed that the mixing process occurs at a constant pressure.
+Therefore, the two balances on the mixing chamber constrain the division of flow between
 the condensed and bypassed streams by requiring that their mixing re-establishes
 the specified suction condition.

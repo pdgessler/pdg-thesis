@@ -1,11 +1,11 @@
 \addcontentsline{toc}{chapter}{APPENDICES}
-\chapter{EES Code Listing} \label{app:code}
+\chapter{Engineering Equation Solver (EES) Code Listing} \label{app:code}
 
 This appendix lists the complete EES code for the numerical model of the test block.
 The main EES file is listed in \cref{lst:main}. This file allows the user to specify
 the operating parameters of the desired test and \verb+$INCLUDE+s additional files
 (\Cref{lst:assume,lst:const,lst:ebal,lst:mbal,lst:orifice,lst:prop}) which contain 
-the bulk of the equations in the model. \note{This must be updated manually. 
+the bulk of the equations in the model. \note{This must be updated manually (and is currently out-of-date). 
 (\texttt{.ees} files are not plaintext.)}
 %{\lstinputlisting[caption={Main EES Program},label={lst:main}]{code/ees/CompressorBlock_Diagram.txt}}
 Alternatively, the user can specify the test parameters and view the model 
@@ -23,24 +23,24 @@ settings in the main EES program (\Cref{lst:main}) are used.
 Although EES has many fundamental constants built-in, a few additional constants
 were required. These are collected in \cref{lst:const} and are simply for convenience
 in writing the remainder of the equations.
-\lstinputlisting[float=htbp,caption={Physical Constants},label={lst:const}]{code/ees/Constants.txt}
+%\lstinputlisting[float=htbp,caption={Physical Constants},label={lst:const}]{code/ees/Constants.txt}
 
 The engineering assumptions used to reduce the fundamental governing differential
 equations to a tractable form are listed in \cref{lst:assume}. \Cref{cha:modeldev}
 provides a detailed explanation of each assumption and its implications.
-\lstinputlisting[float=htbp,caption={Modeling Assumptions},label={lst:assume}]{code/ees/Assumptions.txt}
+%\lstinputlisting[float=htbp,caption={Modeling Assumptions},label={lst:assume}]{code/ees/Assumptions.txt}
 
 The thermodynamic states in the model are `fixed' by knowledge of two independent
 properties. Based on these two property values, the rest of the properties at the
 state are calculated using built-in EES functions. These property calculations are
 presented in \cref{lst:prop}. \todo{Replace all this code with some state lookup 
 function. (Lots of repeated statements at the moment.)}
-\lstinputlisting[caption={Fluid Property Lookups},label={lst:prop}]{code/ees/PropertyLookups.txt}
+%\lstinputlisting[caption={Fluid Property Lookups},label={lst:prop}]{code/ees/PropertyLookups.txt}
 
 The orifice flow meter is modeled as described in \cref{sec:Orifice}. The EES
 implementation of the equations is shown in \cref{lst:orifice}.
-\lstinputlisting[float=htbp,caption={Orifice Flow Meter Model},label={lst:orifice}]{code/ees/OrificeModel.txt}
+%\lstinputlisting[float=htbp,caption={Orifice Flow Meter Model},label={lst:orifice}]{code/ees/OrificeModel.txt}
 The mass balances and energy balances for each device in the test block cycle
 are listed in \cref{lst:mbal,lst:ebal}, respectively.
-\lstinputlisting[float=htbp,caption={Mass Balances},label={lst:mbal}]{code/ees/MassBalances.txt}
-\lstinputlisting[float=htbp,caption={Energy Balances},label={lst:ebal}]{code/ees/EnergyBalances.txt}
+%\lstinputlisting[float=htbp,caption={Mass Balances},label={lst:mbal}]{code/ees/MassBalances.txt}
+%\lstinputlisting[float=htbp,caption={Energy Balances},label={lst:ebal}]{code/ees/EnergyBalances.txt}

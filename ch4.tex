@@ -33,17 +33,109 @@ compressor model results for multiple operating points.
 It calls only the compressor and orifice modules of the code to minimize the number of variables required.
 This model is used for orifice selection and is discussed in \cref{sec:OrifSelect}.
 
-\section{Structure} \label{sec:Overall}
+\section{Implementation Structure} \label{sec:Overall}
+As discussed in the opening of \cref{cha:solnmethod}, the code is organized
+in a way that mimics the physical connection of the devices in the cycle.
+Wherever possible, the balance equations, related assumptions, and any required
+correlations are placed into an EES module.
+The inputs of these modules represent the thermodynamic state of physical flow streams entering
+the device, and the outputs represent that of the flow streams exiting the component.
+This makes the calling structure intuitive and allows for improvements in the
+modeling assumptions for a given component without disrupting the rest of the model.
+
+The complete EES code is displayed and briefly explained in \cref{app:code}.
+This code is used as the basis for both the complete cycle program and the 
+orifice selection program. Each of these programs use EES' diagram window functionality
+to provide a user interface for the model.
 
 \section{Complete Cycle Program} \label{sec:MainModel}
+\todo{fix sparse page/bad break.}
+The diagram window for the complete cycle program is shown in \cref{fig:MainDiag}.
+The required inputs are grouped into three clusters: the outdoor air conditions
+at the upper left, the block configuration settings at the upper right, and
+the compressor operating point parameters to the left of the compressor.
+The compressor suction conditions are specified just below the compressor
+on the diagram.
+
+The output states and other calculated values are displayed near the corresponding
+state on the diagram. After specifying the inputs, the program may be run using
+the `Calculate' button. Updated results will then appear.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{figs/MainDiagram}
+  \caption{Engineering Equation Solver (EES) Diagram Window for the complete
+    cycle program. User inputs are boxed numbers, while program outputs are displayed without boxes.}
+  \label{fig:MainDiag}
+\end{figure}
 
 \section{Orifice Selection Program} \label{sec:OrifSelect}
-
+The orifice selection program calls only the 
+compressor and orifice modules of the main code.
+These modules are all that is required to model the orifice pressure drop,
+which is used to evaluate different flow measurement orifices over a specified
+range of test conditions.
+This simplification keeps the orifice selection program within the maximum
+number of variables allowed by EES.
+A flowchart of the orifice selection algorithm is shown in \cref{fig:FlowOrifSelect}.
 \begin{figure}[htbp]
   \centering
   \includegraphics{figs/OrificeSelectionFlowchart}
   \caption{Flowchart for orifice selection procedure. 
     The boxed section is executed for each flow coefficient, $\Theta$,
-    specified by the user.}
+    in a range specified by the user.}
   \label{fig:FlowOrifSelect}
+\end{figure}
+
+The compressor module is called once to establish the discharge conditions
+based on suction conditions and compressor map parameters.
+Then, the orifice differential pressure is evaluated and stored for each orifice
+diameter and its corresponding pipe diameter.
+These diameters are stored in an EES lookup table, which allows for future modifications.
+The orifice numbering scheme and orifice data are shown in \cref{tab:OrifData}.
+This calculation process is repeated for each flow coefficient
+in a range $\Theta_{\min} \leq \Theta \leq \Theta_{\max}$.
+\begin{table}[htbp]
+  \centering
+  \caption{Orifice numbering and diameter data. This table corresponds to the
+    information stored in the EES lookup table `\modu{OrificeData}'.}
+  \label{tab:OrifData}
+  \begin{tabular}{lSS}
+  \toprule
+  Orifice & {$d$ (\si{\inch})} & {$D_{\text{pipe}}$ (\si{\inch})} \\
+  \midrule
+  1 & 6.250 & 7.981 \\
+  2 & 5.000 & 7.981 \\
+  3 & 3.504 & 7.981 \\
+  4 & 4.000 & 6.065 \\
+  5 & 3.750 & 6.065 \\
+  6 & 3.080 & 6.065 \\
+  7 & 3.002 & 6.065 \\
+  8 & 2.500 & 6.065 \\
+  9 & 1.999 & 6.065 \\
+  10& 3.750 & 5.047 \\
+  11& 3.123 & 5.047 \\
+  12& 2.473 & 5.047 \\
+  13& 1.999 & 5.047 \\
+  14& 1.250 & 5.047 \\
+  15& 1.000 & 5.047 \\
+  \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.75\textwidth]{figs/OrifDiagram}
+  \caption{Engineering Equation Solver (EES) Diagram Window for the orifice
+    selection program. User inputs are boxed numbers, while program outputs 
+    are displayed without boxes.}
+  \label{fig:OrifDiag}
+\end{figure}
+
+\todo{add sample of choked flow.}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{figs/OrifResults}
+  \caption{Typical orifice selection program results. Axis limits correspond
+    to the \SIrange{10}{990}{\inch\protect\ce{H2O}} acceptable measurement range.}
+  \label{fig:OrifResults}
 \end{figure}

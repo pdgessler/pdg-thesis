@@ -5,7 +5,7 @@ Engineering Equation Solver (EES).
 This software package provides thermophysical property data, unit checking, 
 a graphical user interface (GUI) framework, and an automatic equation 
 blocking scheme for iteratively solving systems of simultaneous equations. 
-These features, along with compressor engineers' familiarity with the program, 
+These features, along with compressor and test engineers' familiarity with the program, 
 make EES an ideal choice for implementation of the gas test block model.
 
 The model is implemented using an EES module for each device in the cycle. 
@@ -39,9 +39,11 @@ This model is used for orifice selection and is discussed in \cref{sec:OrifSelec
 
 \section{Orifice Selection Program} \label{sec:OrifSelect}
 
-\begin{figure}
+\begin{figure}[htbp]
   \centering
   \includegraphics{figs/OrificeSelectionFlowchart}
-  \caption{}
+  \caption{Flowchart for orifice selection procedure. 
+    The boxed section is executed for each flow coefficient, $\Theta$,
+    specified by the user.}
   \label{fig:FlowOrifSelect}
 \end{figure}

@@ -235,9 +235,9 @@ with an empirical mechanical efficiency factor $\eta_{\text{mech}}$
 which is discussed further in \cref{cha:solnmethod}.
 
 \section{Orifice Flow Meter} \label{sec:Orifice}
-\textcite{ptc19} presents correlations relating the orifice pressure drop to the
+\textcite{ptc19} presents correlations relating the orifice differential pressure to the
 flow rate for flow measurement purposes.
-In the model, the flow rate is known and the pressure drop is to be predicted,
+In the model, the flow rate is known and the differential pressure is to be predicted,
 in order to facilitate orifice selection.
 The relationships listed in this section hold for flange taps as used
 on the \IP{1500}{\horsepower} test block's three flow measurement stations.
@@ -268,13 +268,13 @@ The velocity and Reynolds number at the orifice can be calculated using
 the same equations but substituting $d$ and $A_d$ instead of $D$ and $A_D$.
 Even though compressibility effects are present, it is assumed that the pipe inlet properties
 can be used for calculations at the orifice location because the effect of compressibility
-on thermophysical properties will be small over the pressure drop across the orifice.
+on thermophysical properties will be small over the differential pressure across the orifice.
 
 For convenience, PTC~19.5 also defines a ratio of diameters, 
 $\beta = {d}/{D_{\text{pipe}}}%
 \nomenclature[W]{$\beta$}{Ratio of orifice diameter to pipe diameter, $\beta = d/D$\nomunit{-}}$,
 which is used throughout the calculations.
-For flange taps, the correlations relating pressure drop to mass flow rate take a nested form.
+For flange taps, the correlations relating differential pressure to mass flow rate take a nested form.
 The orifice coefficient of discharge, $C$, is represented by
 \begin{align}
 C &= K\sqrt{1-\beta^4},

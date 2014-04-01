@@ -44,22 +44,22 @@ This makes the calling structure intuitive and allows for improvements in the
 modeling assumptions for a given component without disrupting the rest of the model.
 
 The complete EES code is displayed and briefly explained in \cref{app:code}.
+The modules do not refer to state numbers (from, for example, \cref{fig:SimpSchematic})
+so that additional components can be added in the future with minimal disruption.
+Only the indices of the top-level array variables correspond to the state numbering.
 This code is used as the basis for both the complete cycle program and the 
-orifice selection program. Each of these programs use EES' diagram window functionality
+orifice selection program. 
+Each of these programs use EES' diagram window functionality
 to provide a user interface for the model.
 
 \section{Complete Cycle Program} \label{sec:MainModel}
-\todo{fix sparse page/bad break.}
 The diagram window for the complete cycle program is shown in \cref{fig:MainDiag}.
 The required inputs are grouped into three clusters: the outdoor air conditions
-at the upper left, the block configuration settings at the upper right, and
+at the upper left, the block configuration settings (including orifice index
+as listed in \cref{tab:OrifData}) at the upper right, and
 the compressor operating point parameters to the left of the compressor.
 The compressor suction conditions are specified just below the compressor
 on the diagram.
-
-The output states and other calculated values are displayed near the corresponding
-state on the diagram. After specifying the inputs, the program may be run using
-the `Calculate' button. Updated results will then appear.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{figs/MainDiagram}
@@ -68,10 +68,18 @@ the `Calculate' button. Updated results will then appear.
   \label{fig:MainDiag}
 \end{figure}
 
+After specifying the inputs, the program may be run using the `Calculate' button. 
+Updated results will then appear.
+The output states and other calculated values are displayed near the corresponding
+state point on the diagram. 
+The results may also be viewed using any of EES' other functionality.
+In addition, the model may be run directly from the Equations Window or
+from a Parametric Table to study multiple operating conditions.
+
 \section{Orifice Selection Program} \label{sec:OrifSelect}
 The orifice selection program calls only the 
 compressor and orifice modules of the main code.
-These modules are all that is required to model the orifice pressure drop,
+These modules are all that is required to model the orifice differential pressure,
 which is used to evaluate different flow measurement orifices over a specified
 range of test conditions.
 This simplification keeps the orifice selection program within the maximum
@@ -106,12 +114,14 @@ in a range $\Theta_{\min} \leq \Theta \leq \Theta_{\max}$.
   1 & 6.250 & 7.981 \\
   2 & 5.000 & 7.981 \\
   3 & 3.504 & 7.981 \\
+  \midrule
   4 & 4.000 & 6.065 \\
   5 & 3.750 & 6.065 \\
   6 & 3.080 & 6.065 \\
   7 & 3.002 & 6.065 \\
   8 & 2.500 & 6.065 \\
   9 & 1.999 & 6.065 \\
+  \midrule
   10& 3.750 & 5.047 \\
   11& 3.123 & 5.047 \\
   12& 2.473 & 5.047 \\
@@ -122,6 +132,12 @@ in a range $\Theta_{\min} \leq \Theta \leq \Theta_{\max}$.
   \end{tabular}
 \end{table}
 
+The diagram window for the orifice selection program is shown in \cref{fig:OrifDiag}.
+The number of flows evaluated within the range is set in the equations window so
+that the program does not exceed EES' maximum number of variables.
+If, for some reason, this limit is exceeded, proper operation is restored
+by selecting `Options'$\to$`Purge Unused Variables' and selecting `Yes' in the dialog box that appears.
+These samples are evenly distributed throughout the user-specified range of flow coefficients.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.75\textwidth]{figs/OrifDiagram}
@@ -131,11 +147,40 @@ in a range $\Theta_{\min} \leq \Theta \leq \Theta_{\max}$.
   \label{fig:OrifDiag}
 \end{figure}
 
-\todo{add sample of choked flow.}
+\todo{floats are piling up here. Address placement after the text settles down.}
+After calculating the results, an EES plot is used to visualize
+the differential pressure and evaluate orifices for the specified flow conditions.
+The results are plotted on semi-logarithmic axes for clarity at both high and low
+differential pressures.
+A typical set of results is shown in \cref{fig:OrifResults}.
+The ordinate axis limits correspond to the acceptable differential pressure range
+for flow measurement, \SIrange{10}{990}{\inch\ce{H2O}}, or \SIrange{0.36}{35.70}{\psid}.
+So a particular orifice is acceptable if its differential pressure curve remains 
+within the axis limits over the desired range of flow coefficients.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{figs/OrifResults}
-  \caption{Typical orifice selection program results. Axis limits correspond
+  \caption{Typical orifice selection program results. The axis limits correspond
     to the \SIrange{10}{990}{\inch\protect\ce{H2O}} acceptable measurement range.}
   \label{fig:OrifResults}
 \end{figure}
+
+As discussed in \cref{sec:Orifice}, the model predicts choked flow to produce a
+converged result for all orifices at all flow coefficients.
+However, on the gas test block, choked flow would limit the mass flow rate, so
+the specified operating point cannot be achieved with a particular orifice
+if choked flow is predicted.
+Some results for choked flow are shown in \cref{fig:OrifChoked}.
+For this scenario, orifices 1 and 2 do not reach choked conditions, while
+orifices 3--15 do reach choked flow.
+In this case, only orifice 2 is acceptable, since orifice 1 is outside
+the accepted bounds at the low end of the range of flow coefficients.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{figs/OrifChoked}
+  \caption{Orifice selection program results showing choked flow for orifices 3--15. 
+    For these conditions, only orifice 2 is acceptable over the entire range of flow coefficients.}
+  \label{fig:OrifChoked}
+\end{figure}
+
+\emph{PDG: How to end this chapter? It seems awfully abrupt as-is. Am I missing something?}

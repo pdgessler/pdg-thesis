@@ -4,7 +4,8 @@
 This appendix lists the complete EES code for the numerical model of the test block.
 The main EES file is listed in \cref{lst:main}. This file allows the user to specify
 the operating parameters of the desired test and \verb+$INCLUDE+s additional files
-(\Cref{lst:assume,lst:const,lst:ebal,lst:mbal,lst:orifice,lst:prop}) which contain 
+%(\Cref{lst:assume,lst:const,lst:ebal,lst:mbal,lst:orifice,lst:prop}) 
+which contain 
 the bulk of the equations in the model. \note{This must be updated manually (and is currently out-of-date). 
 (\texttt{.ees} files are not plaintext.)}
 %{\lstinputlisting[caption={Main EES Program},label={lst:main}]{code/ees/CompressorBlock_Diagram.txt}}
@@ -12,7 +13,9 @@ Alternatively, the user can specify the test parameters and view the model
 predictions in the \emph{Diagram Window}. A screenshot of the EES Diagram Window 
 for the test block model is shown in \cref{fig:DiagWindow}. The test parameters
 set in the Diagram Window are used if the diagram window is open, otherwise the
-settings in the main EES program (\Cref{lst:main}) are used.
+settings in the main EES program 
+%(\Cref{lst:main}) 
+are used.
 \begin{figure}[htbp]
 	\centering
 	PLACEHOLDER FOR DIAGRAM WINDOW SCREENSHOT

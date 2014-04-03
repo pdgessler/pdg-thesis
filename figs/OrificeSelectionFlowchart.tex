@@ -38,8 +38,8 @@
   \node[terminal,below=of output] (end) {End};
   
   \path[line] (start.south)--(input.north);
-  \path[line] (input.south)--(init.north) coordinate[midway] (loopjoin1);
-  \path[line] (init.south) -- (norif.north);
+  \path[line] (input.south)--(init.north);
+  \path[line] (init.south) -- (norif.north) coordinate[midway] (loopjoin1);
   \path[line] (norif.south)--(runmodel.north) coordinate[midway] (loopjoin);
   \path[line] (runmodel.south)--(ncheck.north);
   \path[line] (ncheck.east)--(increment.west) node[pos=0.0,above right] {Y};

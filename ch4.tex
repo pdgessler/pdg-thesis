@@ -5,29 +5,34 @@ Engineering Equation Solver (EES).
 This software package provides thermophysical property data, unit checking, 
 a graphical user interface (GUI) framework, and an automatic equation 
 blocking scheme for iteratively solving systems of simultaneous equations. 
-These features, along with compressor and test engineers' familiarity with the program, 
+These features, along with JCI compressor and test engineers' familiarity with the program, 
 make EES an ideal choice for implementation of the gas test block model.
 
 The model is implemented using an EES module for each device in the cycle. 
 As much as possible, the equations and assumptions for each device are contained
 within the corresponding module.
-This facilitates a semantic calling structure in the main body of the program 
-and will simplify code maintenance for future modifications or improvements 
-to the model.
+This facilitates a code structure analogous to the physical system 
+and will simplify code maintenance for future modifications or improvements to the model.
 The overall structure of the implementation is described in \cref{sec:Overall}.
 
-One of the goals of the project, the ability to select the best flow measurement
-orifice for a user-input range of operating points, requires multiple operating points
-to be evaluated.
-The remainder of the goals consist of calculations for a single operating point at a time.
-A limitation of the EES software restricts the number of variables stored.
-Therefore, it is not feasible to store the results for the entire cycle at multiple operating points.
-For this reason, two EES programs were developed, each sharing a common code base. 
+One of the goals of the project is to provide a tool for selecting the best flow measurement
+orifice for conducting tests over a user-input range of operating points.
+Achieving this goal requires running the model with each orifice configuration 
+at multiple operating points within the user-specified range of conditions.
+Because the EES software restricts the number of variables that can be stored,
+it is not feasible to store the properties at each point in the cycle for multiple operating points.
+However, in some situations, the user would like to know 
+detailed information about the gas test block at a single operating point.
+For this reason, two EES programs were developed, each sharing a common code base
+but providing different outputs. 
 
 The first program computes results for the entire cycle, but only 
 for a single operating point at a time.
-This program is used for all use cases except orifice selection
-and is discussed in \cref{sec:MainModel}.
+This program is used to evaluate the feasibility of achieving the desired
+test conditions under specified outdoor air conditions.
+If the cooling towers cannot transfer sufficient heat to fully condense
+the refrigerant, then the gas test block cannot operate at steady state.
+This model is discussed in more detail in \cref{sec:MainModel}.
 The second program has the capability to evaluate and store orifice and 
 compressor model results for multiple operating points.
 It calls only the compressor and orifice modules of the code to minimize the number of variables required.
@@ -38,18 +43,19 @@ As discussed in the opening of \cref{cha:solnmethod}, the code is organized
 in a way that mimics the physical connection of the devices in the cycle.
 Wherever possible, the balance equations, related assumptions, and any required
 correlations are placed into an EES module.
-The inputs of these modules represent the thermodynamic state of physical flow streams entering
-the device, and the outputs represent that of the flow streams exiting the component.
+The inputs of these modules represent the thermodynamic states of physical flow streams entering
+the device, and the outputs represent the states of the flow streams exiting the component.
 This makes the calling structure intuitive and allows for improvements in the
 modeling assumptions for a given component without disrupting the rest of the model.
 
 The complete EES code is displayed and briefly explained in \cref{app:code}.
 The modules do not refer to state numbers (from, for example, \cref{fig:SimpSchematic})
 so that additional components can be added in the future with minimal disruption.
-Only the indices of the top-level array variables correspond to the state numbering.
+Only the indices of the top-level array variables, such as the pressure and temperature arrays,
+correspond to the state numbering.
 This code is used as the basis for both the complete cycle program and the 
 orifice selection program. 
-Each of these programs use EES' diagram window functionality
+Each of these programs uses the diagram window functionality of EES
 to provide a user interface for the model.
 
 \section{Complete Cycle Program} \label{sec:MainModel}
@@ -60,7 +66,7 @@ as listed in \cref{tab:OrifData}) at the upper right, and
 the compressor operating point parameters to the left of the compressor.
 The compressor suction conditions are specified just below the compressor
 on the diagram.
-\begin{figure}[htbp]
+\begin{figure}[tbp]
   \centering
   \includegraphics[width=\textwidth]{figs/MainDiagram}
   \caption{Engineering Equation Solver (EES) Diagram Window for the complete
@@ -69,42 +75,52 @@ on the diagram.
 \end{figure}
 
 After specifying the inputs, the program may be run using the `Calculate' button. 
-Updated results will then appear.
-The output states and other calculated values are displayed near the corresponding
-state point on the diagram. 
-The results may also be viewed using any of EES' other functionality.
+The updated output states and other calculated values, such as compressor power,
+are displayed near the corresponding state point on the diagram. 
+These results and additional outputs, such as enthalpies, 
+may also be viewed using the results windows, which are organized by module,
+and the arrays window.
 In addition, the model may be run directly from the Equations Window or
 from a Parametric Table to study multiple operating conditions.
+If the calculated air mass flow rate through the model cooling tower exceeds
+the nominal air flow rate for the cooling towers on the gas test block,
+the specified operating condition is predicted to be infeasible at the given
+outdoor air conditions.
 
 \section{Orifice Selection Program} \label{sec:OrifSelect}
 The orifice selection program calls only the 
-compressor and orifice modules of the main code.
-These modules are all that is required to model the orifice differential pressure,
-which is used to evaluate different flow measurement orifices over a specified
-range of test conditions.
-This simplification keeps the orifice selection program within the maximum
+compressor and orifice modules of the main code,
+which are the only modules required to model the orifice differential pressure.
+In order to obtain accurate mass flow measurements, the orifice differential pressure
+must be within the range \SIrange{10}{990}{\inch\ce{H2O}} \parencite{trevino2012}.
+Therefore, it can be used to evaluate the suitability of 
+different flow measurement orifices over a specified range of test conditions.
+Simplifying the model to only two modules keeps the orifice selection program within the maximum
 number of variables allowed by EES.
 A flowchart of the orifice selection algorithm is shown in \cref{fig:FlowOrifSelect}.
 \begin{figure}[htbp]
   \centering
   \includegraphics{figs/OrificeSelectionFlowchart}
   \caption{Flowchart for orifice selection procedure. 
-    The boxed section is executed for each flow coefficient, $\Theta$,
-    in a range specified by the user.}
+    The inner loop is over the orifices listed in \cref{tab:OrifData}
+    and the outer loop is over the user-specified range of flow coefficients.}
   \label{fig:FlowOrifSelect}
 \end{figure}
 
-The compressor module is called once to establish the discharge conditions
+Initially, the compressor module is called once to establish the discharge conditions
 based on suction conditions and compressor map parameters.
-Then, the orifice differential pressure is evaluated and stored for each orifice
-diameter and its corresponding pipe diameter.
-These diameters are stored in an EES lookup table, which allows for future modifications.
+Next, beginning with the minimum flow coefficient, $\Theta_{\min}$, specified by the user,
+the orifice differential pressure is evaluated and stored for each possible
+combination of orifice diameter and pipe diameter.
+These diameters are stored in an EES lookup table, which allows for 
+straightforward modification as required in the future.
 The orifice numbering scheme and orifice data are shown in \cref{tab:OrifData}.
-This calculation process is repeated for each flow coefficient
-in a range $\Theta_{\min} \leq \Theta \leq \Theta_{\max}$.
+The flow coefficient is then increased by $\Delta\Theta$ and
+this calculation process is repeated for each flow coefficient
+in the range $\Theta_{\min} \leq \Theta \leq \Theta_{\max}$.
 \begin{table}[htbp]
   \centering
-  \caption{Orifice numbering and diameter data \parencite{bluebook}. 
+  \caption{Orifice numbering and diameter data for the modeled test block \parencite{bluebook}. 
     This table corresponds to the information stored in the EES lookup table `\modu{OrificeData}'.}
   \label{tab:OrifData}
   \begin{tabular}{lSS}
@@ -133,11 +149,15 @@ in a range $\Theta_{\min} \leq \Theta \leq \Theta_{\max}$.
 \end{table}
 
 The diagram window for the orifice selection program is shown in \cref{fig:OrifDiag}.
-The number of flows evaluated within the range is set in the equations window so
-that the program does not exceed EES' maximum number of variables.
-If, for some reason, this limit is exceeded, proper operation is restored
+The number of flow coefficients evaluated within the 
+user-specified range is set in the equations window so
+that the program does not exceed the maximum number of variables allowed by EES.
+If, for some reason, this limit is exceeded, an error message will appear with
+a statement to that effect.
+Proper operation is restored
 by selecting `Options'$\to$`Purge Unused Variables' and selecting `Yes' in the dialog box that appears.
-These samples are evenly distributed throughout the user-specified range of flow coefficients.
+The model uses a uniform step size, $\Delta\Theta$, to determine the conditions 
+to be evaluated within the user-specified range of flow coefficients.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.75\textwidth]{figs/OrifDiagram}
@@ -147,17 +167,16 @@ These samples are evenly distributed throughout the user-specified range of flow
   \label{fig:OrifDiag}
 \end{figure}
 
-\todo{floats are piling up here. Address placement after the text settles down.}
-After calculating the results, an EES plot is used to visualize
-the differential pressure and evaluate orifices for the specified flow conditions.
+The EES model generates a plot illustrating
+the differential pressure for each orifice over the specified range of flow conditions.
 The results are plotted on semi-logarithmic axes for clarity at both high and low
 differential pressures.
 A typical set of results is shown in \cref{fig:OrifResults}.
 The ordinate axis limits correspond to the acceptable differential pressure range
 for flow measurement, \SIrange{10}{990}{\inch\ce{H2O}}, or \SIrange{0.36}{35.70}{\psid}.
-So a particular orifice is acceptable if its differential pressure curve remains 
+Therefore, a particular orifice is acceptable only if its differential pressure curve remains 
 within the axis limits over the desired range of flow coefficients.
-\begin{figure}[htbp]
+\begin{figure}[tbp]
   \centering
   \includegraphics[width=\textwidth]{figs/OrifResults}
   \caption{Typical orifice selection program results. The axis limits correspond
@@ -165,22 +184,30 @@ within the axis limits over the desired range of flow coefficients.
   \label{fig:OrifResults}
 \end{figure}
 
-As discussed in \cref{sec:Orifice}, the model predicts choked flow to produce a
-converged result for all orifices at all flow coefficients.
-However, on the gas test block, choked flow would limit the mass flow rate, so
-the specified operating point cannot be achieved with a particular orifice
-if choked flow is predicted.
-Some results for choked flow are shown in \cref{fig:OrifChoked}.
-For this scenario, orifices 1 and 2 do not reach choked conditions, while
-orifices 3--15 do reach choked flow.
-In this case, only orifice 2 is acceptable, since orifice 1 is outside
-the accepted bounds at the low end of the range of flow coefficients.
-\begin{figure}[htbp]
+As discussed in \cref{sec:Orifice}, the model considers the possibility of 
+choked flow through the orifices by comparing the predicted differential pressure
+to the maximum differential pressure, which occurs with choked flow.
+If choked flow is predicted, it will limit the mass flow rate, and thus
+the specified operating point cannot be achieved on the gas test block with the 
+specified orifice.
+Sample results for choked flow are shown in \cref{fig:OrifChoked}.
+For this scenario, orifices~1 and 2 do not reach choked conditions, while
+orifices~3--15 experience choked flow and reach the maximum differential pressure.
+In this case, only orifice~2 would be acceptable, since orifice~1 does not provide
+the necessary differential pressure at the low end of the range of flow coefficients.
+\begin{figure}[tbp]
   \centering
   \includegraphics[width=\textwidth]{figs/OrifChoked}
-  \caption{Orifice selection program results showing choked flow for orifices 3--15. 
-    For these conditions, only orifice 2 is acceptable over the entire range of flow coefficients.}
+  \caption{Orifice selection program results showing choked flow for orifices~3--15. 
+    For these conditions, only orifice~2 is acceptable over the entire range of flow coefficients.}
   \label{fig:OrifChoked}
 \end{figure}
 
-\emph{PDG: How to end this chapter? It seems awfully abrupt as-is. Am I missing something?}
+\Cref{fig:OrifResults,fig:OrifChoked} illustrate how the model output will
+enable JCI engineers to quickly select appropriate orifices for compressor testing.
+In addition, the outputs of the complete cycle program (\cref{sec:MainModel})
+allow JCI engineers to determine if a test condition is feasible at the specified
+outdoor air conditions.
+\Cref{cha:results} discusses the methods used to validate both programs, and shows
+that the model outputs achieve sufficient agreement with experimental data from the 
+\IP{1500}{\horsepower} gas test block.

@@ -11,8 +11,7 @@
 \begin{axis}[
   xlabel={Experimental Shaft Speed, $N$ (\ip{\revolution\per\minute})},
   ylabel={Model Shaft Speed, $N$ (\ip{\revolution\per\minute})},
-    axis equal,
-  width=4in,
+  parity plot,
 ]
   \addplot[black, mark=o, only marks] table {
     11128.8575 11126
@@ -21,8 +20,8 @@
     11128.7215 11128
   };
   \addplot[black, domain=\pgfplotsxmin:\pgfplotsxmax] {x};
-  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {1.05*x};
-  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {0.95*x};
+%  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {1.05*x};
+%  \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {0.95*x};
 \end{axis}
 \end{tikzpicture}
 \end{document}

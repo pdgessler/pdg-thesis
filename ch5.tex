@@ -1,9 +1,51 @@
 \chapter{Results and Discussion} \label{cha:results}
+A crucial component of any modeling effort is to confirm
+that the model agrees with experimental data to a level
+appropriate for the intended application.
+This validation process confirms the appropriateness of the simplifying
+assumptions made during the model development.
+For the \IP{1500}{\horsepower} gas test block, experimental data are available for 
+numerous tests conducted in July 2005 and November 2012.
+The approach used for these tests is described in \cref{sec:approach}.
+
+The complete cycle model
+was run with inputs matching each experimental data set
+to validate the model over a wide range of operating conditions.
+Because outdoor air conditions were not recorded at the time of the test,
+the conditions have been sourced from weather data archives \parencite{wunder2005,wunder2012}.
+The resulting model output variables are compared with the
+experimental data in \cref{sec:expresults}.
+Parity plots are used to illustrate the agreement 
+between the model results and experimental data.
+The results agree to within xx\% in the compressor and orifice modules,
+and to within yy\% in the condenser and cooling tower modules,
+which required broader assumptions.
+
+\Cref{sec:sensitivity} studies the effect of intermediate
+variables on the overall results.
+For example, subtle differences between the calculation methods used
+in the model and used during experiments mean that the Reynolds numbers
+for the compressor and the orifice
+do not agree with the experimental data nearly as well
+as other variables.
+However, while the Reynolds numbers have a subtle effect on the 
+compressor discharge state and the orifice
+differential pressure, the sensitivity analysis
+reveals that the overall results are not significantly affected.
+Therefore, the sensitivity analysis is an essential step in
+proving the robustness of the model.
 
 \section{Experimental Approach} \label{sec:approach}
+The test data from JCI were obtained using the guidelines
+in \textcite{bluebook} and in accordance with \textcite{ptc10},
+as described in \cref{sec:TestMethodology}.
+A subset of the test data used for validation purposes
+is shown in \cref{tab:SampleData} of \cref{app:sample}.
+Proprietary JCI compressor design information has 
+been removed from the sample data.
 
-\section{Experimental Results} \label{sec:expresults}
+\section{Comparison of Experimental and Model Results} \label{sec:expresults}
 
-\section{Sensitivity Analysis} \label{sec:uncertainty}
 
-\section{Validation Results} \label{sec:validation}
+\section{Sensitivity Analysis} \label{sec:sensitivity}
+

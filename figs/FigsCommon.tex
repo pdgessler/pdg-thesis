@@ -1,6 +1,6 @@
 \usepackage{tikz}     % draw stuff
 \usepackage{pgfplots} % plot stuff
-\pgfplotsset{compat=1.9} % avoid warnings
+\pgfplotsset{compat=1.10} % avoid warnings
 
 \input{../mymacros} % for convenience and consistency
 \input{../fonts} % choose fonts from main thesis
@@ -23,7 +23,12 @@
       \draw ({rel axis cs:0,0}-|{axis cs:\pgfplotsdataxmin,0}) -- ({rel axis cs:0,0}-|{axis cs:\pgfplotsdataxmax,0});
       \draw ({rel axis cs:0,0}|-{axis cs:0,\pgfplotsdataymin}) -- ({rel axis cs:0,0}|-{axis cs:0,\pgfplotsdataymax});
     }
-  }
+  },
+  parity plot/.style={%
+    width=4in,
+    axis equal,
+    scale only axis,
+  },
 }
 
 \tikzset{%

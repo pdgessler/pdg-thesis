@@ -21,8 +21,8 @@ The resulting model output variables are compared with the
 experimental data in \cref{sec:expresults}.
 Parity plots are used to illustrate the agreement 
 between the model results and experimental data.
-The results agree to within xx\% in the compressor and orifice modules,
-and to within yy\% in the condenser and cooling tower modules,
+The results agree to within 2.5\% in the compressor and orifice modules,
+and to within 2.0\% in the condenser and cooling tower modules,
 which required broader assumptions.
 
 \Cref{sec:sensitivity} studies the effect of intermediate
@@ -40,7 +40,291 @@ Therefore, the sensitivity analysis is an essential step in
 proving the robustness of the model.
 
 \section{Comparison of Experimental and Model Results} \label{sec:expresults}
+This section presents the validation results for the complete cycle program.
+A sample set of detailed results is shown in \cref{tab:SampleData}.
+Based on the data collected by JCI during each test, the compressor,
+orifice, and condenser module results from the model may be directly compared
+to experimental data.
+The results for each condition considered are summarized in 
+parity plots, \crefrange{fig:DischargePressureParity}{fig:AvgCondWatTempParity},
+alongside related discussion.
+Each parity plot illustrates perfect agreement between  modeled 
+and experimental results with a solid line and $\pm 5\%$
+difference bounds with dashed lines, unless otherwise noted.
 
+\subsection{Compressor Module} \label{sec:CompResults}
+\todo{Float placement needs work here. Adjust sizes or group into subfigures.}
+Because the compressor module is based on compressor
+characteristics that are determined through experimental testing, 
+the results are expected to show excellent agreement.
+Indeed, the maximum percent difference for the compressor discharge pressure is 0.018\%,
+as shown in \cref{fig:DischargePressureParity}.
+Similarly, the maximum difference for the compressor discharge temperature 
+(\cref{fig:DischargeTemperatureParity}) is \IP{1.0}{\fahrenheit}, or 0.2\% by using an absolute temperature scale.
+The error is still acceptable in this case, but is larger because of a difference
+in the compressor Reynolds number computation.
+\begin{figure}[tbp]
+  \centering
+  \includegraphics{figs/DischargePressureParity}
+  \caption{Compressor discharge pressure.}
+  \label{fig:DischargePressureParity}
+\end{figure}
+\begin{figure}[tbp]
+  \centering
+  \includegraphics{figs/DischargeTemperatureParity}
+  \caption{Compressor discharge temperature.}
+  \label{fig:DischargeTemperatureParity}
+\end{figure}
+
+The undetermined difference in calculation methods results in an average of 12\%
+difference between the compressor Reynolds number calculated in the model and calculated during experiments,
+as shown in \cref{fig:CompReParity}.
+This impacts the Reynolds number correction (\cref{eqn:ReCorr}) used
+in the calculation of isentropic efficiency.
+Because the model predicts a larger Reynolds number than was calculated during
+experiments, the model also will predict a greater isentropic efficiency.
+Therefore, the model will tend to slightly underpredict the
+discharge temperature, as seen in \cref{fig:DischargeTemperatureParity}.
+The sensitivity of the model to this Reynolds number and its impact on
+model outputs is studied further in \cref{sec:sensitivity}.
+\begin{figure}[tbp]
+  \centering
+  \includegraphics{figs/CompressorReParity}
+  \caption{Compressor Reynolds number.}
+  \label{fig:CompReParity}
+\end{figure}
+
+The compressor gas horsepower is shown in \cref{fig:PowerParity}.
+This required output of the model agrees with the experimental results
+to within 2.5\%.
+The compressor Reynolds number calculation affects the gas horsepower slightly,
+because the lower discharge temperature predicted by the model
+corresponds to a lower discharge enthalpy,
+and the gas horsepower is directly proportional to the increase in enthalpy
+across the compressor (\cref{eqn:CompEnergy}).
+Another possible source of error is the assumption of an adiabatic
+compressor.
+Heat transfer from the compressor casing to the ambient environment
+would increase the gas horsepower requirement for the test block.
+\begin{figure}[tbp]
+  \centering
+  \includegraphics{figs/CompressorPowerParity}
+  \caption{Compressor gas horsepower.}
+  \label{fig:PowerParity}
+\end{figure}
+
+\subsection{Orifice Module} \label{sec:OrifResults}
+While the temperature at the orifice has only a slight effect
+on the differential pressure correlations (\cref{sec:Orifice}),
+there is a significant length of refrigerant piping
+between the orifice flow meter and the compressor discharge port.
+Therefore, comparing the model's predicted orifice temperature to the 
+measured data provides a means to evaluate the assumption
+of negligible heat transfer from piping on the test block.
+The results for orifice temperature have a maximum
+difference of \IP{2}{\fahrenheit} or 0.5\% on an absolute temperature scale, 
+as shown in \cref{fig:OrificeTempParity}.
+\begin{figure}[tbp]
+  \centering
+  \includegraphics{figs/OrificeTempParity}
+  \caption{Orifice temperature.}
+  \label{fig:OrificeTempParity}
+\end{figure}
+Because the model consistently predicts a higher temperature
+than was measured, it is expected that heat transfer to the
+ambient environment is the cause of this difference.
+However, the orifice differential pressure (\cref{fig:OrificeDiffParity})
+is the important output in this area of the model.
+The impact of this temperature difference on the differential pressure is negligible,
+so the assumption is deemed appropriate.
+
+The orifice differential pressure is the primary output of the model
+in the orifice selection program.
+The differential pressure is used to evaluate the suitability
+of different orifice diameters for the range of test conditions specified.
+As shown in \cref{fig:OrificeDiffParity}, the model shows excellent 
+agreement with the experimental results, with a maximum percent difference
+of 0.35\% for the conditions considered for validation.
+This shows that the orifice selection program will be an excellent 
+aid to simplify the calculations required to plan a set of tests.
+\begin{figure}[tbp]
+  \centering
+  \includegraphics{figs/OrificeDiffPressureParity}
+  \caption{Orifice differential pressure.}
+  \label{fig:OrificeDiffParity}
+\end{figure}
+
+\subsection{Condenser Module}
+In the condenser, the pressure is recorded in the experimental data.
+This allows the constant pressure assumptions in the flow split \cref{sec:FlowSplit}
+and condenser \cref{sec:Condenser} modules to be evaluated.
+As shown in \cref{fig:CondPressParity}, the model results for condenser pressure
+deviate from the experimental results by a maximum of 0.15\%.
+Therefore, the constant pressure assumptions in the components
+and connecting piping are reasonable for the \IP{1500}{\horsepower} gas test block.
+\begin{figure}[tbp]
+  \centering
+  \includegraphics{figs/CondenserPressureParity}
+  \caption{Condenser pressure.}
+  \label{fig:CondPressParity}
+\end{figure}
+
+The condenser refrigerant liquid temperature is also recorded,
+and it gives information about the degree of subcooling in the condenser.
+This is used to confirm that the condenser model provides an
+accurate representation of the complex heat transfer taking place.
+\Cref{fig:CondRefLiqTempParity} shows the results for the condenser
+refrigerant liquid temperature, which have a maximum deviation of
+\IP{1.5}{\fahrenheit} or 0.5\% on an absolute temperature scale.
+\begin{figure}[tbp]
+  \centering
+  \includegraphics{figs/CondenserRefrigerantLiquidTempParity}
+  \caption{Condenser refrigerant liquid temperature.}
+  \label{fig:CondRefLiqTempParity}
+\end{figure}
+
+\subsection{Cooling Tower Module}
+The average condenser water temperature provides insight
+into the performance of the cooling tower and condenser combined,
+since it is also the average water temperature in the cooling tower.
+\Cref{fig:AvgCondWatTempParity} shows a comparison of model and
+experimental results.
+Despite many assumptions concerning the parameters $UA$, $c$, and $n$ of the condenser
+and cooling tower models (\cref{sec:Condenser,sec:CoolingTower}),
+the results agree with the experimental data to within \IP{5}{\fahrenheit}
+or 2\% on an absolute temperature scale.
+\begin{figure}[tbp]
+  \centering
+  \includegraphics{figs/AvgCondenserWaterTempParity}
+  \caption{Average condenser water temperature.}
+  \label{fig:AvgCondWatTempParity}
+\end{figure}
+
+Because the parameters are currently empirically-based,
+these differences are liable to increase at operating conditions
+not near the conditions recorded in the experimental data.
+Recall from \cref{sec:CoolingTower} that several cooling towers on
+the physical test block are lumped into a single cooling tower for
+the purposes of the model.
+In addition, neither the cooling tower fan speeds nor the condenser
+water flow rate are recorded as part of the test data, so average
+values are currently used.
+This is discussed further in \cref{sec:sensitivity}, and
+several of the recommendations discussed in \cref{cha:conclusion}
+directly relate to additional data collection in these areas of the test
+facility.
+These improvements would lead to enhanced parameter selection
+in this area of the model.
 
 \section{Sensitivity Analysis} \label{sec:sensitivity}
+This section shows that the differences in calculation methods for the
+Reynolds number in the compressor and orifice modules 
+(\cref{sec:CompResults,sec:OrifResults}) has a negligible
+impact on the important output variables.
+It also studies the impact of the condenser water flow rate on the
+temperatures and cooling tower flow rate requirements.
+The model currently uses an average water flow rate calculated
+from test data.
+This is because a bypass loop is used on the block, but no data
+for the bypass loop flow rate or condenser loop flow rate are currently recorded.
 
+In the compressor, the Reynolds number is used in the calculation
+of the isentropic efficiency, which affects the discharge temperature
+and thus the gas horsepower of the compressor.
+The discharge pressure should not be affected.
+To study the extent of these effects, the Reynolds number
+was artificially adjusted by several different percentages,
+and the compressor module outputs were recorded.
+These results are listed in \cref{tab:SensComp}.
+\begin{table}[tbp]
+  \centering
+  \caption{Sensitivity analysis results for the compressor Reynolds number, $\RE$.
+    The reference Reynolds number for this condition is $\RE=\num{2.591e6}$.}
+  \label{tab:SensComp}%
+  \begin{tabular}{SSSS}
+    \toprule
+    {Adjustment factor} & {Discharge pressure,}   & {Discharge temperature,}   & {Gas horsepower,} \\ 
+    {for calculated $\RE$} & {$p_d$ (\ip{\psia})} & {$T_d$ (\ip{\fahrenheit})} & {$\dot{W}_{\text{gas}}$ (\ip{\horsepower})} \\
+    \midrule
+    0.85  & 99.87 & 129.2 & 438.7 \\
+    0.90  & 99.87 & 129.1 & 438.2 \\
+    0.95  & 99.87 & 129.0 & 437.8 \\
+    1.00  & 99.87 & 129.0 & 437.4 \\
+    1.05  & 99.87 & 129.0 & 437.1 \\
+    1.10  & 99.87 & 129.0 & 436.7 \\
+    1.15  & 99.87 & 128.9 & 436.4 \\
+    \bottomrule
+  \end{tabular}%
+\end{table}%
+As expected, the discharge pressure is not affected.
+The discharge temperature is affected by a maximum of \IP{0.2}{\fahrenheit},
+while the gas horsepower is affected by a maximum of \IP{1.3}{\horsepower}.
+These results show that the effect of the Reynolds number discrepancy on the outputs is very slight.
+Therefore, the error in the compressor gas horsepower (\cref{fig:PowerParity})
+is mostly attributable to the adiabatic assumption of \cref{sec:Compressor}.
+
+The Reynolds number calculated at the orifice shows the same discrepancy as 
+the calculation at the compressor.
+In the orifice, the Reynolds number has a slight effect on the coefficient
+of discharge, $C$, calculated using the ASME PTC~19.5 correlations \parencite{ptc19} of
+\cref{sec:Orifice}.
+The orifice Reynolds number was adjusted to study the significance of these effects.
+The effects on the orifice module are even less significant than the effects 
+on the compressor module.
+\Cref{tab:tab:SensOrif} displays the results, and it is clear that the effect
+is well under the level of significance of the measurements on the gas test block.
+\begin{table}[tbp]
+  \centering
+  \caption{Sensitivity analysis results for the orifice Reynolds number, $\RE$.
+    The reference Reynolds number for this condition is $\RE=\num{7.891e6}$.}
+  \label{tab:SensOrif}%
+  \begin{tabular}{SSS}
+    \toprule
+    {Adjustment factor}    & {Outlet temperature,}           & {Orifice differential} \\
+    {for calculated $\RE$} & {$T_{\out}$ (\ip{\fahrenheit})} & {pressure, $\Delta p_{\text{orif}}$ (\ip{\psid})} \\
+    \midrule
+    0.85  & 128.37291 & 3.11289 \\
+    0.90  & 129.37290 & 3.11294 \\
+    0.95  & 128.37289 & 3.11298 \\
+    1.00  & 128.37288 & 3.11303 \\
+    1.05  & 128.37288 & 3.11306 \\
+    1.10  & 128.37287 & 3.11310 \\
+    1.15  & 128.37286 & 3.11313 \\
+    \bottomrule
+  \end{tabular}
+\end{table}%
+Therefore, the discrepancy in Reynolds number calculation is clearly negligible for the orifice module.
+
+In the condenser, an average water flow rate calculated using experimental results
+is used in the absence of true flow rate measurements.
+The distribution of water flow between the condenser loop and the bypass loop is unknown.
+Changes in the water flow rate will affect the water temperatures at the condenser and,
+most importantly, the required air mass flow rate in the cooling tower.
+\Cref{tab:SensCond} shows the effects of changing the condenser water flow rate
+on the condenser water temperature difference and average, and also the 
+cooling tower air mass flow rate.
+\begin{table}[tbp]
+  \centering
+  \caption{Sensitivity analysis results for the condenser water mass flow rate, $\dot{m}_{\wat}$.
+    The reference water flow rate for this condition is $\dot{m}_{\wat}=\IP{6768}{\poundmass\per\minute}$.}
+  \label{tab:SensCond}%
+  \begin{tabular}{SSSS}
+    \toprule
+    {Adjustment factor}              & {Water temperature}                                & {Average water}                                    & {Cooling tower air flow} \\
+    {for flow rate $\dot{m}_{\wat}$} & {difference, $\Delta T_{\wat}$ (\ip{\fahrenheit})} & {temperature, $T_{\text{avg}}$ (\ip{\fahrenheit})} & {rate, $\dot{m}_{\air}$ (\ip{\poundmass\per\minute})} \\
+    \midrule
+    0.85  & 3.227 & 70.38 & 917.4 \\
+    0.90  & 3.048 & 70.29 & 923.0 \\
+    0.95  & 2.888 & 70.21 & 928.3 \\
+    1.00  & 2.743 & 70.14 & 933.1 \\
+    1.05  & 2.613 & 70.07 & 937.6 \\
+    1.10  & 2.494 & 70.02 & 941.7 \\
+    1.15  & 2.385 & 69.96 & 945.6 \\
+    \bottomrule
+  \end{tabular}%
+\end{table}%
+For a 30\% change in water flow rate, the cooling tower air flow rate changes
+by only 3\%.
+The water temperatures are affected slightly, but overall,
+the cooling tower mass flow rate is fairly insensitive to the 
+specified condenser water mass flow rate.

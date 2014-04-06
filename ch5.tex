@@ -154,7 +154,7 @@ aid to simplify the calculations required to plan a set of tests.
 \end{figure}
 
 \subsection{Condenser Module} \label{sec:condresult}
-In the condenser, the pressure is recorded in the experimental data.
+In the condenser, the outlet pressure is recorded in the experimental data.
 This allows the constant pressure assumptions in the flow split \cref{sec:FlowSplit}
 and condenser \cref{sec:Condenser} modules to be evaluated.
 As shown in \cref{fig:CondPressParity}, the model results for condenser pressure
@@ -169,12 +169,13 @@ and connecting piping are reasonable for the \IP{1500}{\horsepower} gas test blo
 \end{figure}
 
 The condenser refrigerant liquid temperature is also recorded,
-and it gives information about the degree of subcooling in the condenser.
-This is used to confirm that the condenser model provides an
+and it can be used to calculate the degree of subcooling in the condenser.
+The comparision of modeled and measured liquid temperature is 
+used to confirm that the condenser model provides an
 accurate representation of the complex heat transfer taking place.
 \Cref{fig:CondRefLiqTempParity} shows the results for the condenser
-refrigerant liquid temperature, which have a maximum deviation of
-\IP{1.5}{\fahrenheit} or 0.5\% on an absolute temperature scale.
+refrigerant liquid temperature, which have a maximum deviation from
+experimental results of \IP{1.5}{\fahrenheit} or 0.5\% on an absolute temperature scale.
 \begin{figure}[tbp]
   \centering
   \includegraphics{figs/CondenserRefrigerantLiquidTempParity}
@@ -183,13 +184,13 @@ refrigerant liquid temperature, which have a maximum deviation of
 \end{figure}
 
 \subsection{Cooling Tower Module}
-The average condenser water temperature provides insight
-into the performance of the cooling tower and condenser combined,
-since it is also the average water temperature in the cooling tower.
+The average condenser water temperature, which is also the 
+average water temperature in the cooling tower, provides insight
+into the performance of both the cooling tower and condenser.
 \Cref{fig:AvgCondWatTempParity} shows a comparison of model and
 experimental results.
-Despite many assumptions concerning the parameters $UA$, $c$, and $n$ of the condenser
-and cooling tower models (\cref{sec:Condenser,sec:CoolingTower}),
+Despite many assumptions concerning the parameters used in the condenser
+and cooling tower models, such as $UA$, $c$, and $n$ (\cref{sec:Condenser,sec:CoolingTower}),
 the results agree with the experimental data to within \IP{5}{\fahrenheit}
 or 2\% on an absolute temperature scale.
 \begin{figure}[tbp]
@@ -201,7 +202,7 @@ or 2\% on an absolute temperature scale.
 
 Because the parameters are currently empirically-based,
 these differences are liable to increase at operating conditions
-not near the conditions recorded in the experimental data.
+further away from the conditions recorded in the experimental data.
 Recall from \cref{sec:CoolingTower} that several cooling towers on
 the physical test block are lumped into a single cooling tower for
 the purposes of the model.
@@ -216,16 +217,18 @@ These improvements would lead to enhanced parameter selection
 in this area of the model.
 
 \section{Sensitivity Analysis} \label{sec:sensitivity}
-This section shows that the differences in calculation methods for the
-Reynolds number in the compressor and orifice modules 
-(\cref{sec:CompResults,sec:OrifResults}) has a negligible
+This section shows that the differences between
+Reynolds numbers calculated in the compressor and orifice modules 
+(\cref{sec:CompResults,sec:OrifResults}) and calculated based on
+experiments have a negligible
 impact on the important output variables.
 It also studies the impact of the condenser water flow rate on the
-temperatures and cooling tower flow rate requirements.
+water temperatures and cooling tower flow rate requirements,
+because of the uncertainty involved in estimating the water flow rate.
 The model currently uses an average water flow rate calculated
 from test data.
 This is because a bypass loop is used on the block, but no data
-for the bypass loop flow rate or condenser loop flow rate are currently recorded.
+on the bypass loop flow rate or condenser loop flow rate are currently recorded.
 
 In the compressor, the Reynolds number is used in the calculation
 of the isentropic efficiency, which affects the discharge temperature
@@ -271,7 +274,7 @@ The orifice Reynolds number was adjusted to study the significance of these effe
 The effects on the orifice module are even less significant than the effects 
 on the compressor module.
 \Cref{tab:SensOrif} displays the results, and it is clear that the effect
-is well under the level of significance of the measurements on the gas test block.
+is well under the level of uncertainty in the measurements on the gas test block.
 \begin{table}[tbp]
   \centering
   \caption{Sensitivity analysis results for the orifice Reynolds number, $\RE$.
@@ -300,7 +303,7 @@ The distribution of water flow between the condenser loop and the bypass loop is
 Changes in the water flow rate will affect the water temperatures at the condenser and,
 most importantly, the required air mass flow rate in the cooling tower.
 \Cref{tab:SensCond} shows the effects of changing the condenser water flow rate
-on the condenser water temperature difference and average, and also the 
+on the condenser water temperature difference, average water temperature, and also the 
 cooling tower air mass flow rate.
 \begin{table}[tbp]
   \centering

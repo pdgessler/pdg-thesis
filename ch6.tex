@@ -1,3 +1,98 @@
 \chapter{Conclusions and Recommendations} \label{cha:conclusion}
+This chapter contains a summary of the research work presented in this thesis.
+Conclusions from the results are presented and discussed.
+Finally, future improvements to the model
+and test block data acquisition are recommended.
+These data acquisition improvements could expand the areas of the model that can
+be validated, which in turn will improve the accuracy of the model by way of
+better parameter selection.
 
-Conclusions and recommendations to be included here.
+The motivations and requirements in \cref{cha:intro} guided the development
+of a thermodynamic model of the \IP{1500}{\horsepower} hot gas bypass test block
+facility located in York, PA.
+The simplifying assumptions and prior research (\cref{cha:litreview}) 
+used in developing the model were outlined in \cref{cha:modeldev}.
+These simplified equations are numerically solved by an implementation
+in EES as discussed in \cref{cha:solnmethod}.
+Graphical interfaces are presented for the two main use cases of the model:
+the complete cycle simulation and the orifice selection program.
+
+\Cref{cha:results} shows the results of a validation effort,
+in which model outputs are compared to experimental data from the test block.
+These results show that the model is accurate enough for the intended application
+and that the assumptions applied in developing the equations are appropriate.
+Sensitivity analyses conducted on various inputs and calculations show that,
+even when intermediate results do not fully agree with experimental data,
+the primary outputs remain accurate enough.
+
+\section{Conclusions} \label{sec:conclusions}
+Based on the results presented and discussed in \cref{cha:results},
+the model meets the goals of predicting the air mass flow rate in the
+cooling tower and predicting the orifice differential pressure.
+If the predicted air mass flow rate exceeds the capacity of the cooling towers,
+then it is likely that the specified test condition is infeasible at the given
+outdoor air conditions.
+For the orifice selection program, engineers are able to specify
+a desired range of test conditions.
+The model will then display the orifice differential pressure for 
+a number of operating points in the specified range, allowing
+the engineer to make an informed decision about the best orifice 
+for the test plan without tedious calculations.
+
+For the validation cases of \cref{cha:results}, the maximum percent difference between model
+and experimental results is 2.5\%, so the model is quite accurate given the number of assumptions involved.
+The primary output variable for orifice selection, the orifice differential pressure,
+agrees with the experimental results to within 0.35\%.
+It should be noted, however, that the validation encompassed only a
+small range of test points and weather conditions, from which several
+of the parameters in the model are defined.
+Results for operating conditions far removed from the validation data
+may vary.
+Methods for correcting this shortcoming of the model are discussed in \cref{sec:recommend}.
+
+\section{Recommendations} \label{sec:recommend}
+As noted in \cref{cha:results} and \cref{sec:conclusions},
+the condenser and cooling tower modules of the model make significant
+assumptions concerning parameters.
+These are the overall heat transfer coefficient for the condenser, $UA$,
+and the two characteristic parameters for the cooling tower model's 
+calculation of $\NTU$, $c$ and $n$.
+These parameters are affected by many complex transport processes,
+and first-principles calculation of these was not a central focus of this project.
+Instead, these parameters were defined empirically, using averages over the 
+validation data sets.
+For this reason, the model results may not be as accurate for test conditions
+far removed from the validation test conditions.
+To improve these portions of the model, a number of data collection
+recommendations are prudent.
+
+First, the cooling tower fan speeds should be recorded as part of each test.
+Currently, the fan speeds are adjusted until the test block reaches steady state
+at the desired operating point.
+Combined with fan curves for the cooling towers installed on the block,
+records of the fan speeds will allow calculation of the cooling tower
+model parameters $c$ and $n$. 
+This will enhance the accuracy of the cooling tower and extend the range
+of test conditions over which its accuracy is acceptable.
+At the present time, the model uses typical values for these parameters from \textcite{braun1989}.
+
+Similarly, a means to determine the condenser water flow rate would
+greatly improve calculation of the condenser overall heat transfer coefficient, $UA$.
+As discussed in \cref{sec:sensitivity}, the condenser water pump drives the
+flow in both a bypass loop and the condenser loop. With the current instrumentation
+setup, the division of flow between these loops is unknown.
+If the condenser water flow rate is known, then a more reliable
+estimate of $UA$ could be produced.
+
+Other potential improvements to the model concern the adiabatic and constant pressure assumptions.
+It is shown in \cref{sec:condresult} that the constant pressure assumption is valid for the sizes
+of pipe used on the gas test block.
+Additionally, the adiabatic assumption is shown to be valid for the orifice in \cref{sec:OrifResults}.
+However, the adiabatic assumption for the compressor results in underprediction of the compressor
+gas horsepower, as discussed in \cref{sec:CompResults}.
+A model of the heat transfer from the compressor casing to the ambient conditions is likely to
+improve this prediction.
+Only the compressor module and the overall energy balance 
+for the cycle would need to be modified to implement this improvement.
+
+\emph{How to end? Already summarized everything at the beginning.}

@@ -10,16 +10,9 @@ the bulk of the equations in the model.
 \lstinputlisting[caption={Main EES program code.},label={lst:main}]{code/ees/MainCode.txt}
 
 Alternatively, the user can specify the test parameters and view the model 
-predictions in the \emph{Diagram Window}. A screenshot of the EES Diagram Window 
-for the test block model is shown in \cref{fig:DiagWindow}. The test parameters
-set in the Diagram Window are used if the diagram window is open, otherwise the
-settings in the main EES program (\Cref{lst:main}) are used.
-\begin{figure}[htbp]
-	\centering
-  \includegraphics[width=\textwidth]{figs/MainDiagram}
-	\caption{EES Diagram Window user interface for test block model.}
-	\label{fig:DiagWindow}
-\end{figure}
+predictions in the \emph{Diagram Window} as discussed in \cref{cha:solnmethod}.
+One diagram window (\cref{fig:MainDiag}) is for  the complete cycle program,
+while the other (\cref{fig:OrifDiag}) is for the orifice selection program.
 
 Many of the modules use several helper functions for common calculations.
 These include calculations of entropy and enthalpy for an arbitrary state point

@@ -1,0 +1,95 @@
+"1D Compressor Test Block Model"
+"Author: Paul Gessler"
+"Marquette University"
+
+"MODULES INSERTED HERE"
+
+"Reference State"
+$REFERENCE R134a DFT
+
+"Constants"
+g_c = 32.174*Convert(lbm-ft/lbf-s^2, lbm-ft/lbf-min^2)
+
+"Data Conversions (for convenience)"
+RH[14] = RH_%/100
+W_dot_gas = -W_dot_12*Convert(Btu/min,hp)
+
+"Setup Orifice"
+D_orifice = LOOKUP('OrificeData',i_orif,'D_orifice')
+D_orifice_pipe = LOOKUP('OrificeData',i_orif,'D_orifice_pipe')
+
+"Default Settings for Running without Diagram"
+$IFNOT DiagramWindow
+	"Test Operating Parameters"
+	p[1] = 37.4548 [psia]
+	T[1] = 62.37 [F]
+	eta_map = 0.8331 [-]
+	eta_peak = 0.84 [-]
+	THETA_peak = 0.045
+	THETA = 0.15 [-]
+	OMEGA = 0.9 [-]
+        Mach = 1.2 [-]
+
+	"Test Block Configuration Parameters"
+	REFR$ = 'r134a'
+	D_impeller = 13 [in]
+        W_tip = 0.431 [in]
+	i_orif = 4 [-]
+	D_suction = 12 [in]
+	D_discharge = 8 [in]
+
+	"Outdoor Air Conditions"
+	T[14] = 55 [F]
+	p[14] = 14.7 [psia]
+	RH_% = 70 [-]
+$ENDIF
+
+"Condenser Water Conditions"
+m_dot[9] = 6768 [lbm/min] "based on calculattions from 2012 data"
+
+x[1] = Quality(REFR$, T=T[1], p=p[1])
+CALL Compressor(REFR$, D_impeller*Convert(in, ft), W_tip*Convert(in, ft), D_suction*Convert(in,ft), D_discharge*Convert(in,ft), g_c, THETA, OMEGA, Mach, eta_map, eta_peak, THETA_peak, p[1], T[1], x[1] : p[2], T[2], x[2], m_dot[1], m_dot[2], W_dot_12)
+
+CALL Orifice(REFR$, g_c, D_orifice*Convert(in, ft), D_orifice_pipe*Convert(in, ft), T[2], p[2], x[2], m_dot[2] : T[3], p[3], x[3], m_dot[3], DELTAp_orifice)
+
+CALL FlowSplit(T[3], p[3], x[3] : T[7], p[7], x[7], T[4], p[4], x[4])
+
+CALL Condenser(REFR$, T[4], p[4], x[4], T[9], p[9], m_dot[9], W_dot_12 : T[5], p[5], x[5], m_dot[5], T[10], p[10], m_dot[10], m_dot[4])
+DELTAT_water = T[10] - T[9]
+T_avg = (T[10]+T[9])/2
+
+p[6] = p[1]
+CALL Throttle(REFR$, T[5], p[5], x[5], m_dot[5], p[6] : T[6], x[6], m_dot[6])
+
+p[8] = p[1]
+CALL Throttle(REFR$, T[7], p[7], x[7], m_dot[7], p[8] : T[8], x[8], m_dot[8])
+
+m_dot[1] = m_dot[6] + m_dot[8]
+
+{CALL MixingChamber(m_dot[1] : m_dot[8], m_dot[6])}
+
+CALL CoolingTower(T[10], p[10], m_dot[10], T[14], RH[14], p[14], -W_dot_12 : T[11], p[11], m_dot[11], T[15], RH[15], p[15], m_dot[15], m_dot[14])
+m_dot[14] = Density(AIRH2O, T=T[14], p=p[14], R=RH[14])*V_dot_air
+
+"Close condenser water loop"
+T[9] = T[14] + (T[4] - T[14])/4
+p[9] = 14.7 [psia]
+
+"Output variables for plotting"
+h[1] = MyEnthalpy(REFR$, T[1], p[1], x[1])
+h[2] = MyEnthalpy(REFR$, T[2], p[2], x[2])
+h[3] = MyEnthalpy(REFR$, T[3], p[3], x[3])
+h[4] = MyEnthalpy(REFR$, T[4], p[4], x[4])
+h[5] = MyEnthalpy(REFR$, T[5], p[5], x[5])
+h[6] = MyEnthalpy(REFR$, T[6], p[6], x[6])
+h[7] = MyEnthalpy(REFR$, T[7], p[7], x[7])
+h[8] = MyEnthalpy(REFR$, T[8], p[8], x[8])
+
+s[1] = MyEntropy(REFR$, T[1], p[1], x[1])
+s[2] = MyEntropy(REFR$, T[2], p[2], x[2])
+s[3] = MyEntropy(REFR$, T[3], p[3], x[3])
+s[4] = MyEntropy(REFR$, T[4], p[4], x[4])
+s[5] = MyEntropy(REFR$, T[5], p[5], x[5])
+s[6] = MyEntropy(REFR$, T[6], p[6], x[6])
+s[7] = MyEntropy(REFR$, T[7], p[7], x[7])
+s[8] = MyEntropy(REFR$, T[8], p[8], x[8])

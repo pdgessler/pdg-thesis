@@ -23,12 +23,12 @@ $IFNOT DiagramWindow
 	"Test Operating Parameters"
 	p[1] = 37.4548 [psia]
 	T[1] = 62.37 [F]
-	eta_map = 0.8331 [-]
-	eta_peak = 0.84 [-]
-	THETA_peak = 0.045
-	THETA = 0.15 [-]
-	OMEGA = 0.9 [-]
-        Mach = 1.2 [-]
+	eta_map = "JCI PROPRIETARY"
+	eta_peak = "JCI PROPRIETARY"
+	THETA_peak = "JCI PROPRIETARY"
+	THETA = "JCI PROPRIETARY"
+	OMEGA = "JCI PROPRIETARY"
+        Mach = "JCI PROPRIETARY"
 
 	"Test Block Configuration Parameters"
 	REFR$ = 'r134a'

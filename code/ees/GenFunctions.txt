@@ -1,0 +1,14 @@
+FUNCTION MyEnthalpy(FLUID$, T, p, x)
+	"Returns enthalpy of an arbitrary state"
+	IF ((x>1) OR (x<0)) THEN MyEnthalpy := Enthalpy(FLUID$, T=T, p=p) ELSE MyEnthalpy := Enthalpy(FLUID$, T=T, x=x)
+END
+
+FUNCTION MyEntropy(FLUID$, T, p, x)
+	"Returns entropy of an arbitrary state"
+	IF ((x>1) OR (x<0)) THEN MyEntropy := Entropy(FLUID$, T=T, p=p) ELSE MyEntropy := Entropy(FLUID$, T=T, x=x)
+END
+
+FUNCTION GetRe(rho, V, L, mu,g_c)
+	"Returns Reynolds number"
+	GetRe := rho*V*L/mu/g_c
+END

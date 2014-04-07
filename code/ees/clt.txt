@@ -1,0 +1,36 @@
+MODULE CoolingTower(T_water_in, p_water_in, m_dot_water_in, T_air_in, RH_air_in, p_air_in, Q_dot_tower : T_water_out, p_water_out, m_dot_water_out, T_air_out, RH_air_out, p_air_out, m_dot_air_out, m_dot_air_in)
+	"performance correlations"
+	c = 1.684 "typical value"
+	n = -0.391 "typical value"
+	NTU = c*(m_dot_water_in/m_dot_air_in)^(1 + n) "from Braun 1989"
+
+	"assumptions"
+	T_water_out_guess = WETBULB(AIRH2O, T=T_air_in, p=p_air_in, R=RH_air_in) "from Braun 1989"
+	p_water_out = p_water_in
+	p_air_out = p_air_in
+	m_dot_air_in = m_dot_air_out
+
+	"property lookups"
+	h_air_in = Enthalpy(AIRH2O, T=T_air_in, p=p_air_in, R=RH_air_in)
+	omega_air_in = HUMRAT(AIRH2O, T=T_air_in, p=p_air_in, R=RH_air_in)
+	h_water_sat_in = Enthalpy(AIRH2O, T=T_water_in, p=p_air_in, R=1)
+	c_p_water = Cp(WATER, T=T_water_in, p=p_water_in)
+
+	"effectiveness correlations"
+	c_s = (h_water_sat_in - h_water_sat_out)/(T_water_in - T_water_out) "from Braun 1989"
+	m|star = m_dot_air_in*c_s/(m_dot_water_in*c_p_water) "from Braun 1989"
+	epsilon_a = (1 - exp(-NTU*(1 - m|star)))/(1 - m|star*exp(-NTU*(1 - m|star)))
+
+	"from Braun 1989"
+	Q_dot_tower = epsilon_a*m_dot_air_in*(h_water_sat_in - h_air_in)
+	Q_dot_tower = m_dot_air_in*(h_air_out - h_air_in)
+	T_water_out = T_water_in - (m_dot_air_in*(h_air_out - h_air_in))/(m_dot_water_in*c_p_water)
+	h_water_sat_out = Enthalpy(AIRH2O, T=T_water_out, p=p_air_out, R=1)
+	m_dot_water_out = m_dot_water_in - m_dot_air_in*(omega_air_out - omega_air_in)
+	omega_air_out = HumRat(AIRH2O, h=h_air_out, p=p_air_out, R=RH_air_out)
+	T_air_out = Temperature(AIRH2O, h=h_air_out, p=p_air_out, R=RH_air_out)
+	RH_air_out = 1
+	{capacity = m_dot_water_in*c_p_water*range}
+	{range = T_water_in - T_water_out}
+	{approach = T_water_out - T_water_out_guess}
+END

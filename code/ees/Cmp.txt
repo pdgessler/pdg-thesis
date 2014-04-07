@@ -1,0 +1,44 @@
+MODULE Compressor(REFR$, D_impeller, W_tip, D_suction, D_discharge, g_c, THETA, OMEGA, Mach, eta_map, eta_peak, THETA_peak, p_suction, T_suction, x_suction : p_discharge, T_discharge, x_discharge, m_dot_suction, m_dot_discharge, W_dot_comp)
+	"get CFM and velocity for later calculations"
+	v_suction = Volume(REFR$, P=p_suction, T=T_suction)
+	CFM_compressor = m_dot_suction*v_suction 
+	vel_suction = CFM_compressor/(PI*D_suction^2/4)
+
+	"perform Reynolds number correction"
+	X = GetX(THETA, THETA_peak)
+	rho_suction = Density(REFR$, T=T_suction, P=p_suction)
+	h_0_suction = h_suction + 0.5*vel_suction^2*Convert(ft^2/min^2,Btu/lbm)
+	T_t_suction = Temperature(REFR$, h=h_0_suction, P=p_suction)
+	p_t_suction = p_suction + 0.5*rho_suction*vel_suction^2*Convert(ft^-2,in^-2)/g_c
+	mu_suction = Viscosity(REFR$, T=T_suction, P=p_suction)*Convert(lbm/ft-hr, lbf-min/ft^2)
+	Vel_tip = Mach*v_sound_suction
+	Re = GetRe(rho_suction, Vel_tip, W_tip, mu_suction, g_c)
+	eta_s = eta_map + X*((1 - eta_peak)*(1 - (10^6/Re)^(0.1)))
+	
+	"dimensionless parameter definitions"
+	v_sound_suction = SoundSpeed(REFR$, T=T_suction, p=p_suction)*Convert(ft/s, ft/min) "calculate acoustic velocity"
+	THETA = CFM_compressor/(v_sound_suction*D_impeller^2)
+	OMEGA = g_c*(h_discharge_s - h_suction)*Convert(Btu, ft-lbf)/v_sound_suction^2
+	eta_s = (h_discharge_s - h_suction)/(h_discharge - h_suction)
+
+	"RPM check"
+	RPM = Vel_tip/(PI*D_impeller)
+
+	"state calculations"
+	T_sat_suction = Temperature(REFR$, P=p_suction, x=1.0)
+	DELTAT_sh = T_suction - T_sat_suction "compute degree of superheat (not currently used)"
+	h_suction = MyEnthalpy(REFR$, T_suction, p_suction, x_suction)
+	s_suction = Entropy(REFR$, P=p_suction, T=T_suction)
+	h_discharge_s  = Enthalpy(REFR$, P=p_discharge, s=s_suction)
+	T_discharge = Temperature(REFR$, P=p_discharge, h=h_discharge)
+	x_discharge = Quality(REFR$, T=T_discharge, h=h_discharge)
+
+	"assumptions"
+	Q_dot_comp = 0 "assume well-insulated compressor"
+
+	"mass balance"
+	0 = m_dot_suction - m_dot_discharge "no leakage; steady flow; SISO"
+
+	"energy balance"
+	0 = Q_dot_comp - W_dot_comp + m_dot_suction*h_suction - m_dot_discharge*h_discharge "steady flow; SISO"
+END

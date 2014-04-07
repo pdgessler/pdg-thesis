@@ -1,0 +1,16 @@
+MODULE Throttle(REFR$, T_in, p_in, x_in, m_dot_in, p_out : T_out, x_out, m_dot_out)
+	"assumptions"
+	Q_dot_throttle = 0 "well-insulated"
+	W_dot_throttle = 0 "rigid CV; no shaft work"
+
+	"mass balance"
+	0 = m_dot_in - m_dot_out "steady flow; SISO"
+	
+	"energy balance"
+	0 = Q_dot_throttle - W_dot_throttle + m_dot_in*h_in - m_dot_out*h_out "steady flow; SISO"
+
+	"property lookups"
+	h_in = MyEnthalpy(REFR$, T_in, p_in, x_in) 
+	T_out = Temperature(REFR$, h=h_out, p=p_out)
+	x_out = Quality(REFR$, h=h_out, p=p_out)
+END

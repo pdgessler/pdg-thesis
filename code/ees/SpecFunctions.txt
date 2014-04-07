@@ -1,0 +1,19 @@
+"COMPRESSOR HELPER FUNCTION"
+FUNCTION GetX(THETA,THETA_peak)
+	"Returns flow ratio X"
+	X = THETA/THETA_peak
+	IF (X<1) THEN GetX := X ELSE GetX := 1
+END
+
+"ORIFICE HELPER FUNCTIONS"
+FUNCTION K_e(D_pipe, beta)
+	"Returns K_e per ASME PTC 19.5 72"
+	K_e := 0.5993 + 0.007 [in]/D_pipe + (0.364 + 0.076 [in^(0.5)]/sqrt(D_pipe))*beta^4
+	IF (0.07 + 0.5 [in]/D_pipe > beta) THEN K_e := K_e + 0.4*(1.6 - 1 [in]/D_pipe)^5*((0.07 + 0.5 [in]/D_pipe) - beta)^(5/2) 
+	IF (beta < 0.5) THEN K_e := K_e - (0.009 + 0.034 [in]/D_pipe)*(0.5 - beta)^(3/2)
+	IF (beta > 0.7) THEN K_e := K_e + (65 [in^2]/D_pipe^2 + 3)*(beta - 0.7)^(5/2)
+END
+
+FUNCTION GetOrificePressure(p_out_free, p_out_choked)	
+	IF (p_out_choked > p_out_free) THEN GetOrificePressure := p_out_choked ELSE GetOrificePressure := p_out_free
+END

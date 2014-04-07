@@ -1,0 +1,41 @@
+MODULE Orifice(REFR$, g_c, D_orifice, D_orifice_pipe, T_in, p_in, x_in, m_dot_in : T_out, p_out, x_out, m_dot_out, DELTAp_orifice)
+	"assumptions"
+	Q_dot_orifice = 0 "well-insulated"
+	W_dot_orifice = 0 "rigid CV; no shaft work"
+
+	"property lookups"
+	v_in = Volume(REFR$, P=p_in, T=T_in)
+	rho_in = Density(REFR$, P=p_in, T=T_in)
+	mu_in = Viscosity(REFR$, P=p_in, T=T_in)*Convert(lbm/ft-hr, lbf-min/ft^2)
+
+	"Follows methodology used in ASME PTC 19.5 72"
+	V_dot_orifice = m_dot_in*v_in
+	A_0 = pi*D_orifice^2/4 "orifice throat area"
+	A_1 = pi*D_orifice_pipe^2/4 "orifice pipe area"
+	V_orifice_pipe = V_dot_orifice/A_1
+	V_orifice = V_dot_orifice/A_0
+	Re_orifice_pipe = GetRe(rho_in, V_orifice_pipe, D_orifice_pipe, mu_in, g_c)
+	Re_orifice = GetRe(rho_in, V_orifice, D_orifice, mu_in, g_c)
+	beta = D_orifice/D_orifice_pipe
+	C = K*sqrt(1 - beta^4)
+	K = K_O*(1 + A/Re_orifice)
+	K_e = K_e(D_orifice_pipe*Convert(ft, in), beta)
+	K_O = K_e*(10^6*D_orifice*Convert(ft, in)/(10^6*D_orifice*Convert(ft, in) + 15 [in]*A))
+	A = D_orifice*Convert(ft, in)*(830 [in^(-1)] - 5000 [in^(-1)]*beta + 9000 [in^(-1)]*beta^2 - 4200 [in^(-1)]*beta^3 + 530 [in^(-0.5)]/sqrt(D_orifice_pipe*Convert(ft, in)))
+	gamma = Cp(REFR$, T=T_in, p=p_in)/Cv(REFR$, T=T_in, p=p_in)
+	p_out_choked = p_in*(2/(gamma+1))^(gamma/(gamma-1))
+	Y = MIN(1, 1 - (0.41 + 0.35*beta^4)*((p_in - p_out_free)/p_in)/gamma) "expansion factor (for compressibility effects)"
+	p_out_free = MAX(p_out_choked, p_in - ((V_dot_orifice/(C*Y*A_0))^2)/(2*v_in*g_c*Convert(lbf/in^2, lbf/ft^2)/(1 - beta^4)))
+	p_out = GetOrificePressure(p_out_free, p_out_choked)
+	DELTAp_orifice = p_in - p_out
+
+	"mass balance"
+	0 = m_dot_in - m_dot_out "steady flow; SISO"
+
+	"energy balance"
+	0 = Q_dot_orifice - W_dot_orifice + m_dot_in*h_in - m_dot_out*h_out "steady flow; SISO"
+
+	h_in = MyEnthalpy(REFR$, T_in, p_in, x_in)
+	T_out = Temperature(REFR$, h=h_out, p=p_out)
+	x_out = Quality(REFR$, T=T_out, h=h_out)
+END

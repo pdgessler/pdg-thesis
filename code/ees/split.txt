@@ -1,0 +1,26 @@
+MODULE FlowSplit(T_in, p_in, x_in : T_out_HGBP, p_out_HGBP, x_out_HGBP, T_out, p_out, x_out)
+	"assumptions"
+	{
+	Q_dot_FlowSplit = 0 [Btu/min] "well-insulated"
+	W_dot_FlowSplit = 0 [Btu/min] "rigid CV; no shaft work"
+	}
+	p_out = p_in
+	p_out_HGBP = p_out
+	{
+	h_out = h_in
+	h_out_HGBP = h_out
+	}
+	T_out = T_in
+	T_out_HGBP = T_out
+	x_out = x_in
+	x_out_HGBP = x_out
+
+	"property lookup"
+	{h_in = MyEnthalpy(REFR$, T_in, p_in, x_in)}
+
+	"mass balance"
+	{0 = m_dot_in - m_dot_out - m_dot_out_HGBP "steady flow; SIMO"}
+
+	"energy balance"
+	{0 = Q_dot_FlowSplit - W_dot_FlowSplit + h_in*m_dot_in - h_out*m_dot_out - h_out_HGBP*m_dot_out_HGBP "steady flow; SIMO"}
+END

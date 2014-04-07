@@ -1,0 +1,37 @@
+MODULE Condenser(REFR$, T_refr_in, p_refr_in, x_refr_in, T_water_in, p_water_in, m_dot_water_in, Q_dot_condenser : T_refr_out, p_refr_out, x_out, m_dot_refr_out, T_water_out, p_water_out, m_dot_water_out, m_dot_refr_in)
+	"assumptions"
+	W_dot_condenser = 0 [Btu/min] "rigid CV; no shaft work"
+	p_refr_out = p_refr_in "constant pressure -- shell side"
+	p_water_out = p_water_in "constant pressure -- tube side"
+	h_refr_out_guess = Enthalpy(REFR$, x=0.0, p = p_refr_out) "guess sat. liquid outlet"
+
+	"heat capacities"
+	C_c = m_dot_water_in*Cp(water, T=T_water_in, p=p_water_in)
+	C_h = m_dot_refr_in*Cp(REFR$, T=T_refr_in, p=p_refr_in)
+	C_min = MIN(C_c, C_h)
+	C_max = MAX(C_c, C_h)
+	{C_r = 0 "we have a condenser"}
+
+	"effectiveness-NTU relations"
+	NTU = 3 {UA/C_min} "eq. 11.24 of Incropera and DeWitt"
+	epsilon = 1 - exp(-NTU) "effectiveness; Table 11.3 Incropera and DeWitt"
+	Q_dot_max_1 = m_dot_refr_in*(h_refr_in - MyEnthalpy(REFR$, T_water_in, p_refr_out, -100))
+	Q_dot_max_2 = m_dot_water_in*(Enthalpy(water, T=Temperature(REFR$, p=p_refr_in, x=1.0), p=p_water_out) - h_water_in)
+	Q_dot_max = -Q_dot_max_1
+	Q_dot_condenser = epsilon*Q_dot_max "eq. 11.22 of Incropera and DeWitt (modified for phase-change)"
+
+	"property lookups"
+	h_refr_in = MyEnthalpy(REFR$, T_refr_in, p_refr_in, x_refr_in)
+	h_water_in = Enthalpy(water, T=T_water_in, p=p_water_in)
+	T_refr_out = Temperature(REFR$, h=h_refr_out, p=p_refr_out)
+	x_out = Quality(REFR$, p=p_refr_out, h=h_refr_out)
+	T_water_out = Temperature(water, h=h_water_out, p=p_water_out)
+
+	"mass balances"
+	0 = m_dot_refr_in - m_dot_refr_out "steady flow; unmixed streams"
+	0 = m_dot_water_in - m_dot_water_out "steady flow; unmixed streams"
+
+	"energy balances"
+	0 = Q_dot_condenser - W_dot_condenser + m_dot_refr_in*h_refr_in - m_dot_refr_out*h_refr_out "steady flow; unmixed streams"
+	0 = -Q_dot_condenser - W_dot_condenser + m_dot_water_in*h_water_in - m_dot_water_out*h_water_out "steady flow; unmixed streams"
+END

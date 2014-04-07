@@ -121,7 +121,7 @@ the discharge (outlet) state of the compressor is fixed.
 The compressor maps use the dimensionless coefficients of flow, head, velocity, and efficiency
 ($\Theta$, $\Omega$, $\MA$, and $\eta_s$, respectively)  
 to generalize machine characteristics. 
-The flow coefficient $\Theta$ \parencite{trevino2012} is given by
+The flow coefficient, $\Theta$, \parencite{trevino2012} is given by
 \begin{equation}
   \Theta = \frac{\dot{V}}{\svel D^2},
 	\nomenclature{$\svel$}{Acoustic (sonic) velocity\nomunit{\foot\per\minute}}
@@ -130,7 +130,7 @@ The flow coefficient $\Theta$ \parencite{trevino2012} is given by
 where $\dot{V}$ is the volumetric flow rate, 
 $\svel$ is the acoustic (sonic) velocity at total suction conditions, 
 and $D$ is the impeller tip diameter.
-The head coefficient $\Omega$ \parencite{trevino2012} is given by
+The head coefficient, $\Omega$, \parencite{trevino2012} is given by
 \begin{equation}
 	\Omega = \frac{g_c \Delta h_s}{\svel^2},
 	\nomenclature[W]{$\Omega$}{Isentropic head coefficient, ${g_c \Delta h_s}/{\svel^2}$\nomunit{-}}
@@ -140,7 +140,7 @@ where $g_c$ is the gravitational proportionality constant,
 $\Delta h_s$ is the specific enthalpy change for an isentropic compression process, 
 and $\svel$ is, again, the acoustic velocity at total suction conditions.
 
-The Machine Mach number $\MA$ is 
+The Machine Mach number, $\MA$, is 
 \begin{equation}
   \MA = \frac{\vel_{\text{tip}}}{a},
   \nomenclature[A$Ma$]{$\MA$}{Machine Mach number, $\vel_{\text{tip}}/a$\nomunit{-}}
@@ -161,8 +161,8 @@ where $h_{\out s}$ is the discharge enthalpy for an isentropic compression proce
 $h_{\inl}$ is the suction enthalpy, 
 and $h_{\out}$ is the actual discharge enthalpy. 
 
-While the model uses isentropic efficiency $\eta_s$, 
-the efficiency islands on standard compressor maps plot a corrected efficiency $\eta_{\text{map}}$,
+While the model uses isentropic efficiency, $\eta_s$, 
+the efficiency islands on standard compressor maps plot a corrected efficiency, $\eta_{\text{map}}$,
 which includes a correction for the Reynolds number at the given operating point.
 To convert the corrected map efficiency into isentropic efficiency \parencite{kauffman2006}, 
 the transformation
@@ -170,7 +170,7 @@ the transformation
   \eta_s = \eta_{\text{map}} + X(1 - \eta_{\text{peak}})\left(1-\left(\frac{10^6}{\RE_b}\right)^{0.1}\right)
   \label{eqn:ReCorr}
 \end{equation}
-is used. In \cref{eqn:ReCorr}, the flow ratio $X$ is given by
+is used. In \cref{eqn:ReCorr}, the flow ratio, $X$, is given by
 \begin{equation}
   X = \begin{cases}
         \Theta/\Theta_{\text{peak}} & \text{if } \Theta/\Theta_{\text{peak}} < 1 \\
@@ -256,7 +256,7 @@ respectively, are given by
   A_D &= \frac{\pi}{4} D_{\text{pipe}}^2.
   \nomenclature{$D$}{Diameter\nomunit{\foot,\,\inch}}
 \end{align}
-Then  the average velocity $\vel_D$ in the pipe is
+Then  the average velocity, $\vel_D$, in the pipe is
 \begin{align}
   \vel_D &= \dot{V}/A_D, \\
   \intertext{and the corresponding Reynolds number is}

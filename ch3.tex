@@ -177,6 +177,7 @@ is used. In \cref{eqn:ReCorr}, the flow ratio, $X$, is given by
         1       & \text{if } \Theta/\Theta_{\text{peak}} \geq 1
       \end{cases},
   \nomenclature{$X$}{Flow ratio, $X=\min{(1,\Theta/\Theta_{\text{peak}})}$\nomunit{-}}
+  \label{eqn:GetX}
 \end{equation} 
 where $\Theta_{\text{peak}}$ is the flow coefficient 
 corresponding to the point of maximum map efficiency.
@@ -298,6 +299,7 @@ K_e = 0.5993 + \frac{\IP{0.007}{\inch}}{D} + \left(0.364 + \frac{\IP{0.076}{\inc
       - \left(0.009 + \frac{\IP{0.034}{\inch}}{D}\right) \langle0.5 - \beta\rangle^{3/2} 
       + \left(\frac{\IP{65}{\inch\squared}}{D^2} + 3\right)\langle\beta - 0.7\rangle^{5/2}.
 \nomenclature[Y]{$\langle\;\rangle$}{Singularity function notation, $\max{(0,\langle\;\rangle)}$ \nomunit{$\left[\;\right]$}}
+\label{eqn:Ke}
 \end{multline}
 
 To account for the compressibility of the refrigerant, PTC~19.5 defines
@@ -320,6 +322,7 @@ running the orifice selection routine over large flow ranges with the smaller or
 From \textcite{munson2009}, 
 \begin{equation}
 p_{\out,\text{choked}} = p_{\inl} \left(\frac{2}{\gamma+1}\right)^{\gamma/(\gamma-1)};
+\label{eqn:choked}
 \end{equation}
 and if $p_{\out,\text{choked}} > p_{\out\text{free}}$, where free denotes 
 the un-choked outlet pressure, then the flow is said to be choked.

@@ -57,3 +57,12 @@
 
 % Nomenclature Units
 \newcommand{\nomunit}[1]{\renewcommand{\nomentryend}{\hspace*{\fill}\si{#1}}}
+
+% Fix the LoL
+\begingroup\makeatletter
+\let\newcounter\@gobble\let\setcounter\@gobbletwo
+  \globaldefs\@ne \let\c@loldepth\@ne
+  \newlistof{listings}{lol}{\lstlistlistingname}
+  \newlistentry{lstlisting}{lol}{0}
+\endgroup
+\setlength{\cftbeforelstlistingskip}{\onelineskip}

@@ -21,7 +21,7 @@
 		coordinate[pos=0.75] (cmpo)-- ++(0,-0.5) coordinate[midway] (cmplabel) -- ++(-2,-0.5) %
 		coordinate[pos=0.75] (cmpi);
   \node[device] (split) at ($(cmpo) +(0,2)$) {Flow Split};
-  \node[device] (mix) at ($(cmpi) - (0,1)$) {Mixing};
+  \node[device] (mix) at ($(cmpi) - (0,1.5)$) {Mixing};
   \node[device,minimum height=0.5in] (cnd) at ($(split) + (-3.5,0.25)$) {Condenser};
   \node[device,minimum height=0.5in] (clt) at ($(cnd) + (-3,1.25)$) {Cooling Tower};
   \coordinate (EXP1) at (-5.5,0);

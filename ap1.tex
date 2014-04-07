@@ -1,49 +1,62 @@
 \addcontentsline{toc}{chapter}{APPENDICES}
 \chapter{Engineering Equation Solver (EES) Code Listing} \label{app:code}
 
-This appendix lists the complete EES code for the numerical model of the test block.
-The main EES file is listed in \cref{lst:main}. This file allows the user to specify
-the operating parameters of the desired test and \verb+$INCLUDE+s additional files
-%(\Cref{lst:assume,lst:const,lst:ebal,lst:mbal,lst:orifice,lst:prop}) 
+This appendix lists the complete EES code for the thermodynamic model of the test block.
+The main EES code is displayed in \cref{lst:main}. This section allows the user to specify
+the operating parameters of the desired test and calls additional modules
+(\Cref{lst:cmp,lst:orif,lst:split,lst:cond,lst:throttle,lst:clt}) 
 which contain 
-the bulk of the equations in the model. \note{This must be updated manually (and is currently out-of-date). 
-(\texttt{.ees} files are not plaintext.)}
-%{\lstinputlisting[caption={Main EES Program},label={lst:main}]{code/ees/CompressorBlock_Diagram.txt}}
+the bulk of the equations in the model. 
+\lstinputlisting[caption={Main EES program code.},label={lst:main}]{code/ees/MainCode.txt}
+
 Alternatively, the user can specify the test parameters and view the model 
 predictions in the \emph{Diagram Window}. A screenshot of the EES Diagram Window 
 for the test block model is shown in \cref{fig:DiagWindow}. The test parameters
 set in the Diagram Window are used if the diagram window is open, otherwise the
-settings in the main EES program 
-%(\Cref{lst:main}) 
-are used.
+settings in the main EES program (\Cref{lst:main}) are used.
 \begin{figure}[htbp]
 	\centering
-	PLACEHOLDER FOR DIAGRAM WINDOW SCREENSHOT
+  \includegraphics[width=\textwidth]{figs/MainDiagram}
 	\caption{EES Diagram Window user interface for test block model.}
 	\label{fig:DiagWindow}
 \end{figure}
 
-Although EES has many fundamental constants built-in, a few additional constants
-were required. These are collected in \cref{lst:const} and are simply for convenience
-in writing the remainder of the equations.
-%\lstinputlisting[float=htbp,caption={Physical Constants},label={lst:const}]{code/ees/Constants.txt}
+Many of the modules use several helper functions for common calculations.
+These include calculations of entropy and enthalpy for an arbitrary state point
+defined by temperature, pressure, and quality. The EES conventions of $x=100$ for
+a superheated vapor and $x=-100$ for a subcooled liquid are used in these functions.
+A function is also provided for calculation of the Reynolds number.
+These functions are shown in \cref{lst:func}.
+\lstinputlisting[caption={General helper functions.},label={lst:func}]{code/ees/GenFunctions.txt}
 
-The engineering assumptions used to reduce the fundamental governing differential
-equations to a tractable form are listed in \cref{lst:assume}. \Cref{cha:modeldev}
-provides a detailed explanation of each assumption and its implications.
-%\lstinputlisting[float=htbp,caption={Modeling Assumptions},label={lst:assume}]{code/ees/Assumptions.txt}
+The compressor and orifice modules use additional helper functions.
+The compressor module uses helper function \verb+GetX+ to calculate the flow ratio, $X$,
+as defined in \cref{eqn:GetX} for the Reynolds number correction.
+The orifice uses a function \verb+K_e+ to compute the coefficient for the orifice correlations \cref{eqn:Ke},
+as well as a function \verb+GetOrificePressure+ to determine if free or choked flow is applicable \cref{eqn:choked}.
+These are displayed in \cref{lst:specfunc}.
+\lstinputlisting[caption={Helper functions specific to the compressor and orifice modules.},label={lst:specfunc}]{code/ees/SpecFunctions.txt}
 
-The thermodynamic states in the model are `fixed' by knowledge of two independent
-properties. Based on these two property values, the rest of the properties at the
-state are calculated using built-in EES functions. These property calculations are
-presented in \cref{lst:prop}. \todo{Replace all this code with some state lookup 
-function. (Lots of repeated statements at the moment.)}
-%\lstinputlisting[caption={Fluid Property Lookups},label={lst:prop}]{code/ees/PropertyLookups.txt}
+The remainder of the code consists of a \verb+MODULE+ for each device in the cycle.
+The assumptions and relationships developed in \cref{cha:modeldev} are 
+defined in these modules and applied to general balance equations.
+These modules are called by the main code of \cref{lst:main}, and are shown in \crefrange{lst:cmp}{lst:clt}.
 
-The orifice flow meter is modeled as described in \cref{sec:Orifice}. The EES
-implementation of the equations is shown in \cref{lst:orifice}.
-%\lstinputlisting[float=htbp,caption={Orifice Flow Meter Model},label={lst:orifice}]{code/ees/OrificeModel.txt}
-The mass balances and energy balances for each device in the test block cycle
-are listed in \cref{lst:mbal,lst:ebal}, respectively.
-%\lstinputlisting[float=htbp,caption={Mass Balances},label={lst:mbal}]{code/ees/MassBalances.txt}
-%\lstinputlisting[float=htbp,caption={Energy Balances},label={lst:ebal}]{code/ees/EnergyBalances.txt}
+The compressor module is displayed in \cref{lst:cmp}.
+\lstinputlisting[caption={Compressor module of EES implementation.},label={lst:cmp}]{code/ees/Cmp.txt}
+
+The orifice module is displayed in \cref{lst:orif}.
+\lstinputlisting[caption={Orifice module of EES implementation.},label={lst:orif}]{code/ees/orif.txt}
+
+The flow split module is displayed in \cref{lst:split}.
+\lstinputlisting[caption={Flow split module of EES implementation.},label={lst:split}]{code/ees/split.txt}
+
+The condenser module is displayed in \cref{lst:cond}.
+\lstinputlisting[caption={Condenser module of EES implementation.},label={lst:cond}]{code/ees/cond.txt}
+
+The expansion device module is displayed in \cref{lst:throttle}.
+This module is called for both the condensed stream and bypassed stream.
+\lstinputlisting[caption={Expansion device module of EES implementation.},label={lst:throttle}]{code/ees/throttle.txt}
+
+The cooling tower module is displayed in \cref{lst:clt}.
+\lstinputlisting[caption={Cooling tower module of EES implementation.},label={lst:clt}]{code/ees/clt.txt}

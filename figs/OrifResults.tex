@@ -1,0 +1,29 @@
+\documentclass[10pt]{standalone}
+\input{FigsCommon}
+
+\begin{document}
+\begin{tikzpicture}
+\begin{semilogyaxis}[
+  cycle list name=orifices,
+  legend pos=outer north east,
+  legend cell align=left,
+  legend style={only marks},
+  scale only axis,
+  trim axis left,
+  trim axis right,
+  width=4.5in, height=3in,
+  ymin=0.36, ymax=36.30,
+  xlabel={Flow Coefficient, $\Theta$ (\si{-})},
+  ylabel={Orifice Differential Pressure, $\Delta p_{\text{orif}}$ (\ip{\psid})},
+  ytick={0.36,1.00,10.0,35.7},
+  yticklabels={0.36,1.00,10.0,35.7},
+  xtick={0.02,0.04,...,0.1},
+  xticklabels={0.02,0.04,0.06,0.08,0.1},
+]
+  \foreach \dp in {1,...,14} {%
+    \addplot table[x=theta,y=dp\dp] {../code/data/OrifResults.dat};
+    \addlegendentryexpanded{Orifice~\dp}
+  }
+\end{semilogyaxis}
+\end{tikzpicture}
+\end{document}

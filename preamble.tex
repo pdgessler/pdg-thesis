@@ -88,5 +88,14 @@ A ONE-DIMENSIONAL MODEL OF A CLOSED-LOOP\\
   \addtolength{\itemindent}{-\leftmargin}    
 }
 
+% Fix the LoL
+\begingroup\makeatletter
+\let\newcounter\@gobble\let\setcounter\@gobbletwo
+  \globaldefs\@ne \let\c@loldepth\@ne
+  \newlistof{listings}{lol}{\lstlistlistingname}
+  \newlistentry{lstlisting}{lol}{0}
+\endgroup
+\setlength{\cftbeforelstlistingskip}{\onelineskip}
+
 % detect underfull vboxes
 %\directlua{dofile("DetectUnderfull.lua")}

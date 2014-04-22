@@ -136,8 +136,8 @@
 
 % define and use the MUGS chapter style
 \makechapterstyle{mugs}{%
-  \setlength{\midchapskip}{0.5\onelineskip}
-  \setlength{\afterchapskip}{\onelineskip}
+  \setlength{\midchapskip}{1sp}
+  \setlength{\afterchapskip}{1sp}
   \renewcommand*{\chapterheadstart}{}
   \renewcommand*{\chaptitlefont}{\bfseries}
   \renewcommand*{\printchaptername}{\centering \MakeTextUppercase{\@chapapp}}
@@ -232,11 +232,25 @@
 
 % style lower-level headings
 \setsecheadstyle{\bfseries\SingleSpacing}
+\setbeforesecskip{1sp}
+\setaftersecskip{0.75\onelineskip}
 \setsubsecheadstyle{\bfseries\SingleSpacing}
+\setbeforesubsecskip{-0.5\onelineskip}
+\setaftersubsecskip{\onelineskip}
 \setsubsubsecheadstyle{\bfseries\SingleSpacing}
+\setbeforesubsubsecskip{-0.5\onelineskip}
+\setaftersubsubsecskip{\onelineskip}
 
 % list spacings
 \tightlists
 
 % table spacings
 \AtBeginEnvironment{tabular}{\SingleSpacing}
+
+% orphans, widows, and other detritus
+\clubpenalty=10000
+\widowpenalty=9996
+\brokenpenalty=4991
+\predisplaypenalty=10000
+\postdisplaypenalty=1549
+\displaywidowpenalty=1602

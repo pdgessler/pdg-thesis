@@ -24,7 +24,8 @@
 
 \begin{SingleSpace}
 \setlength\bibitemsep{\onelineskip}   % length between two different entries
-\printbibliography
+\defbibnote{space}{\vspace{\onelineskip}}
+\printbibliography[prenote=space]
 \end{SingleSpace}
 
 \appendix    

@@ -97,7 +97,7 @@ Therefore, it can be used to evaluate the suitability of
 different flow measurement orifices over a specified range of test conditions.
 Simplifying the model to only two modules keeps the orifice selection program within the maximum
 number of variables allowed by EES.
-A flowchart of the orifice selection algorithm is shown in \cref{fig:FlowOrifSelect}.
+A flowchart of the orifice selection algorithm is shown in \cref{fig:FlowOrifSelect}.\looseness=-1
 \begin{figure}[htbp]
   \centering
   \includegraphics{figs/OrificeSelectionFlowchart}
@@ -119,6 +119,7 @@ The flow coefficient is then increased by $\Delta\Theta$ and
 this calculation process is repeated for each flow coefficient
 in the range $\Theta_{\min} \leq \Theta \leq \Theta_{\max}$.
 \begin{table}[htbp]
+  \vspace{\onelineskip}
   \centering
   \caption{Orifice numbering and diameter data for the modeled test block \parencite{bluebook}. 
     This table corresponds to the information stored in the EES lookup table `\modu{OrificeData}'.}
@@ -145,6 +146,7 @@ in the range $\Theta_{\min} \leq \Theta \leq \Theta_{\max}$.
   14    & 0.7815 & 3.068 \\
   \bottomrule
   \end{tabular}
+  \vspace{\onelineskip}
 \end{table}
 
 The diagram window for the orifice selection program is shown in \cref{fig:OrifDiag}.
@@ -194,7 +196,7 @@ Sample results for choked flow are shown in \cref{fig:OrifChoked}.
 For this scenario, orifices~1 and 2 do not reach choked conditions, while
 orifices~3--14 experience choked flow and reach the maximum differential pressure.
 In this case, only orifice~2 would be acceptable, since orifice~1 does not provide
-the necessary differential pressure at the low end of the range of flow coefficients.
+the necessary differential pressure at the low end of the range of flow coefficients.\looseness=-1
 \begin{figure}[tbp]
   \centering
   \includegraphics{figs/OrifChoked}

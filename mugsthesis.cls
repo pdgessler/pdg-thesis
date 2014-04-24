@@ -40,7 +40,7 @@
 % set the line spacing and justification
 \DoubleSpacing
 \raggedright
-\flushbottom % too many underfull vboxes at moment; TODO find better solution
+\raggedbottom
 
 % set the page layout
 \setlrmarginsandblock{1.5in}{1.0in}{*} % left and right margins
@@ -136,8 +136,8 @@
 
 % define and use the MUGS chapter style
 \makechapterstyle{mugs}{%
-  \setlength{\midchapskip}{1sp}
-  \setlength{\afterchapskip}{1sp}
+  \setlength{\midchapskip}{0pt}
+  \setlength{\afterchapskip}{0pt}
   \renewcommand*{\chapterheadstart}{}
   \renewcommand*{\chaptitlefont}{\bfseries}
   \renewcommand*{\printchaptername}{\centering \MakeTextUppercase{\@chapapp}}
@@ -231,15 +231,17 @@
 \settocdepth{subsection}
 
 % style lower-level headings
+\newlength{\preheadskip}\setlength{\preheadskip}{1sp plus 1sp minus 1sp}
+\newlength{\postheadskip}\setlength{\postheadskip}{\onelineskip}
 \setsecheadstyle{\bfseries\SingleSpacing}
-\setbeforesecskip{1sp}
-\setaftersecskip{0.75\onelineskip}
+\setbeforesecskip{\preheadskip}
+\setaftersecskip{\postheadskip}
 \setsubsecheadstyle{\bfseries\SingleSpacing}
-\setbeforesubsecskip{-0.5\onelineskip}
-\setaftersubsecskip{\onelineskip}
+\setbeforesubsecskip{\preheadskip}
+\setaftersubsecskip{\postheadskip}
 \setsubsubsecheadstyle{\bfseries\SingleSpacing}
-\setbeforesubsubsecskip{-0.5\onelineskip}
-\setaftersubsubsecskip{\onelineskip}
+\setbeforesubsubsecskip{\preheadskip}
+\setaftersubsubsecskip{\postheadskip}
 
 % list spacings
 \tightlists
@@ -254,3 +256,8 @@
 \predisplaypenalty=10000
 \postdisplaypenalty=1549
 \displaywidowpenalty=1602
+
+% spacing around floats
+\setlength{\floatsep}{\onelineskip}
+\setlength{\intextsep}{\onelineskip}
+\setlength{\textfloatsep}{\onelineskip}

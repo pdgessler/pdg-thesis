@@ -19,6 +19,20 @@
     3369220.189 3751000
     3121519.131 3474000
   };
+  \addlegendentry{November 2012};
+  \addplot[black, mark=square, only marks] table {
+    2.62e6 2.915e6
+    3.53e6 3.955e6
+    2.65e6 2.945e6
+    4.19e6 4.690e6
+    2.20e6 2.445e6
+    3.10e6 3.471e6
+    2.03e6 2.255e6
+    3.30e6 3.669e6
+    1.99e6 2.211e6
+    2.75e6 3.055e6
+  };
+  \addlegendentry{July 2005};
   \addplot[black, domain=\pgfplotsxmin:\pgfplotsxmax] {x};
   \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {1.05*x};
   \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {0.95*x};

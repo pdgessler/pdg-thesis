@@ -19,7 +19,21 @@
     153.8833 153.9
     139.6782 139.7
   };
-  \addplot[black, domain=\pgfplotsxmin:\pgfplotsxmax] {x};
+    \addlegendentry{November 2012};
+  \addplot[black, mark=square, only marks] table {
+    102.66 102.68
+    117.21 117.22
+    109.67 109.72
+    124.09 124.12
+    83.71 83.73
+    92.90 92.91
+    90.43 90.50
+    110.62 110.66
+    101.72 101.82
+    114.74 114.75
+  };
+  \addlegendentry{July 2005};
+\addplot[black, domain=\pgfplotsxmin:\pgfplotsxmax] {x};
   \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {1.05*x};
   \addplot[black, dashed, domain=\pgfplotsxmin:\pgfplotsxmax] {0.95*x};
 \end{axis}
